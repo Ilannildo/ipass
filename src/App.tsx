@@ -1,11 +1,7 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import { Auth } from './screens/Auth';
 const App: React.FC = () => {
-  return (
-    <View>
-      <Text>Aplicativo iPass</Text>
-    </View>
-  );
+  return <Auth />;
 };
 
 export default App;
