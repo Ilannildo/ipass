@@ -11,13 +11,19 @@ import {
 import { useRem } from 'responsive-native';
 import { theme } from '../../styles/theme';
 import icon from '../../assets/icon.png';
+import { useAuth } from '../../contexts/auth';
 
 export const Auth: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [focused, setFocused] = useState<boolean>(false);
+  const { handleSignIn } = useAuth();
 
-  const handlePassword = (value: string) => {
+  const changePassword = (value: string) => {
     setPassword(value);
+  };
+
+  const handleSubmit = () => {
+    handleSignIn(password);
   };
 
   const rem = useRem();
@@ -66,7 +72,7 @@ export const Auth: React.FC = () => {
           ]}
           placeholder="Digite sua senha master"
           placeholderTextColor={theme.colors.grey}
-          onChangeText={handlePassword}
+          onChangeText={changePassword}
           secureTextEntry
           autoCapitalize="none"
           value={password}
@@ -75,6 +81,7 @@ export const Auth: React.FC = () => {
         />
 
         <TouchableOpacity
+          onPress={() => handleSubmit()}
           style={[styles.button, { marginTop: rem(1.5), height: rem(2.8) }]}>
           <Text style={[styles.buttonText, { fontSize: rem(1) }]}>Entrar</Text>
         </TouchableOpacity>
