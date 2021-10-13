@@ -9,29 +9,53 @@ import React, {
 type contextData = {
   signed: boolean;
   loading: boolean;
-  handleSignIn: (password: string) => void;
+  handleSignInPassword: (password: string) => void;
+  handleSignInFingerprint: () => void;
+  handleSignIn: () => void;
 };
+
+type UserProps = {
+  name: string;
+  email: string;
+};
+
+// scopes: [
+//   'https://www.googleapis.com/auth/drive',
+//   'https://www.googleapis.com/auth/drive.file',
+//   'https://www.googleapis.com/auth/drive.appdata',
+//   'https://www.googleapis.com/auth/drive.metadata',
+//   'https://www.googleapis.com/auth/drive.readonly',
+//   'https://www.googleapis.com/auth/drive.metadata.readonly',
+//   'https://www.googleapis.com/auth/drive.apps.readonly',
+//   'https://www.googleapis.com/auth/drive.photos.readonly',
+// ],
 
 const AuthContext = createContext<contextData>({} as contextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [signed, setSigned] = useState<boolean>(false);
+  // const [signed, setSigned] = useState<boolean>(false);
+  const [user, setUser] = useState<UserProps>({} as UserProps);
   const [loading, setLoading] = useState<boolean>(true);
 
   const loadStorage = useCallback(async () => {
-    console.log('Iniciou o contexto');
     setTimeout(() => {
       setLoading(false);
     }, 3000);
   }, []);
 
-  const handleSignIn = async (password: string) => {
+  const handleSignInPassword = async (password: string) => {
     setLoading(true);
     if (password === 'admin') {
-      setSigned(true);
+      // setSigned(true);
     }
     setLoading(false);
   };
+
+  const handleSignInFingerprint = async () => {
+    // setSigned(true);
+  };
+
+  const handleSignIn = async () => {};
 
   useEffect(() => {
     loadStorage();
@@ -40,8 +64,10 @@ export const AuthProvider: React.FC = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        signed,
+        signed: !user,
         loading,
+        handleSignInPassword,
+        handleSignInFingerprint,
         handleSignIn,
       }}>
       {children}

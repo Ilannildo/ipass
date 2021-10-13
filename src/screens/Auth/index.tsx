@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -9,22 +9,58 @@ import {
   TextInput,
 } from 'react-native';
 import { useRem } from 'responsive-native';
+import ReactNativeBiometrics from 'react-native-biometrics';
 import { theme } from '../../styles/theme';
 import icon from '../../assets/icon.png';
 import { useAuth } from '../../contexts/auth';
 
 export const Auth: React.FC = () => {
   const [password, setPassword] = useState<string>('');
+  const [isSensor, setIsSensor] = useState(false);
   const [focused, setFocused] = useState<boolean>(false);
-  const { handleSignIn } = useAuth();
+  const { handleSignInPassword, handleSignInFingerprint } = useAuth();
+
+  const verifySensor = async () => {
+    const { biometryType } = await ReactNativeBiometrics.isSensorAvailable();
+    if (biometryType === ReactNativeBiometrics.Biometrics) {
+      setIsSensor(true);
+      handleFingerprint();
+    }
+  };
 
   const changePassword = (value: string) => {
     setPassword(value);
   };
 
-  const handleSubmit = () => {
-    handleSignIn(password);
+  const handleFingerprint = async () => {
+    let epochTimeSeconds = Math.round(new Date().getTime() / 1000).toString();
+    let payload = epochTimeSeconds + 'some message';
+    try {
+      const result = await ReactNativeBiometrics.createSignature({
+        promptMessage: 'Confirme para continuar',
+        cancelButtonText: 'Usar senha',
+        payload: payload,
+      });
+
+      const { success, signature } = result;
+      if (success) {
+        console.log('Assinatura biometria digital', signature);
+        handleSignInFingerprint();
+      } else {
+        console.log('Usar senha, usuário cancelou a biometria');
+      }
+    } catch (error) {
+      console.log('biometrics failed');
+    }
   };
+
+  const handleSubmit = () => {
+    handleSignInPassword(password);
+  };
+
+  useEffect(() => {
+    verifySensor();
+  });
 
   const rem = useRem();
   return (
@@ -43,10 +79,14 @@ export const Auth: React.FC = () => {
           Ilannildo
         </Text>
         <Text style={[styles.caption, { fontSize: rem(1) }]}>
-          Use sua digital para entrar na sua conta
+          {isSensor
+            ? 'Use sua digital para entrar na sua conta'
+            : 'O dispositivo não possui biometria'}
         </Text>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => handleFingerprint()}
+        disabled={!isSensor}>
         <Image source={icon} style={{ width: rem(9), height: rem(9) }} />
       </TouchableOpacity>
 
