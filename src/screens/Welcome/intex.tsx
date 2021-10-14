@@ -7,10 +7,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 import { useRem } from 'responsive-native';
 import { theme } from '../../styles/theme';
 import Image1 from '../../assets/image-1.png';
-import { useNavigation } from '@react-navigation/core';
+import { Button } from '../../components/Button';
 
 export const Welcome: React.FC = () => {
   const navigation = useNavigation();
@@ -41,25 +42,13 @@ export const Welcome: React.FC = () => {
             marginTop: rem(2),
           },
         ]}>
-        <TouchableOpacity
-          style={[
-            styles.btnCreateAccount,
-            { height: rem(2.8), borderRadius: rem(1) },
-          ]}>
-          <Text style={[styles.btnTextCreateAccount, { fontSize: rem(1) }]}>
-            Criar conta
-          </Text>
-        </TouchableOpacity>
+        <Button label="Criar conta" onPress={() => {}} filled />
 
         <Text style={[styles.textHasAccount, { fontSize: rem(0.85) }]}>
           Já tem uma conta?
         </Text>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SignIn')}
-          style={[styles.btnLogin, { height: rem(2.8), borderRadius: rem(1) }]}>
-          <Text style={[styles.btnTextLogin, { fontSize: rem(1) }]}>Login</Text>
-        </TouchableOpacity>
+        <Button label="Login" onPress={() => navigation.navigate('SignIn')} />
       </View>
     </View>
   );
@@ -88,33 +77,11 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 35,
   },
-  btnCreateAccount: {
-    width: '100%',
-    backgroundColor: theme.colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnTextCreateAccount: {
-    color: theme.colors.secundary,
-    fontWeight: '500',
-  },
   textHasAccount: {
     color: theme.colors.title,
     fontWeight: '500',
     textAlign: 'center',
     marginTop: 40,
     marginBottom: 20,
-  },
-  btnLogin: {
-    width: '100%',
-    backgroundColor: theme.colors.secundary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: theme.colors.primary,
-  },
-  btnTextLogin: {
-    color: theme.colors.primary,
-    fontWeight: '500',
   },
 });

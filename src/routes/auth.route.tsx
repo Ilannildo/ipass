@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Auth } from '../screens/Auth';
 import { Welcome } from '../screens/Welcome/intex';
 import { SignIn } from '../screens/SignIn';
+import { theme } from '../styles/theme';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
