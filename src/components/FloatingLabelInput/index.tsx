@@ -55,7 +55,7 @@ export const FloatingLabelInput: React.FC<Props> = ({ label, ...rest }) => {
         style={[
           styles.placeholderLabel,
           {
-            top: isFocused || isFilled ? -10 : +15,
+            top: isFocused || isFilled ? -8 : +18,
             fontSize: isFocused || isFilled ? 13 : 16,
             color:
               isFocused || isFilled ? theme.colors.primary : theme.colors.grey,
@@ -88,11 +88,8 @@ const styles = StyleSheet.create({
     left: 0,
   },
   labeledInput: {
-    flex: 1,
     marginTop: 10,
     color: theme.colors.black,
-    padding: 0,
-    margin: 0,
     fontWeight: '500',
   },
 });

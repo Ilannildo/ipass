@@ -34,7 +34,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Button: React.FC<Props> = ({ label, filled = false, ...rest }) => {
+export const Button: React.FC<Props> = ({
+  label,
+  filled = false,
+  disabled,
+  ...rest
+}) => {
   const rem = useRem();
   return (
     <TouchableOpacity
@@ -46,8 +51,10 @@ export const Button: React.FC<Props> = ({ label, filled = false, ...rest }) => {
             : theme.colors.secundary,
           borderWidth: filled ? 0 : 1,
           borderColor: theme.colors.primary,
+          opacity: disabled ? 0.5 : 1,
         },
       ]}
+      disabled={disabled}
       {...rest}>
       <Text
         style={[

@@ -1,9 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Auth } from '../screens/Auth';
-import { Welcome } from '../screens/Welcome/intex';
 import { SignIn } from '../screens/SignIn';
-import { theme } from '../styles/theme';
+import { WelcomeSignIn } from '../screens/WelcomeSignIn';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -12,7 +11,7 @@ export const AuthRoutes: React.FC = () => {
     <Navigator>
       <Screen
         name="Welcome"
-        component={Welcome}
+        component={WelcomeSignIn}
         options={{
           headerShown: false,
         }}

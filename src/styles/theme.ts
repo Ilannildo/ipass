@@ -6,5 +6,8 @@ export const theme = {
     title: '#4B525F',
     grey: '#BCBCBC',
     black: '#153044',
+    error: '#EF5350',
+    warning: '#EFC250',
+    success: '#15BB7F',
   },
 };

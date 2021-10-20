@@ -1,26 +1,45 @@
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  StatusBar,
-  Image,
-} from 'react-native';
-import { GoogleSigninButton } from 'react-native-google-signin';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, StatusBar, Alert } from 'react-native';
 import { useRem } from 'responsive-native';
 import { Button } from '../../components/Button';
 import { FloatingLabelInput } from '../../components/FloatingLabelInput';
-import Logo from '../../assets/icon.png';
-
-import { useAuth } from '../../contexts/auth';
+import { FloatingLabelInputPassword } from '../../components/FloatingLabelInputPassword';
 import { theme } from '../../styles/theme';
 
 export const SignIn: React.FC = () => {
-  const { handleSignIn } = useAuth();
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const [error, setError] = useState(false);
+  const [disableButton, setDisableButton] = useState(true);
   const rem = useRem();
+
+  const handleSubmit = () => {
+    setDisableButton(true);
+    setTimeout(() => {
+      setError(false);
+      setDisableButton(false);
+      Alert.alert('Submit', `Sua senha => ${password}`);
+    }, 5000);
+  };
+
+  const handleTextPass = (text: string) => {
+    setPassword(text);
+  };
+
+  const handleTextRepeatPass = (text: string) => {
+    if (text !== password) {
+      setError(true);
+    } else {
+      setError(false);
+      setDisableButton(false);
+    }
+    setRepeatPassword(text);
+  };
+
+  useEffect(() => {
+    console.log('Pass => ', password);
+    console.log('Repeat Pass => ', repeatPassword);
+  }, [repeatPassword, password]);
 
   return (
     <View style={styles.container}>
@@ -30,52 +49,40 @@ export const SignIn: React.FC = () => {
       />
       <View style={styles.header}>
         <Text style={[styles.title, { fontSize: rem(1.375) }]}>
-          Seja bem vindo,
+          Senha Master
         </Text>
-        <Text style={[styles.subtitle, { fontSize: rem(0.875) }]}>
-          Faça login para continuar
+        <Text style={[styles.subtitle, { fontSize: rem(0.75) }]}>
+          A senha master é a única senha que você precisa lembrar.Lembre-se
+          dela, pois não será possível recuperar e todas as senhas serão
+          perdidas
         </Text>
-      </View>
 
-      <View style={styles.formArea}>
-        <FloatingLabelInput
-          label="E-mail"
-          autoCapitalize="none"
-          autoCompleteType="email"
-          keyboardType="email-address"
-          onChangeText={text => setEmail(text)}
-        />
-        <FloatingLabelInput
-          label="Senha"
+        <FloatingLabelInputPassword
+          label="Senha Master"
+          isPassword
           secureTextEntry
-          onChangeText={text => setPass(text)}
+          onChangeText={handleTextPass}
         />
-
-        <View
-          style={{
+        <FloatingLabelInputPassword
+          error={error}
+          label="Confirme sua senha master"
+          secureTextEntry
+          onChangeText={handleTextRepeatPass}
+        />
+      </View>
+      <View
+        style={[
+          styles.footer,
+          {
             marginTop: rem(2.8),
             marginBottom: rem(1.25),
-            width: '100%',
-          }}>
-          <Button label="Login" onPress={() => {}} filled />
-        </View>
-        <TouchableOpacity onPress={() => {}}>
-          <Text style={[styles.buttonTextForgotPass, { fontSize: rem(0.75) }]}>
-            Recuperar senha?
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text
-        style={[styles.textOr, { marginTop: rem(2.8), fontSize: rem(0.875) }]}>
-        ou
-      </Text>
-
-      <View style={styles.footer}>
-        <GoogleSigninButton
-          style={styles.googleSigninBtn}
-          size={GoogleSigninButton.Size.Wide}
-          onPress={handleSignIn}
+          },
+        ]}>
+        <Button
+          label="Continuar"
+          onPress={handleSubmit}
+          filled
+          disabled={disableButton}
         />
       </View>
     </View>
@@ -85,7 +92,9 @@ export const SignIn: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    paddingTop: 25,
+    paddingBottom: 40,
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: theme.colors.secundary,
   },
@@ -101,16 +110,7 @@ const styles = StyleSheet.create({
   subtitle: {
     color: theme.colors.grey,
     fontWeight: 'normal',
-  },
-  googleSigninBtn: {
-    width: '100%',
-    height: 55,
-    marginTop: 20,
-  },
-  formArea: {
-    width: '100%',
-    paddingHorizontal: 40,
-    marginTop: 40,
+    marginBottom: 25,
   },
   button: {
     width: '100%',
