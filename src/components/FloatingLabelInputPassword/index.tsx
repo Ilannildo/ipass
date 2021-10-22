@@ -44,30 +44,45 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
   }, []);
 
   const verifyPasswordForce = (pass: string) => {
-    let numeros = /([0-9])/;
-    let alfabeto = /([a-zA-Z])/;
     let chEspeciais = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
+    let forca = 0;
 
-    if (pass.length < 6) {
-      setForcePasword('fraca');
+    if (pass.length >= 6 && pass.length <= 8) {
+      forca += 10;
+    } else if (pass.length > 8) {
+      forca += 25;
     } else {
-      if (
-        pass.match(numeros) &&
-        pass.match(alfabeto) &&
-        pass.match(chEspeciais)
-      ) {
-        setForcePasword('forte');
-      } else {
-        setForcePasword('media');
-      }
+      forca -= 20;
     }
+    if (pass.match(/[a-z]+/)) {
+      forca += 10;
+    }
+    if (pass.match(/[A-Z]+/)) {
+      forca += 20;
+    }
+    if (pass.match(chEspeciais)) {
+      forca += 20;
+    }
+    if (pass.match(/W+/)) {
+      forca += 25;
+    }
+    console.log(forca);
+
+    return forca;
   };
 
   const handleChangeText = useCallback(
     (text: string) => {
       if (inputRef.current) {
         inputRef.current.value = text;
-        verifyPasswordForce(text);
+        const force = verifyPasswordForce(text);
+        if (force < 30) {
+          setForcePasword('fraca');
+        } else if (force >= 30 && force < 60) {
+          setForcePasword('media');
+        } else {
+          setForcePasword('forte');
+        }
         setIsFilled(!!text);
       }
       if (onChangeText) {

@@ -2,11 +2,11 @@ import React from 'react';
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { GoogleSigninButton } from 'react-native-google-signin';
 import { useNavigation } from '@react-navigation/core';
+import { useAuth } from '../../contexts/auth';
 import { useRem } from 'responsive-native';
+import { theme } from '../../styles/theme';
 
 import Image1 from '../../assets/image-1.png';
-import { useAuth } from '../../contexts/auth';
-import { theme } from '../../styles/theme';
 
 export const WelcomeSignIn: React.FC = () => {
   const { handleSignIn, loadingSignIn } = useAuth();

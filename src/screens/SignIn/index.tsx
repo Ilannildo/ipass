@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, StatusBar, Alert } from 'react-native';
 import { useRem } from 'responsive-native';
 import { Button } from '../../components/Button';
-import { FloatingLabelInput } from '../../components/FloatingLabelInput';
 import { FloatingLabelInputPassword } from '../../components/FloatingLabelInputPassword';
 import { theme } from '../../styles/theme';
 
