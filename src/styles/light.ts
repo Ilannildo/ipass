@@ -1,6 +1,4 @@
-import { dark } from './dark';
-import { light } from './light';
-const theme = {
+export const light = {
   colors: {
     primary: '#129FDB',
     secundary: '#FFFFFF',
@@ -13,5 +11,3 @@ const theme = {
     success: '#15BB7F',
   },
 };
-
-export { theme, dark, light };

@@ -1,4 +1,5 @@
 {
   "name": "ipass",
-  "displayName": "ipass"
+  "displayName": "ipass",
+  "userInterfaceStyle": "automatic"
 }

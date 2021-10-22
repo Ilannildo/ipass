@@ -7,25 +7,38 @@ import { useRem } from 'responsive-native';
 import { theme } from '../../styles/theme';
 
 import Image1 from '../../assets/image-1.png';
+import { useCustomTheme } from '../../contexts/theme';
 
 export const WelcomeSignIn: React.FC = () => {
   const { handleSignIn, loadingSignIn } = useAuth();
+  const {
+    schemeColor,
+    colors,
+    toggleThemeDefault,
+    toggleThemeDark,
+    toggleThemeLight,
+  } = useCustomTheme();
   const navigation = useNavigation();
   const rem = useRem();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.secundary }]}>
       <StatusBar
-        barStyle="dark-content"
-        backgroundColor={theme.colors.secundary}
+        barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
+        backgroundColor={colors.secundary}
       />
       <View style={[styles.header, { marginBottom: rem(1) }]}>
         <Text
           style={[
             styles.title,
-            { fontSize: rem(1.25), marginBottom: rem(1.3) },
+            {
+              fontSize: rem(1.25),
+              marginBottom: rem(1.3),
+              color: colors.black,
+            },
           ]}>
           {'Um jeito fácil e seguro\nde guardar suas senhas'}
+          {/* {schemeColor} */}
         </Text>
         <Image
           source={Image1}
@@ -36,7 +49,11 @@ export const WelcomeSignIn: React.FC = () => {
       </View>
 
       <View style={styles.footer}>
-        <Text style={[styles.textHasAccount, { fontSize: rem(1.125) }]}>
+        <Text
+          style={[
+            styles.textHasAccount,
+            { fontSize: rem(1.125), color: colors.title },
+          ]}>
           {'Faça login ou crie uma conta\nGRATUITA'}
         </Text>
 
@@ -51,7 +68,8 @@ export const WelcomeSignIn: React.FC = () => {
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Dark}
           // onPress={handleSignIn}
-          onPress={() => navigation.navigate('SignIn')}
+          onPress={() => toggleThemeDefault()}
+          // onPress={() => navigation.navigate('SignIn')}
           disabled={loadingSignIn}
         />
       </View>
@@ -64,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.colors.secundary,
+    // backgroundColor: theme.colors.secundary,
   },
   header: {
     width: '100%',
@@ -72,7 +90,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: theme.colors.black,
+    // color: theme.colors.black,
     fontWeight: 'bold',
     marginTop: 16,
     width: '85%',
@@ -83,7 +101,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 35,
   },
   textHasAccount: {
-    color: theme.colors.title,
+    // color: theme.colors.title,
     fontWeight: '500',
     textAlign: 'center',
     marginBottom: 34,
