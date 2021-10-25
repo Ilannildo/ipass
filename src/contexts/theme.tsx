@@ -27,7 +27,7 @@ export const CustomThemeContext = createContext<Props>({} as Props);
 
 export const CustomThemeProvider: React.FC = ({ children }) => {
   const scheme = useColorScheme();
-  const [theme, setTheme] = useState<ThemeType>('default');
+  const [theme, setTheme] = useState<ThemeType>('light');
   const [schemeColors, setSchemeColors] = useState<ColorSchemeName>('light');
 
   useEffect(() => {

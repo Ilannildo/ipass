@@ -5,18 +5,17 @@ import { theme } from '../../styles/theme';
 
 export const Home: React.FC = () => {
   const { user, handleSignOut } = useAuth();
-  const logout = async () => {};
 
   return (
     <View style={styles.container}>
       <Image
         style={{ width: 100, height: 100 }}
         source={{
-          uri: user.user?.photo,
+          uri: user?.photo,
         }}
       />
 
-      <Text style={styles.title}>Bem vindo, {user.user?.givenName}</Text>
+      <Text style={styles.title}>Bem vindo, {user?.givenName}</Text>
       <TouchableOpacity style={styles.btn} onPress={handleSignOut}>
         <Text style={styles.textLogOut}>Log Out</Text>
       </TouchableOpacity>

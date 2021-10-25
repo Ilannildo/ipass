@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, Alert } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { useRem } from 'responsive-native';
 import { Button } from '../../components/Button';
 import { FloatingLabelInputPassword } from '../../components/FloatingLabelInputPassword';
+import { useAuth } from '../../contexts/auth';
 import { theme } from '../../styles/theme';
 
 export const SignIn: React.FC = () => {
@@ -12,13 +13,18 @@ export const SignIn: React.FC = () => {
   const [disableButton, setDisableButton] = useState(true);
   const rem = useRem();
 
+  const { user, savePasswordStorage } = useAuth();
+
   const handleSubmit = () => {
     setDisableButton(true);
-    setTimeout(() => {
-      setError(false);
-      setDisableButton(false);
-      Alert.alert('Submit', `Sua senha => ${password}`);
-    }, 5000);
+    // setTimeout(() => {
+    //   setError(false);
+    //   setDisableButton(false);
+    //   Alert.alert('Submit', `Sua senha => ${password}`);
+    // }, 1000);
+    savePasswordStorage(user.uid, password);
+    setError(false);
+    setDisableButton(false);
   };
 
   const handleTextPass = (text: string) => {

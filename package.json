@@ -12,18 +12,21 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.4",
     "@react-navigation/native-stack": "^6.2.2",
+    "axios": "^0.23.0",
     "react": "17.0.2",
     "react-native": "0.65.1",
     "react-native-biometrics": "^2.1.4",
     "react-native-google-signin": "^2.1.1",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.8.0",
+    "realm": "^10.9.1",
     "responsive-native": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@types/axios": "^0.14.0",
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.65.0",
     "@types/react-test-renderer": "^17.0.1",

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { GoogleSigninButton } from 'react-native-google-signin';
-import { useNavigation } from '@react-navigation/core';
 import { useAuth } from '../../contexts/auth';
 import { useRem } from 'responsive-native';
 import { theme } from '../../styles/theme';
@@ -11,15 +10,12 @@ import { useCustomTheme } from '../../contexts/theme';
 
 export const WelcomeSignIn: React.FC = () => {
   const { handleSignIn, loadingSignIn } = useAuth();
-  const {
-    schemeColor,
-    colors,
-    toggleThemeDefault,
-    toggleThemeDark,
-    toggleThemeLight,
-  } = useCustomTheme();
-  const navigation = useNavigation();
+  const { schemeColor, colors } = useCustomTheme();
   const rem = useRem();
+
+  const handleSignInGoogle = async () => {
+    handleSignIn();
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.secundary }]}>
@@ -38,7 +34,6 @@ export const WelcomeSignIn: React.FC = () => {
             },
           ]}>
           {'Um jeito fácil e seguro\nde guardar suas senhas'}
-          {/* {schemeColor} */}
         </Text>
         <Image
           source={Image1}
@@ -67,8 +62,8 @@ export const WelcomeSignIn: React.FC = () => {
           style={styles.googleSigninBtn}
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Dark}
-          // onPress={handleSignIn}
-          onPress={() => toggleThemeDefault()}
+          onPress={handleSignInGoogle}
+          // onPress={() => toggleThemeDefault()}
           // onPress={() => navigation.navigate('SignIn')}
           disabled={loadingSignIn}
         />
