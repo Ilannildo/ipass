@@ -8,10 +8,18 @@ import { useAuth } from '../contexts/auth';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export const AuthRoutes: React.FC = () => {
-  const { authenticated } = useAuth();
+  const { signed, authenticated } = useAuth();
   return (
     <Navigator>
-      {!authenticated ? (
+      {authenticated ? (
+        <Screen
+          name="Auth"
+          component={Auth}
+          options={{
+            headerShown: false,
+          }}
+        />
+      ) : !signed ? (
         <Screen
           name="Welcome"
           component={WelcomeSignIn}
@@ -29,7 +37,6 @@ export const AuthRoutes: React.FC = () => {
           }}
         />
       )}
-      <Screen name="Auth" component={Auth} />
     </Navigator>
   );
 };

@@ -6,21 +6,27 @@ import React, {
   useState,
 } from 'react';
 import { ToastAndroid } from 'react-native';
+import ReactNativeBiometrics from 'react-native-biometrics';
 import { GoogleSignin, statusCodes, User } from 'react-native-google-signin';
 import { api } from '../services/api';
 import { getRealm } from '../services/realm';
 
 type contextData = {
   signed: boolean;
+  logged: boolean;
   authenticated: boolean;
+  isBiometrics: boolean;
   loading: boolean;
   loadingSignIn: boolean;
   user: UserStorageType;
   handleSignInPassword: (password: string) => void;
-  handleSignInFingerprint: () => void;
   handleSignIn: () => void;
   handleSignOut: () => void;
-  savePasswordStorage: (uid: string, passwordMaster: string) => void;
+  handleCreateKeysFingerprint: () => Promise<void>;
+  createSignatureBiometrics: () => Promise<boolean>;
+  deleteKeysBiometrics: () => Promise<void>;
+  handleUserNotBiocmetrics: () => Promise<void>;
+  savePasswordStorage: (uid: string, passwordMaster: string) => Promise<void>;
 };
 
 type UserStorageType = {
@@ -68,8 +74,17 @@ type UserResponse = {
 const AuthContext = createContext<contextData>({} as contextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
+  // Quando o usuário está cadastrado e logado, mas não não possui senha gravada
   const [signed, setSigned] = useState<boolean>(false);
+
+  // Quando o usuário está logado e com senha cadastrada
+  const [logged, setLogged] = useState<boolean>(false);
+
+  // Quando o usuário estiver logado, mas ainda não usou digital nem senha
   const [authenticated, setAuthenticated] = useState<boolean>(false);
+
+  // Quando o usuário não utiliza a biometria
+  const [isBiometrics, setIsBiometrics] = useState<boolean>(false);
 
   // Informações do usuário do google
   const [googleUser, setGoogleUser] = useState<User>({} as User);
@@ -82,25 +97,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingSignIn, setLoadingSignIn] = useState<boolean>(false);
 
-  const isSignedInGoogle = useCallback(async () => {
-    const isSignedIn = await GoogleSignin.isSignedIn();
-    if (isSignedIn) {
-      try {
-        const userInfo = await GoogleSignin.signInSilently();
-        setGoogleUser(userInfo);
-      } catch (err: any) {
-        if (err.code === statusCodes.SIGN_IN_REQUIRED) {
-          // user has not signed in yet
-          console.log('GET USER INFO => Usuario ainda não se inscreveu', err);
-        } else {
-          console.log('GET USER INFO => Outro erro', err);
-        }
-      }
-    } else {
-      console.log('nenhum usuário logado');
-    }
-  }, []);
-
   const handleSignInPassword = async (password: string) => {
     setLoading(true);
     if (password === 'admin') {
@@ -109,8 +105,9 @@ export const AuthProvider: React.FC = ({ children }) => {
     setLoading(false);
   };
 
-  const handleSignInFingerprint = async () => {
-    // setSigned(true);
+  const handleUserNotBiocmetrics = async () => {
+    await deleteKeysBiometrics();
+    setLogged(true);
   };
 
   async function saveUserStorage(data: UserResponse) {
@@ -132,15 +129,54 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   async function savePasswordStorage(uid: string, passwordMaster: string) {
     const realm = await getRealm();
-
     realm.write(() => {
       realm.create('AuthSchema', {
         uid,
         passwordMaster,
       });
     });
-    setSigned(true);
   }
+
+  const createSignatureBiometrics = useCallback(async () => {
+    let epochTimeSeconds = Math.round(new Date().getTime() / 1000).toString();
+    let payload = epochTimeSeconds + 'my access app';
+    try {
+      const result = await ReactNativeBiometrics.createSignature({
+        promptMessage: 'Confirme para continuar',
+        payload: payload,
+      });
+
+      const { success } = result;
+      if (success) {
+        setLogged(true);
+        setIsBiometrics(true);
+      }
+      return success;
+    } catch (error) {
+      ToastAndroid.show('Biometrics failed', 2000);
+      return false;
+    }
+  }, []);
+
+  const deleteKeysBiometrics = useCallback(async () => {
+    const resultObject = await ReactNativeBiometrics.deleteKeys();
+    if (resultObject.keysDeleted) {
+      console.log('Successful deletion');
+      setIsBiometrics(false);
+    } else {
+      console.log('Unsuccessful deletion because there were no keys to delete');
+    }
+  }, []);
+
+  const handleCreateKeysFingerprint = useCallback(async () => {
+    try {
+      const resultObject = await ReactNativeBiometrics.createKeys();
+      setIsBiometrics(true);
+      console.log('Public Key => ', resultObject.publicKey);
+    } catch (error) {
+      console.log('Error => ', error);
+    }
+  }, []);
 
   const handleSignIn = async () => {
     setLoadingSignIn(true);
@@ -165,7 +201,10 @@ export const AuthProvider: React.FC = ({ children }) => {
         refreshToken: response.data.data.refreshToken.id,
         uid: response.data.data.user.uid,
       });
-      setAuthenticated(true);
+      api.defaults.headers.common = {
+        Authorization: `bearer ${response.data.data.accessToken}`,
+      };
+      setSigned(true);
     } catch (error: any) {
       console.log('Error => ', error.message);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -197,11 +236,13 @@ export const AuthProvider: React.FC = ({ children }) => {
 
       // Deleta os dados do dispositivo
       await removeStorage();
+      await deleteKeysBiometrics();
 
       // Remove do estado
       setGoogleUser({} as User); // Remember to remove the user from your app's state as well
       setUserSigned({} as UserStorageType); // Remember to remove the user from your app's state as well
       setSigned(false);
+      setLogged(false);
       setAuthenticated(false);
     } catch (error) {
       console.error(error);
@@ -209,6 +250,21 @@ export const AuthProvider: React.FC = ({ children }) => {
   };
 
   useEffect(() => {
+    const getKeysBiometrics = async () => {
+      const { keysExist } = await ReactNativeBiometrics.biometricKeysExist();
+      if (keysExist) {
+        setIsBiometrics(true);
+      }
+    };
+
+    const getPasswordStorage = async () => {
+      const realm = await getRealm();
+      const data = realm.objects<AuthSchemaType>('AuthSchema');
+      if (data[0]?.passwordMaster) {
+        setAuthenticated(true);
+      }
+    };
+
     const getUserStorage = async () => {
       setLoading(true);
       const realm = await getRealm();
@@ -224,18 +280,14 @@ export const AuthProvider: React.FC = ({ children }) => {
           refreshToken: data[0].refreshToken,
           uid: data[0].uid,
         });
-        setAuthenticated(true);
-        getPasswordStorage();
-      }
-      setLoading(false);
-    };
-
-    const getPasswordStorage = async () => {
-      const realm = await getRealm();
-      const data = realm.objects<AuthSchemaType>('AuthSchema');
-      if (data[0]?.passwordMaster) {
+        api.defaults.headers.common = {
+          Authorization: `bearer ${data[0].accessToken}`,
+        };
+        await getPasswordStorage();
+        await getKeysBiometrics();
         setSigned(true);
       }
+      setLoading(false);
     };
     getUserStorage();
   }, []);
@@ -254,15 +306,20 @@ export const AuthProvider: React.FC = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        signed,
-        authenticated,
+        signed, // Quando o usuário está cadastrado e logado, mas não não possui senha gravada
+        logged, // Quando o usuário está logado e com senha cadastrada
+        authenticated, // Quando o usuário estiver logado, mas ainda não usou digital nem senha
+        isBiometrics,
         user: userSigned,
         loading,
         loadingSignIn,
         handleSignInPassword,
-        handleSignInFingerprint,
         handleSignIn,
         handleSignOut,
+        createSignatureBiometrics,
+        deleteKeysBiometrics,
+        handleCreateKeysFingerprint,
+        handleUserNotBiocmetrics,
         savePasswordStorage,
       }}>
       {children}

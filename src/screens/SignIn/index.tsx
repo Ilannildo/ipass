@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Alert } from 'react-native';
+import ReactNativeBiometrics from 'react-native-biometrics';
 import { useRem } from 'responsive-native';
 import { Button } from '../../components/Button';
 import { FloatingLabelInputPassword } from '../../components/FloatingLabelInputPassword';
@@ -13,19 +14,62 @@ export const SignIn: React.FC = () => {
   const [disableButton, setDisableButton] = useState(true);
   const rem = useRem();
 
-  const { user, savePasswordStorage } = useAuth();
+  const {
+    user,
+    savePasswordStorage,
+    handleCreateKeysFingerprint,
+    createSignatureBiometrics,
+    deleteKeysBiometrics,
+    handleUserNotBiocmetrics,
+  } = useAuth();
 
-  const handleSubmit = () => {
+  const handleSubmitPassword = async () => {
     setDisableButton(true);
-    // setTimeout(() => {
-    //   setError(false);
-    //   setDisableButton(false);
-    //   Alert.alert('Submit', `Sua senha => ${password}`);
-    // }, 1000);
-    savePasswordStorage(user.uid, password);
+
+    await savePasswordStorage(user.uid, password);
+    const { biometryType } = await ReactNativeBiometrics.isSensorAvailable();
+    if (biometryType === ReactNativeBiometrics.Biometrics) {
+      Alert.alert(
+        'Usar sua digital',
+        'Deseja habilitar sua Digital para realizar ações dentro do app?',
+        [
+          {
+            text: 'Habilitar digital',
+            onPress: async () => await handleBiometrics(),
+            style: 'default',
+          },
+          {
+            text: 'Ainda não',
+            onPress: () => handleUserNotBiocmetrics(),
+            style: 'cancel',
+          },
+        ],
+      );
+    }
     setError(false);
     setDisableButton(false);
   };
+
+  const handleBiometrics = async () => {
+    const { keysExist } = await ReactNativeBiometrics.biometricKeysExist();
+    if (!keysExist) {
+      await handleCreateKeysFingerprint();
+    }
+
+    const result = await createSignatureBiometrics();
+    if (!result) {
+      console.log('Biometrics cancelled, ativo nas configs');
+      await handleUserNotBiocmetrics();
+    }
+  };
+  // const handleNotUseBiometrics = async () => {
+  //   const { keysExist } = await ReactNativeBiometrics.biometricKeysExist();
+  //   if (keysExist) {
+  //     await deleteKeysBiometrics();
+  //   }
+
+  //   // await createSignatureBiometrics();
+  // };
 
   const handleTextPass = (text: string) => {
     setPassword(text);
@@ -40,11 +84,6 @@ export const SignIn: React.FC = () => {
     }
     setRepeatPassword(text);
   };
-
-  useEffect(() => {
-    console.log('Pass => ', password);
-    console.log('Repeat Pass => ', repeatPassword);
-  }, [repeatPassword, password]);
 
   return (
     <View style={styles.container}>
@@ -85,7 +124,7 @@ export const SignIn: React.FC = () => {
         ]}>
         <Button
           label="Continuar"
-          onPress={handleSubmit}
+          onPress={handleSubmitPassword}
           filled
           disabled={disableButton}
         />

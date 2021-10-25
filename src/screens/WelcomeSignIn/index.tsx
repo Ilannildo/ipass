@@ -7,6 +7,7 @@ import { theme } from '../../styles/theme';
 
 import Image1 from '../../assets/image-1.png';
 import { useCustomTheme } from '../../contexts/theme';
+import { LoadingIndicator } from '../../components/LoadingIndicator';
 
 export const WelcomeSignIn: React.FC = () => {
   const { handleSignIn, loadingSignIn } = useAuth();
@@ -23,6 +24,7 @@ export const WelcomeSignIn: React.FC = () => {
         barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
         backgroundColor={colors.secundary}
       />
+      {loadingSignIn && <LoadingIndicator transparent />}
       <View style={[styles.header, { marginBottom: rem(1) }]}>
         <Text
           style={[
