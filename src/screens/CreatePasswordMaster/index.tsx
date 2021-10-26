@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, StatusBar, Alert } from 'react-native';
 import ReactNativeBiometrics from 'react-native-biometrics';
 import { useRem } from 'responsive-native';
@@ -7,7 +7,7 @@ import { FloatingLabelInputPassword } from '../../components/FloatingLabelInputP
 import { useAuth } from '../../contexts/auth';
 import { theme } from '../../styles/theme';
 
-export const SignIn: React.FC = () => {
+export const CreatePasswordMaster: React.FC = () => {
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [error, setError] = useState(false);
@@ -19,7 +19,6 @@ export const SignIn: React.FC = () => {
     savePasswordStorage,
     handleCreateKeysFingerprint,
     createSignatureBiometrics,
-    deleteKeysBiometrics,
     handleUserNotBiocmetrics,
   } = useAuth();
 
@@ -62,14 +61,6 @@ export const SignIn: React.FC = () => {
       await handleUserNotBiocmetrics();
     }
   };
-  // const handleNotUseBiometrics = async () => {
-  //   const { keysExist } = await ReactNativeBiometrics.biometricKeysExist();
-  //   if (keysExist) {
-  //     await deleteKeysBiometrics();
-  //   }
-
-  //   // await createSignatureBiometrics();
-  // };
 
   const handleTextPass = (text: string) => {
     setPassword(text);

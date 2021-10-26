@@ -3,6 +3,7 @@ export const dark = {
     primary: '#129FDB',
     secundary: '#121212',
     secundary10: '#F3F3F3',
+    secundary20: '#F5FCFD',
     title: '#FFFFFF',
     grey: '#BCBCBC',
     black: '#FFFFFF',

@@ -22,6 +22,7 @@ type contextData = {
   handleSignInPassword: (password: string) => void;
   handleSignIn: () => void;
   handleSignOut: () => void;
+  handleLoggedUser: () => void;
   handleCreateKeysFingerprint: () => Promise<void>;
   createSignatureBiometrics: () => Promise<boolean>;
   deleteKeysBiometrics: () => Promise<void>;
@@ -137,6 +138,10 @@ export const AuthProvider: React.FC = ({ children }) => {
     });
   }
 
+  const handleLoggedUser = () => {
+    setLogged(true);
+  };
+
   const createSignatureBiometrics = useCallback(async () => {
     let epochTimeSeconds = Math.round(new Date().getTime() / 1000).toString();
     let payload = epochTimeSeconds + 'my access app';
@@ -147,10 +152,10 @@ export const AuthProvider: React.FC = ({ children }) => {
       });
 
       const { success } = result;
-      if (success) {
-        setLogged(true);
-        setIsBiometrics(true);
-      }
+      setIsBiometrics(true);
+      // if (success) {
+      //   setLogged(true);
+      // }
       return success;
     } catch (error) {
       ToastAndroid.show('Biometrics failed', 2000);
@@ -316,6 +321,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         handleSignInPassword,
         handleSignIn,
         handleSignOut,
+        handleLoggedUser,
         createSignatureBiometrics,
         deleteKeysBiometrics,
         handleCreateKeysFingerprint,

@@ -65,8 +65,6 @@ export const WelcomeSignIn: React.FC = () => {
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Dark}
           onPress={handleSignInGoogle}
-          // onPress={() => toggleThemeDefault()}
-          // onPress={() => navigation.navigate('SignIn')}
           disabled={loadingSignIn}
         />
       </View>

@@ -12,6 +12,7 @@ type Props = {
     primary: string;
     secundary: string;
     secundary10: string;
+    secundary20: string;
     title: string;
     grey: string;
     black: string;
