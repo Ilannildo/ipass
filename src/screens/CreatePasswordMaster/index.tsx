@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, StatusBar, Alert } from 'react-native';
 import ReactNativeBiometrics from 'react-native-biometrics';
-import { useRem } from 'responsive-native';
 import { Button } from '../../components/Button';
 import { FloatingLabelInputPassword } from '../../components/FloatingLabelInputPassword';
 import { useAuth } from '../../contexts/auth';
@@ -12,7 +11,6 @@ export const CreatePasswordMaster: React.FC = () => {
   const [repeatPassword, setRepeatPassword] = useState('');
   const [error, setError] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
-  const rem = useRem();
 
   const {
     user,
@@ -83,10 +81,8 @@ export const CreatePasswordMaster: React.FC = () => {
         barStyle="dark-content"
       />
       <View style={styles.header}>
-        <Text style={[styles.title, { fontSize: rem(1.375) }]}>
-          Senha Master
-        </Text>
-        <Text style={[styles.subtitle, { fontSize: rem(0.75) }]}>
+        <Text style={[styles.title, { fontSize: 22 }]}>Senha Master</Text>
+        <Text style={[styles.subtitle, { fontSize: 14 }]}>
           A senha master é a única senha que você precisa lembrar.Lembre-se
           dela, pois não será possível recuperar e todas as senhas serão
           perdidas
@@ -109,8 +105,8 @@ export const CreatePasswordMaster: React.FC = () => {
         style={[
           styles.footer,
           {
-            marginTop: rem(2.8),
-            marginBottom: rem(1.25),
+            marginTop: 44,
+            marginBottom: 20,
           },
         ]}>
         <Button

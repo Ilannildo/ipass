@@ -1,16 +1,18 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   TouchableOpacity,
   TouchableOpacityProps,
 } from 'react-native';
-import { useRem } from 'responsive-native';
+import { useCustomTheme } from '../../contexts/theme';
 import { theme } from '../../styles/theme';
 
 type Props = TouchableOpacityProps & {
   label: string;
   filled?: boolean;
+  loading?: boolean;
 };
 
 const styles = StyleSheet.create({
@@ -38,34 +40,44 @@ export const Button: React.FC<Props> = ({
   label,
   filled = false,
   disabled,
+  loading = false,
   ...rest
 }) => {
-  const rem = useRem();
+  const { colors } = useCustomTheme();
   return (
     <TouchableOpacity
       style={[
         styles.btnCreateAccount,
         {
-          backgroundColor: filled
-            ? theme.colors.primary
-            : theme.colors.secundary,
+          backgroundColor: filled ? colors.primary : colors.secundary,
           borderWidth: filled ? 0 : 1,
-          borderColor: theme.colors.primary,
-          opacity: disabled ? 0.5 : 1,
+          borderColor: colors.primary,
+          opacity: disabled ? 0.1 : 1,
         },
       ]}
       disabled={disabled}
       {...rest}>
-      <Text
-        style={[
-          styles.btnTextCreateAccount,
-          {
-            fontSize: rem(1),
-            color: filled ? theme.colors.secundary : theme.colors.primary,
-          },
-        ]}>
-        {label}
-      </Text>
+      {loading ? (
+        <ActivityIndicator
+          size={20}
+          color={filled ? colors.secundary : colors.primary}
+        />
+      ) : (
+        <Text
+          style={[
+            styles.btnTextCreateAccount,
+            {
+              fontSize: 16,
+              color: disabled
+                ? colors.primary
+                : filled
+                ? colors.secundary
+                : colors.primary,
+            },
+          ]}>
+          {label}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };

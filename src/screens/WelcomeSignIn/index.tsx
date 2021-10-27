@@ -2,7 +2,6 @@ import React from 'react';
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { GoogleSigninButton } from 'react-native-google-signin';
 import { useAuth } from '../../contexts/auth';
-import { useRem } from 'responsive-native';
 import { theme } from '../../styles/theme';
 
 import Image1 from '../../assets/image-1.png';
@@ -12,7 +11,7 @@ import { LoadingIndicator } from '../../components/LoadingIndicator';
 export const WelcomeSignIn: React.FC = () => {
   const { handleSignIn, loadingSignIn } = useAuth();
   const { schemeColor, colors } = useCustomTheme();
-  const rem = useRem();
+  // const rem = useRem();
 
   const handleSignInGoogle = async () => {
     handleSignIn();
@@ -25,36 +24,31 @@ export const WelcomeSignIn: React.FC = () => {
         backgroundColor={colors.secundary}
       />
       {loadingSignIn && <LoadingIndicator transparent />}
-      <View style={[styles.header, { marginBottom: rem(1) }]}>
+      <View style={[styles.header, { marginBottom: 16 }]}>
         <Text
           style={[
             styles.title,
             {
-              fontSize: rem(1.25),
-              marginBottom: rem(1.3),
+              fontSize: 20,
+              marginBottom: 20,
               color: colors.black,
             },
           ]}>
           {'Um jeito fácil e seguro\nde guardar suas senhas'}
         </Text>
-        <Image
-          source={Image1}
-          width={rem(20)}
-          height={rem(14)}
-          resizeMode="contain"
-        />
+        <Image source={Image1} width={320} height={224} resizeMode="contain" />
       </View>
 
       <View style={styles.footer}>
         <Text
           style={[
             styles.textHasAccount,
-            { fontSize: rem(1.125), color: colors.title },
+            { fontSize: 18, color: colors.title },
           ]}>
           {'Faça login ou crie uma conta\nGRATUITA'}
         </Text>
 
-        <Text style={[styles.textDescrip, { fontSize: rem(0.75) }]}>
+        <Text style={[styles.textDescrip, { fontSize: 14 }]}>
           {
             'Crie uma conta para maior segurança, backup dos seus dados  e muito mais'
           }

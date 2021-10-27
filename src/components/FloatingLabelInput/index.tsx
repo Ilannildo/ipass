@@ -6,7 +6,7 @@ import {
   TextInputProps,
   Text,
 } from 'react-native';
-import { useRem } from 'responsive-native';
+import { useCustomTheme } from '../../contexts/theme';
 import { theme } from '../../styles/theme';
 
 type Props = TextInputProps & {
@@ -20,8 +20,8 @@ interface InputReference extends TextInput {
 export const FloatingLabelInput: React.FC<Props> = ({ label, ...rest }) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isFilled, setIsFilled] = useState<boolean>(false);
+  const { colors } = useCustomTheme();
   const inputRef = useRef<InputReference>(null);
-  const rem = useRem();
 
   const handleFocus = useCallback(() => {
     setIsFocused(true);
@@ -45,9 +45,7 @@ export const FloatingLabelInput: React.FC<Props> = ({ label, ...rest }) => {
       style={[
         styles.container,
         {
-          borderBottomColor: isFocused
-            ? theme.colors.primary
-            : theme.colors.grey,
+          borderBottomColor: isFocused ? colors.primary : colors.grey,
           borderBottomWidth: isFocused ? 2 : 1,
         },
       ]}>
@@ -57,8 +55,7 @@ export const FloatingLabelInput: React.FC<Props> = ({ label, ...rest }) => {
           {
             top: isFocused || isFilled ? -8 : +18,
             fontSize: isFocused || isFilled ? 13 : 16,
-            color:
-              isFocused || isFilled ? theme.colors.primary : theme.colors.grey,
+            color: isFocused || isFilled ? colors.primary : colors.grey,
           },
         ]}>
         {label}
@@ -67,8 +64,8 @@ export const FloatingLabelInput: React.FC<Props> = ({ label, ...rest }) => {
         {...rest}
         ref={inputRef}
         keyboardAppearance="default"
-        placeholderTextColor={theme.colors.grey}
-        style={[styles.labeledInput, { fontSize: rem(1) }]}
+        placeholderTextColor={colors.grey}
+        style={styles.labeledInput}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChangeText={handleChangeText}
@@ -91,5 +88,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: theme.colors.black,
     fontWeight: '500',
+    fontSize: 16,
   },
 });

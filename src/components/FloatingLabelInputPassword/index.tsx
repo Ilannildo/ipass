@@ -30,7 +30,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
   const [forcePassword, setForcePasword] = useState<string>('');
   const [isFilled, setIsFilled] = useState<boolean>(false);
   const inputRef = useRef<InputReference>(null);
-  const rem = useRem();
+  // const rem = useRem();
 
   const handleFocus = useCallback(() => {
     setIsFocused(true);
@@ -66,7 +66,6 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
     if (pass.match(/W+/)) {
       forca += 25;
     }
-    console.log(forca);
 
     return forca;
   };
@@ -125,7 +124,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
         ref={inputRef}
         keyboardAppearance="default"
         placeholderTextColor={theme.colors.grey}
-        style={[styles.labeledInput, { fontSize: rem(1) }]}
+        style={styles.labeledInput}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChangeText={handleChangeText}
@@ -191,6 +190,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     color: theme.colors.black,
     fontWeight: '500',
+    fontSize: 16,
   },
   line: {
     width: '32%',

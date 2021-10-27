@@ -19,7 +19,7 @@ type contextData = {
   loading: boolean;
   loadingSignIn: boolean;
   user: UserStorageType;
-  handleSignInPassword: (password: string) => void;
+  handleSignInPassword: (password: string) => Promise<boolean>;
   handleSignIn: () => void;
   handleSignOut: () => void;
   handleLoggedUser: () => void;
@@ -99,11 +99,14 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [loadingSignIn, setLoadingSignIn] = useState<boolean>(false);
 
   const handleSignInPassword = async (password: string) => {
-    setLoading(true);
-    if (password === 'admin') {
-      // setSigned(true);
+    const realm = await getRealm();
+    const data = realm.objects<AuthSchemaType>('AuthSchema');
+    if (data[0]?.passwordMaster) {
+      if (password === data[0].passwordMaster) {
+        return true;
+      }
     }
-    setLoading(false);
+    return false;
   };
 
   const handleUserNotBiocmetrics = async () => {
