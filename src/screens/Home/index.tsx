@@ -1,9 +1,10 @@
+import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Alert } from '../../components/Alert';
 import { useCustomTheme } from '../../contexts/theme';
 import { CategoriesButton } from './components/CategoriesButton';
 import { Header } from './components/Header';
-import { SearchInput } from './components/SearchInput';
 
 interface CategoriesProps {
   key: string;
@@ -15,6 +16,8 @@ export const Home: React.FC = () => {
   const [categories, setCategories] = useState<CategoriesProps[]>([]);
   // const {filteredCategories, setFilteredCategories} = useState([]);
   const [categoriesSelected, setCategoriesSelected] = useState<string>('all');
+
+  const navigation = useNavigation();
 
   function handleCategoriesSelected(categorie: string) {
     setCategoriesSelected(categorie);
@@ -54,20 +57,27 @@ export const Home: React.FC = () => {
       style={[
         styles.container,
         {
-          backgroundColor: colors.secundary,
+          backgroundColor: colors.background,
         },
       ]}>
+      <Alert
+        title="Usar impressão digital?"
+        message="Deseja habilitar sua Digital para realizar ações dentro do app?"
+        visible={true}
+      />
       <StatusBar
-        backgroundColor={colors.secundary}
-        barStyle={schemeColor === 'dark' ? 'light-content' : 'dark-content'}
+        backgroundColor={colors.background}
+        barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
       />
       <Header />
       <View style={styles.area}>
-        <SearchInput placeholder="Pesquise aqui..." />
+        {/* <SearchInput placeholder="Pesquise aqui..." /> */}
       </View>
 
       <View style={styles.areaList}>
-        <Text style={styles.title}>Categorias</Text>
+        <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
+          Categorias
+        </Text>
         <FlatList
           data={categories}
           keyExtractor={item => String(item.key)}
@@ -77,7 +87,9 @@ export const Home: React.FC = () => {
             <CategoriesButton
               title={item.title}
               selected={item.key === categoriesSelected}
-              onPress={() => handleCategoriesSelected(item.key)}
+              onPress={() => {
+                handleCategoriesSelected(item.key);
+              }}
             />
           )}
           contentContainerStyle={styles.categoriesList}

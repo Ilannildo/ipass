@@ -6,8 +6,7 @@ import {
   TextInputProps,
   Text,
 } from 'react-native';
-import { useRem } from 'responsive-native';
-import { theme } from '../../styles/theme';
+import { useCustomTheme } from '../../contexts/theme';
 
 type Props = TextInputProps & {
   label: string;
@@ -30,7 +29,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
   const [forcePassword, setForcePasword] = useState<string>('');
   const [isFilled, setIsFilled] = useState<boolean>(false);
   const inputRef = useRef<InputReference>(null);
-  // const rem = useRem();
+  const { colors } = useCustomTheme();
 
   const handleFocus = useCallback(() => {
     setIsFocused(true);
@@ -97,10 +96,10 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
         styles.container,
         {
           borderBottomColor: error
-            ? theme.colors.error
+            ? colors.error
             : isFocused
-            ? theme.colors.primary
-            : theme.colors.grey,
+            ? colors.primary
+            : colors.outline,
           borderBottomWidth: isPassword && isFilled ? 0 : isFocused ? 2 : 1,
         },
       ]}>
@@ -111,10 +110,10 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
             top: isFocused || isFilled ? -8 : +18,
             fontSize: isFocused || isFilled ? 13 : 16,
             color: error
-              ? theme.colors.error
+              ? colors.error
               : isFocused || isFilled
-              ? theme.colors.primary
-              : theme.colors.grey,
+              ? colors.primary
+              : colors.outline,
           },
         ]}>
         {label}
@@ -123,8 +122,8 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
         {...rest}
         ref={inputRef}
         keyboardAppearance="default"
-        placeholderTextColor={theme.colors.grey}
-        style={styles.labeledInput}
+        placeholderTextColor={colors.outline}
+        style={[styles.labeledInput, { color: colors.onPrimaryContainer }]}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChangeText={handleChangeText}
@@ -137,12 +136,12 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
               {
                 backgroundColor:
                   forcePassword === 'fraca'
-                    ? theme.colors.error
+                    ? colors.error
                     : forcePassword === 'media'
-                    ? theme.colors.warning
+                    ? colors.warning
                     : forcePassword === 'forte'
-                    ? theme.colors.success
-                    : theme.colors.grey,
+                    ? colors.success
+                    : colors.outline,
               },
             ]}
           />
@@ -152,10 +151,10 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
               {
                 backgroundColor:
                   forcePassword === 'media'
-                    ? theme.colors.warning
+                    ? colors.warning
                     : forcePassword === 'forte'
-                    ? theme.colors.success
-                    : theme.colors.grey,
+                    ? colors.success
+                    : colors.outline,
               },
             ]}
           />
@@ -164,9 +163,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
               styles.line,
               {
                 backgroundColor:
-                  forcePassword === 'forte'
-                    ? theme.colors.success
-                    : theme.colors.grey,
+                  forcePassword === 'forte' ? colors.success : colors.outline,
               },
             ]}
           />
@@ -188,14 +185,13 @@ const styles = StyleSheet.create({
   },
   labeledInput: {
     marginTop: 5,
-    color: theme.colors.black,
+    // color: theme.colors.black,
     fontWeight: '500',
     fontSize: 16,
   },
   line: {
     width: '32%',
     height: 2,
-    backgroundColor: theme.colors.grey,
   },
   indicatorForce: {
     position: 'absolute',

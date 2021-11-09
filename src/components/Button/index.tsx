@@ -7,7 +7,6 @@ import {
   TouchableOpacityProps,
 } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
-import { theme } from '../../styles/theme';
 
 type Props = TouchableOpacityProps & {
   label: string;
@@ -23,13 +22,13 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 5,
 
-    shadowColor: 'rgba(18, 159, 219, 0.35)',
-    shadowOffset: {
-      height: 10,
-      width: 0,
-    },
-    shadowRadius: 8,
-    elevation: 10,
+    // shadowColor: 'rgba(18, 159, 219, 0.35)',
+    // shadowOffset: {
+    //   height: 10,
+    //   width: 0,
+    // },
+    // shadowRadius: 8,
+    // elevation: 1,
   },
   btnTextCreateAccount: {
     fontWeight: '500',
@@ -49,10 +48,13 @@ export const Button: React.FC<Props> = ({
       style={[
         styles.btnCreateAccount,
         {
-          backgroundColor: filled ? colors.primary : colors.secundary,
+          backgroundColor: disabled
+            ? colors.surfaceVariant
+            : filled
+            ? colors.primary
+            : colors.background,
           borderWidth: filled ? 0 : 1,
           borderColor: colors.primary,
-          opacity: disabled ? 0.1 : 1,
         },
       ]}
       disabled={disabled}
@@ -60,7 +62,7 @@ export const Button: React.FC<Props> = ({
       {loading ? (
         <ActivityIndicator
           size={20}
-          color={filled ? colors.secundary : colors.primary}
+          color={filled ? colors.background : colors.primary}
         />
       ) : (
         <Text
@@ -69,10 +71,11 @@ export const Button: React.FC<Props> = ({
             {
               fontSize: 16,
               color: disabled
-                ? colors.primary
+                ? colors.outline
                 : filled
-                ? colors.secundary
+                ? colors.background
                 : colors.primary,
+              opacity: disabled ? 0.3 : 1,
             },
           ]}>
           {label}

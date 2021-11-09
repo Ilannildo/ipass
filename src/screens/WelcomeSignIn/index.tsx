@@ -14,7 +14,7 @@ export const WelcomeSignIn: React.FC = () => {
   // const rem = useRem();
 
   const handleSignInGoogle = async () => {
-    handleSignIn();
+    await handleSignIn();
   };
 
   return (

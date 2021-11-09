@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ColorSchemeName, useColorScheme } from 'react-native';
-import { dark } from '../styles/dark';
-import { light } from '../styles/light';
+import { dark, light } from '../styles/colorSchemas';
 
 type Props = {
   schemeColor: ColorSchemeName;
@@ -10,15 +9,33 @@ type Props = {
   toggleThemeDark: () => void;
   colors: {
     primary: string;
-    secundary: string;
-    secundary10: string;
-    secundary20: string;
-    title: string;
-    grey: string;
-    black: string;
+    onPrimary: string;
+    primaryContainer: string;
+    onPrimaryContainer: string;
+    secondary: string;
+    onSecondary: string;
+    secondaryContainer: string;
+    onSecondaryContainer: string;
+    tertiary: string;
+    onTertiary: string;
+    tertiaryContainer: string;
+    onTertiaryContainer: string;
     error: string;
-    warning: string;
+    errorContainer: string;
+    onError: string;
+    onErrorContainer: string;
+    background: string;
+    onBackground: string;
+    surface: string;
+    onSurface: string;
+    surfaceVariant: string;
+    onSurfaceVariant: string;
+    outline: string;
+    inverseOnSurface: string;
+    inverseSurface: string;
+    primaryInverse: string;
     success: string;
+    warning: string;
   };
 };
 
@@ -38,6 +55,10 @@ export const CustomThemeProvider: React.FC = ({ children }) => {
       } else {
         setSchemeColors('light');
       }
+    } else if (theme === 'light') {
+      setSchemeColors('light');
+    } else if (theme === 'dark') {
+      setSchemeColors('dark');
     }
   }, [scheme, theme]);
 
@@ -60,14 +81,22 @@ export const CustomThemeProvider: React.FC = ({ children }) => {
         toggleThemeDark,
         toggleThemeDefault,
         toggleThemeLight,
+        // colors:
+        //   theme === 'default'
+        //     ? scheme === 'dark'
+        //       ? dark.colors
+        //       : light.colors
+        //     : theme === 'light'
+        //     ? light.colors
+        //     : dark.colors,
         colors:
           theme === 'default'
             ? scheme === 'dark'
-              ? dark.colors
-              : light.colors
+              ? dark
+              : light
             : theme === 'light'
-            ? light.colors
-            : dark.colors,
+            ? light
+            : dark,
       }}>
       {children}
     </CustomThemeContext.Provider>

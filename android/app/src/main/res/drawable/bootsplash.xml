@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
-    <item android:drawable="@color/background" />
+    <item android:drawable="@color/md_theme_light_background" />
 
     <item>
-        <bitmap android:src="@mipmap/bootsplash_logo" android:gravity="center" android:width="200dp" android:height="200dp" />
+        <bitmap android:src="@mipmap/bootsplash_logo" android:gravity="center" />
     </item>
 </layer-list>

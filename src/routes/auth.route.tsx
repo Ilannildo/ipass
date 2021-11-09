@@ -33,8 +33,7 @@ export const AuthRoutes: React.FC = () => {
           name="CreatePasswordMaster"
           component={CreatePasswordMaster}
           options={{
-            headerTitle: '',
-            headerShadowVisible: false,
+            headerShown: false,
           }}
         />
       )}

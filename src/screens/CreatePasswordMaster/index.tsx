@@ -4,6 +4,7 @@ import ReactNativeBiometrics from 'react-native-biometrics';
 import { Button } from '../../components/Button';
 import { FloatingLabelInputPassword } from '../../components/FloatingLabelInputPassword';
 import { useAuth } from '../../contexts/auth';
+import { useCustomTheme } from '../../contexts/theme';
 import { theme } from '../../styles/theme';
 
 export const CreatePasswordMaster: React.FC = () => {
@@ -11,6 +12,7 @@ export const CreatePasswordMaster: React.FC = () => {
   const [repeatPassword, setRepeatPassword] = useState('');
   const [error, setError] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const {
     user,
@@ -18,9 +20,13 @@ export const CreatePasswordMaster: React.FC = () => {
     handleCreateKeysFingerprint,
     createSignatureBiometrics,
     handleUserNotBiocmetrics,
+    handleLoggedUser,
   } = useAuth();
 
+  const { colors, schemeColor } = useCustomTheme();
+
   const handleSubmitPassword = async () => {
+    setLoading(true);
     setDisableButton(true);
 
     await savePasswordStorage(user.uid, password);
@@ -43,11 +49,13 @@ export const CreatePasswordMaster: React.FC = () => {
         ],
       );
     }
+    setLoading(false);
     setError(false);
     setDisableButton(false);
   };
 
   const handleBiometrics = async () => {
+    setLoading(true);
     const { keysExist } = await ReactNativeBiometrics.biometricKeysExist();
     if (!keysExist) {
       await handleCreateKeysFingerprint();
@@ -57,6 +65,10 @@ export const CreatePasswordMaster: React.FC = () => {
     if (!result) {
       console.log('Biometrics cancelled, ativo nas configs');
       await handleUserNotBiocmetrics();
+      setLoading(false);
+    } else {
+      handleLoggedUser();
+      setLoading(false);
     }
   };
 
@@ -75,14 +87,16 @@ export const CreatePasswordMaster: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar
-        backgroundColor={theme.colors.secundary}
-        barStyle="dark-content"
+        backgroundColor={colors.background}
+        barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
       />
       <View style={styles.header}>
-        <Text style={[styles.title, { fontSize: 22 }]}>Senha Master</Text>
-        <Text style={[styles.subtitle, { fontSize: 14 }]}>
+        <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
+          Senha Master
+        </Text>
+        <Text style={[styles.subtitle, { color: colors.secondary }]}>
           A senha master é a única senha que você precisa lembrar.Lembre-se
           dela, pois não será possível recuperar e todas as senhas serão
           perdidas
@@ -114,6 +128,7 @@ export const CreatePasswordMaster: React.FC = () => {
           onPress={handleSubmitPassword}
           filled
           disabled={disableButton}
+          loading={loading}
         />
       </View>
     </View>
@@ -127,21 +142,21 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: theme.colors.secundary,
   },
   header: {
     width: '100%',
     paddingHorizontal: 40,
+    marginTop: 30,
   },
   title: {
-    color: theme.colors.black,
     fontWeight: 'bold',
     paddingBottom: 7,
+    fontSize: 22,
   },
   subtitle: {
-    color: theme.colors.grey,
     fontWeight: 'normal',
     marginBottom: 25,
+    fontSize: 14,
   },
   button: {
     width: '100%',

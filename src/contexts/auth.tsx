@@ -20,7 +20,7 @@ type contextData = {
   loadingSignIn: boolean;
   user: UserStorageType;
   handleSignInPassword: (password: string) => Promise<boolean>;
-  handleSignIn: () => void;
+  handleSignIn: () => Promise<void>;
   handleSignOut: () => void;
   handleLoggedUser: () => void;
   handleCreateKeysFingerprint: () => Promise<void>;
@@ -151,6 +151,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     try {
       const result = await ReactNativeBiometrics.createSignature({
         promptMessage: 'Confirme para continuar',
+        cancelButtonText: 'Usar senha',
         payload: payload,
       });
 

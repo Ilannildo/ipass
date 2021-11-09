@@ -60,9 +60,9 @@ export const Authenticate: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    Keyboard.dismiss();
-    setLoading(true);
     if (password !== '') {
+      Keyboard.dismiss();
+      setLoading(true);
       const result = await handleSignInPassword(password);
       if (!result) {
         setLoading(false);
@@ -76,31 +76,29 @@ export const Authenticate: React.FC = () => {
     }
   };
   return (
-    <View style={[styles.container, { backgroundColor: colors.secundary }]}>
-      {/* {loading && <LoadingIndicator transparent />} */}
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar
-        backgroundColor={colors.secundary}
+        backgroundColor={colors.background}
         barStyle={schemeColor === 'dark' ? 'light-content' : 'dark-content'}
       />
       <View style={styles.header}>
         <Image style={styles.logo} source={require('../../assets/icon.png')} />
-        <Text style={[styles.title, { color: colors.black }]}>
+        <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
           MyAccess Password Manager
         </Text>
         <View
           style={[
             styles.inputArea,
             {
-              borderColor: focused ? colors.primary : colors.title,
+              borderColor: focused ? colors.primary : colors.outline,
               borderWidth: focused ? 1 : 0.8,
             },
           ]}>
           <TextInput
             placeholder="Senha master"
             onChangeText={changePassword}
-            placeholderTextColor={colors.grey}
+            placeholderTextColor={colors.outline}
             secureTextEntry={!passwordVisble}
-            autoCapitalize="none"
             value={password}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
@@ -109,7 +107,7 @@ export const Authenticate: React.FC = () => {
             style={[
               styles.input,
               {
-                color: colors.black,
+                color: colors.onPrimaryContainer,
               },
             ]}
           />
@@ -117,6 +115,7 @@ export const Authenticate: React.FC = () => {
             <MaterialCommunityIcons
               name={passwordVisble ? 'eye-off' : 'eye'}
               size={20}
+              color={colors.onPrimaryContainer}
             />
           </TouchableOpacity>
         </View>
@@ -140,7 +139,7 @@ export const Authenticate: React.FC = () => {
                   ? colors.error
                   : biometricSuccess
                   ? colors.success
-                  : colors.black
+                  : colors.onPrimaryContainer
               }
             />
             <Text
@@ -151,7 +150,7 @@ export const Authenticate: React.FC = () => {
                     ? colors.error
                     : biometricSuccess
                     ? colors.success
-                    : colors.black,
+                    : colors.onPrimaryContainer,
                 },
               ]}>
               {biometricError

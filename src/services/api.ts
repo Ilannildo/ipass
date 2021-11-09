@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'http://192.168.10.109:3000',
+  baseURL: 'https://app-my-access.herokuapp.com',
 });

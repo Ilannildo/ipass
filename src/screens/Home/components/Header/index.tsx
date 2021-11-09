@@ -1,11 +1,14 @@
+import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useAuth } from '../../../../contexts/auth';
 import { useCustomTheme } from '../../../../contexts/theme';
 
 export const Header: React.FC = () => {
   const { user } = useAuth();
   const { colors } = useCustomTheme();
+  const navigation = useNavigation();
+
   return (
     <View style={styles.header}>
       <View>
@@ -13,19 +16,23 @@ export const Header: React.FC = () => {
           style={[
             styles.username,
             {
-              color: colors.black,
+              color: colors.onPrimaryContainer,
             },
           ]}>
           Olá, {user?.givenName}
         </Text>
-        <Text style={[styles.currentDate, { color: colors.grey }]}>
+        <Text style={[styles.currentDate, { color: colors.secondary }]}>
           25 de out. de 2021
         </Text>
       </View>
-      <Image
-        source={{ uri: user?.photo }}
-        style={[styles.userPhoto, { borderColor: colors.primary }]}
-      />
+      <TouchableOpacity
+        onPress={() => navigation.navigate('ConfigurationRoutes')}
+        activeOpacity={0.7}>
+        <Image
+          source={{ uri: user?.photo }}
+          style={[styles.userPhoto, { borderColor: colors.primary }]}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
