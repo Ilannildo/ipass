@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, StatusBar, Alert } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import ReactNativeBiometrics from 'react-native-biometrics';
 import { Button } from '../../components/Button';
+import { Alert } from '../../components/Alert';
 import { FloatingLabelInputPassword } from '../../components/FloatingLabelInputPassword';
 import { useAuth } from '../../contexts/auth';
 import { useCustomTheme } from '../../contexts/theme';
@@ -13,6 +14,7 @@ export const CreatePasswordMaster: React.FC = () => {
   const [error, setError] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [enableAlert, setEnableAlert] = useState(false);
 
   const {
     user,
@@ -32,22 +34,23 @@ export const CreatePasswordMaster: React.FC = () => {
     await savePasswordStorage(user.uid, password);
     const { biometryType } = await ReactNativeBiometrics.isSensorAvailable();
     if (biometryType === ReactNativeBiometrics.Biometrics) {
-      Alert.alert(
-        'Usar sua digital',
-        'Deseja habilitar sua Digital para realizar ações dentro do app?',
-        [
-          {
-            text: 'Habilitar digital',
-            onPress: async () => await handleBiometrics(),
-            style: 'default',
-          },
-          {
-            text: 'Ainda não',
-            onPress: () => handleUserNotBiocmetrics(),
-            style: 'cancel',
-          },
-        ],
-      );
+      setEnableAlert(true);
+      // Alert.alert(
+      //   'Usar sua digital',
+      //   'Deseja habilitar sua Digital para realizar ações dentro do app?',
+      //   [
+      //     {
+      //       text: 'Habilitar digital',
+      //       onPress: async () => await handleBiometrics(),
+      //       style: 'default',
+      //     },
+      //     {
+      //       text: 'Ainda não',
+      //       onPress: () => handleUserNotBiocmetrics(),
+      //       style: 'cancel',
+      //     },
+      //   ],
+      // );
     }
     setLoading(false);
     setError(false);
@@ -56,6 +59,7 @@ export const CreatePasswordMaster: React.FC = () => {
 
   const handleBiometrics = async () => {
     setLoading(true);
+    setEnableAlert(false);
     const { keysExist } = await ReactNativeBiometrics.biometricKeysExist();
     if (!keysExist) {
       await handleCreateKeysFingerprint();
@@ -64,12 +68,17 @@ export const CreatePasswordMaster: React.FC = () => {
     const result = await createSignatureBiometrics();
     if (!result) {
       console.log('Biometrics cancelled, ativo nas configs');
+      setLoading(false);
       await handleUserNotBiocmetrics();
-      setLoading(false);
     } else {
-      handleLoggedUser();
       setLoading(false);
+      handleLoggedUser();
     }
+  };
+  const handleNotBiometrics = async () => {
+    setLoading(false);
+    setEnableAlert(false);
+    await handleUserNotBiocmetrics();
   };
 
   const handleTextPass = (text: string) => {
@@ -91,6 +100,15 @@ export const CreatePasswordMaster: React.FC = () => {
       <StatusBar
         backgroundColor={colors.background}
         barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
+      />
+      <Alert
+        title="Usar impressão digital?"
+        message="Deseja habilitar sua Digital para realizar ações dentro do app?"
+        visible={enableAlert}
+        onConfirmText="Habilitar digital"
+        onCancelText="Ainda não"
+        onConfirm={() => handleBiometrics()}
+        onCancel={() => handleNotBiometrics()}
       />
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
@@ -115,14 +133,7 @@ export const CreatePasswordMaster: React.FC = () => {
           onChangeText={handleTextRepeatPass}
         />
       </View>
-      <View
-        style={[
-          styles.footer,
-          {
-            marginTop: 44,
-            marginBottom: 20,
-          },
-        ]}>
+      <View style={styles.footer}>
         <Button
           label="Continuar"
           onPress={handleSubmitPassword}
@@ -180,5 +191,7 @@ const styles = StyleSheet.create({
   footer: {
     width: '100%',
     paddingHorizontal: 40,
+    marginTop: 44,
+    marginBottom: 20,
   },
 });

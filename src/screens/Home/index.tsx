@@ -1,6 +1,12 @@
-import { useNavigation } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
-import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+  Alert as AlertView,
+} from 'react-native';
 import { Alert } from '../../components/Alert';
 import { useCustomTheme } from '../../contexts/theme';
 import { CategoriesButton } from './components/CategoriesButton';
@@ -17,7 +23,7 @@ export const Home: React.FC = () => {
   // const {filteredCategories, setFilteredCategories} = useState([]);
   const [categoriesSelected, setCategoriesSelected] = useState<string>('all');
 
-  const navigation = useNavigation();
+  const [alertVisible, setAlertVisible] = useState(true);
 
   function handleCategoriesSelected(categorie: string) {
     setCategoriesSelected(categorie);
@@ -60,11 +66,6 @@ export const Home: React.FC = () => {
           backgroundColor: colors.background,
         },
       ]}>
-      <Alert
-        title="Usar impressão digital?"
-        message="Deseja habilitar sua Digital para realizar ações dentro do app?"
-        visible={true}
-      />
       <StatusBar
         backgroundColor={colors.background}
         barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
@@ -73,6 +74,31 @@ export const Home: React.FC = () => {
       <View style={styles.area}>
         {/* <SearchInput placeholder="Pesquise aqui..." /> */}
       </View>
+      <Alert
+        title="Titulo"
+        message="Isto é uma mensagem de alerta"
+        visible={alertVisible}
+        onConfirmText="Confirmar"
+        onCancelText="Cancelar"
+        onConfirm={() => {
+          setAlertVisible(false);
+          AlertView.alert('Titulo', 'Isto é uma mensagem de alerta', [
+            {
+              onPress: () => {},
+              style: 'cancel',
+              text: 'Cancelar',
+            },
+            {
+              onPress: () => {},
+              style: 'default',
+              text: 'Confirmar',
+            },
+          ]);
+        }}
+        onCancel={() => {
+          setAlertVisible(true);
+        }}
+      />
 
       <View style={styles.areaList}>
         <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>

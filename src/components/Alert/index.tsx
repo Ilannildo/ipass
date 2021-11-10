@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Pressable, Modal } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
 
@@ -6,24 +6,35 @@ type Props = {
   title: string;
   message: string;
   visible: boolean;
+  onConfirmText: string;
+  onCancelText: string;
+  onConfirm: () => void;
+  onCancel: () => void;
 };
 
-export const Alert: React.FC<Props> = ({ title, message, visible }) => {
-  const [modalVisible, setModalVisible] = useState(true);
+export const Alert: React.FC<Props> = ({
+  title,
+  message,
+  visible,
+  onConfirmText,
+  onCancelText,
+  onConfirm,
+  onCancel,
+}) => {
   const { colors } = useCustomTheme();
 
   return (
     <Modal
       animationType="fade"
       transparent={true}
-      visible={modalVisible}
+      visible={visible}
       statusBarTranslucent
       onRequestClose={() => {
-        setModalVisible(!modalVisible);
+        onCancel();
       }}>
       <Pressable
-        style={[styles.backdrop, { backgroundColor: colors.onSurface }]}
-        onPress={() => setModalVisible(false)}
+        style={[styles.backdrop, { backgroundColor: colors.backdrop }]}
+        onPress={() => onCancel()}
       />
       <View style={styles.content}>
         <View
@@ -36,14 +47,14 @@ export const Alert: React.FC<Props> = ({ title, message, visible }) => {
           </Text>
 
           <View style={styles.buttons}>
-            <Pressable style={styles.btn}>
+            <Pressable style={styles.btn} onPress={onCancel}>
               <Text style={[styles.btnText, { color: colors.primary }]}>
-                Cancel
+                {onCancelText || 'Cancelar'}
               </Text>
             </Pressable>
-            <Pressable style={styles.btn}>
+            <Pressable style={styles.btn} onPress={onConfirm}>
               <Text style={[styles.btnText, { color: colors.primary }]}>
-                Confirm
+                {onConfirmText || 'Confirmar'}
               </Text>
             </Pressable>
           </View>
@@ -60,7 +71,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    // backgroundColor: '#232F34',
     opacity: 0.32,
   },
   content: {
@@ -76,7 +86,10 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   androidTitle: {
-    margin: 24,
+    marginLeft: 24,
+    marginRight: 24,
+    marginTop: 24,
+    marginBottom: 10,
     fontSize: 21,
     fontWeight: 'bold',
   },

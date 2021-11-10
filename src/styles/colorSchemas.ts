@@ -27,6 +27,7 @@ export const light = {
   primaryInverse: '#7FCFFF',
   success: '#15BB7F',
   warning: '#EFC250',
+  backdrop: '#191C1E',
 };
 
 export const dark = {
@@ -58,4 +59,5 @@ export const dark = {
   primaryInverse: '#00658F',
   success: '#73D6B2',
   warning: '#F5DA96',
+  backdrop: '#191C1E',
 };

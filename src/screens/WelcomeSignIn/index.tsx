@@ -18,20 +18,18 @@ export const WelcomeSignIn: React.FC = () => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.secundary }]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar
         barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
-        backgroundColor={colors.secundary}
+        backgroundColor={colors.background}
       />
       {loadingSignIn && <LoadingIndicator transparent />}
-      <View style={[styles.header, { marginBottom: 16 }]}>
+      <View style={styles.header}>
         <Text
           style={[
             styles.title,
             {
-              fontSize: 20,
-              marginBottom: 20,
-              color: colors.black,
+              color: colors.onPrimaryContainer,
             },
           ]}>
           {'Um jeito fácil e seguro\nde guardar suas senhas'}
@@ -41,14 +39,11 @@ export const WelcomeSignIn: React.FC = () => {
 
       <View style={styles.footer}>
         <Text
-          style={[
-            styles.textHasAccount,
-            { fontSize: 18, color: colors.title },
-          ]}>
+          style={[styles.textHasAccount, { color: colors.onPrimaryContainer }]}>
           {'Faça login ou crie uma conta\nGRATUITA'}
         </Text>
 
-        <Text style={[styles.textDescrip, { fontSize: 14 }]}>
+        <Text style={[styles.textDescrip, { color: colors.secondary }]}>
           {
             'Crie uma conta para maior segurança, backup dos seus dados  e muito mais'
           }
@@ -77,6 +72,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 35,
     alignItems: 'center',
+    marginBottom: 16,
   },
   title: {
     // color: theme.colors.black,
@@ -84,6 +80,8 @@ const styles = StyleSheet.create({
     marginTop: 16,
     width: '85%',
     textAlign: 'center',
+    fontSize: 20,
+    marginBottom: 20,
   },
   footer: {
     width: '100%',
@@ -94,12 +92,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center',
     marginBottom: 34,
+    fontSize: 18,
   },
   textDescrip: {
-    color: theme.colors.grey,
     fontWeight: 'normal',
     textAlign: 'center',
     marginBottom: 20,
+    fontSize: 14,
   },
   googleSigninBtn: {
     width: '100%',

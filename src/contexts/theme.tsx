@@ -36,6 +36,7 @@ type Props = {
     primaryInverse: string;
     success: string;
     warning: string;
+    backdrop: string;
   };
 };
 
@@ -81,14 +82,6 @@ export const CustomThemeProvider: React.FC = ({ children }) => {
         toggleThemeDark,
         toggleThemeDefault,
         toggleThemeLight,
-        // colors:
-        //   theme === 'default'
-        //     ? scheme === 'dark'
-        //       ? dark.colors
-        //       : light.colors
-        //     : theme === 'light'
-        //     ? light.colors
-        //     : dark.colors,
         colors:
           theme === 'default'
             ? scheme === 'dark'
