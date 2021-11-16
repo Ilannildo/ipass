@@ -21,7 +21,7 @@ export const Header: React.FC = () => {
           ]}>
           Olá, {user?.givenName}
         </Text>
-        <Text style={[styles.currentDate, { color: colors.secondary }]}>
+        <Text style={[styles.textWelcome, { color: colors.secondary }]}>
           25 de out. de 2021
         </Text>
       </View>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  currentDate: {
+  textWelcome: {
     fontSize: 13,
     fontWeight: 'normal',
   },

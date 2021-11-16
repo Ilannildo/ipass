@@ -4,13 +4,13 @@ import {
   Image,
   Text,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   StatusBar,
   ToastAndroid,
   Keyboard,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { TextInput } from 'react-native-paper';
 import { useCustomTheme } from '../../contexts/theme';
 import { Button } from '../../components/Button';
 import { useAuth } from '../../contexts/auth';
@@ -86,16 +86,11 @@ export const Authenticate: React.FC = () => {
         <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
           MyAccess Password Manager
         </Text>
-        <View
-          style={[
-            styles.inputArea,
-            {
-              borderColor: focused ? colors.primary : colors.outline,
-              borderWidth: focused ? 1 : 0.8,
-            },
-          ]}>
+        <View style={styles.inputArea}>
           <TextInput
-            placeholder="Senha master"
+            label="Senha master"
+            mode="outlined"
+            placeholder="Digite sua senha master"
             onChangeText={changePassword}
             placeholderTextColor={colors.outline}
             secureTextEntry={!passwordVisble}
@@ -104,20 +99,16 @@ export const Authenticate: React.FC = () => {
             onBlur={() => setFocused(false)}
             returnKeyType="done"
             onEndEditing={handleSubmit}
-            style={[
-              styles.input,
-              {
-                color: colors.onPrimaryContainer,
-              },
-            ]}
+            style={{ backgroundColor: colors.onPrimary }}
+            activeOutlineColor={colors.primary}
+            right={
+              <TextInput.Icon
+                name={passwordVisble ? 'eye-off' : 'eye'}
+                onPress={togglePasswordVisible}
+                color={colors.onPrimaryContainer}
+              />
+            }
           />
-          <TouchableOpacity onPress={togglePasswordVisible}>
-            <MaterialCommunityIcons
-              name={passwordVisble ? 'eye-off' : 'eye'}
-              size={20}
-              color={colors.onPrimaryContainer}
-            />
-          </TouchableOpacity>
         </View>
 
         <Button
@@ -194,17 +185,22 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   inputArea: {
-    flexDirection: 'row',
     width: '100%',
     marginTop: 40,
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingLeft: 20,
-    paddingRight: 20,
     marginBottom: 20,
-    justifyContent: 'space-around',
-    alignItems: 'center',
   },
+  // inputArea: {
+  //   flexDirection: 'row',
+  //   width: '100%',
+  //   marginTop: 40,
+  //   borderWidth: 1,
+  //   borderRadius: 5,
+  //   paddingLeft: 20,
+  //   paddingRight: 20,
+  //   marginBottom: 20,
+  //   justifyContent: 'space-around',
+  //   alignItems: 'center',
+  // },
   input: {
     width: '100%',
     fontSize: 14,

@@ -5,12 +5,13 @@ import {
   StyleSheet,
   Text,
   View,
-  Alert as AlertView,
+  ScrollView,
 } from 'react-native';
-import { Alert } from '../../components/Alert';
 import { useCustomTheme } from '../../contexts/theme';
+import { FAB } from 'react-native-paper';
 import { CategoriesButton } from './components/CategoriesButton';
 import { Header } from './components/Header';
+import { PasswordCard } from './components/PasswordCard';
 
 interface CategoriesProps {
   key: string;
@@ -22,8 +23,6 @@ export const Home: React.FC = () => {
   const [categories, setCategories] = useState<CategoriesProps[]>([]);
   // const {filteredCategories, setFilteredCategories} = useState([]);
   const [categoriesSelected, setCategoriesSelected] = useState<string>('all');
-
-  const [alertVisible, setAlertVisible] = useState(true);
 
   function handleCategoriesSelected(categorie: string) {
     setCategoriesSelected(categorie);
@@ -66,61 +65,60 @@ export const Home: React.FC = () => {
           backgroundColor: colors.background,
         },
       ]}>
-      <StatusBar
-        backgroundColor={colors.background}
-        barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
-      />
-      <Header />
-      <View style={styles.area}>
-        {/* <SearchInput placeholder="Pesquise aqui..." /> */}
-      </View>
-      <Alert
-        title="Titulo"
-        message="Isto é uma mensagem de alerta"
-        visible={alertVisible}
-        onConfirmText="Confirmar"
-        onCancelText="Cancelar"
-        onConfirm={() => {
-          setAlertVisible(false);
-          AlertView.alert('Titulo', 'Isto é uma mensagem de alerta', [
-            {
-              onPress: () => {},
-              style: 'cancel',
-              text: 'Cancelar',
-            },
-            {
-              onPress: () => {},
-              style: 'default',
-              text: 'Confirmar',
-            },
-          ]);
-        }}
-        onCancel={() => {
-          setAlertVisible(true);
-        }}
-      />
-
-      <View style={styles.areaList}>
-        <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
-          Categorias
-        </Text>
-        <FlatList
-          data={categories}
-          keyExtractor={item => String(item.key)}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <CategoriesButton
-              title={item.title}
-              selected={item.key === categoriesSelected}
-              onPress={() => {
-                handleCategoriesSelected(item.key);
-              }}
-            />
-          )}
-          contentContainerStyle={styles.categoriesList}
+      <ScrollView>
+        <StatusBar
+          backgroundColor={colors.inverseOnSurface}
+          barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
         />
-      </View>
+        <Header />
+        <View style={styles.area} />
+        <View style={styles.areaList}>
+          <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
+            Categorias
+          </Text>
+          <FlatList
+            data={categories}
+            keyExtractor={item => String(item.key)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <CategoriesButton
+                title={item.title}
+                selected={item.key === categoriesSelected}
+                onPress={() => {
+                  handleCategoriesSelected(item.key);
+                }}
+              />
+            )}
+            contentContainerStyle={styles.categoriesList}
+          />
+        </View>
+
+        <View style={styles.areaListPass}>
+          <PasswordCard
+            label="Facebook"
+            categorie="Aplicativo"
+            date="16 de nov de 2021"
+            time="16:39"
+            color="#AAFFEF"
+            onView={() => console.log('Visualizar')}
+            onEdit={() => console.log('Editar')}
+            passwordForce="Fraca"
+          />
+          {/* <View style={styles.listEmpty}>
+            <Text
+              style={[styles.emptyText, { color: colors.onPrimaryContainer }]}>
+              Nada por aqui 🥺
+            </Text>
+          </View> */}
+        </View>
+      </ScrollView>
+      <FAB
+        style={[styles.fab, { backgroundColor: colors.primary }]}
+        icon="plus"
+        color={colors.onPrimary}
+        onPress={() => console.log('Pressed')}
+      />
     </View>
   );
 };
@@ -128,7 +126,6 @@ export const Home: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
   },
   area: {
     width: '100%',
@@ -138,6 +135,11 @@ const styles = StyleSheet.create({
   areaList: {
     width: '100%',
     marginTop: 20,
+  },
+  areaListPass: {
+    width: '100%',
+    marginTop: 10,
+    marginHorizontal: 30,
   },
   title: {
     fontSize: 16,
@@ -150,5 +152,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingBottom: 5,
     marginLeft: 32,
+    paddingRight: 32,
+  },
+  listEmpty: {
+    height: 500,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontSize: 18,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });

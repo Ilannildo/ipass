@@ -22,13 +22,15 @@ export const CategoriesButton: React.FC<Props> = ({
     <TouchableOpacity
       style={[
         styles.container,
-        { backgroundColor: selected ? colors.primary : colors.secundary20 },
+        {
+          backgroundColor: selected ? colors.primary : colors.primaryContainer,
+        },
       ]}
       {...rest}>
       <Text
         style={[
           styles.title,
-          { color: selected ? colors.secundary : colors.primary },
+          { color: selected ? colors.onPrimary : colors.primary },
         ]}>
         {title}
       </Text>
@@ -38,12 +40,15 @@ export const CategoriesButton: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: 110,
+    width: 120,
     height: 40,
     marginRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 5,
+    borderRadius: 16,
   },
-  title: {},
+  title: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
 });
