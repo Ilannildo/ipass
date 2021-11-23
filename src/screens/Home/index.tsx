@@ -12,17 +12,24 @@ import { FAB } from 'react-native-paper';
 import { CategoriesButton } from './components/CategoriesButton';
 import { Header } from './components/Header';
 import { PasswordCard } from './components/PasswordCard';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../routes/app.route';
+import { useNavigation } from '@react-navigation/core';
 
 interface CategoriesProps {
   key: string;
   title: string;
 }
 
+type newPassScreenProp = NativeStackNavigationProp<RootStackParamList>;
+
 export const Home: React.FC = () => {
   const { colors, schemeColor } = useCustomTheme();
   const [categories, setCategories] = useState<CategoriesProps[]>([]);
   // const {filteredCategories, setFilteredCategories} = useState([]);
   const [categoriesSelected, setCategoriesSelected] = useState<string>('all');
+
+  const navigation = useNavigation<newPassScreenProp>();
 
   function handleCategoriesSelected(categorie: string) {
     setCategoriesSelected(categorie);
@@ -117,7 +124,7 @@ export const Home: React.FC = () => {
         style={[styles.fab, { backgroundColor: colors.primary }]}
         icon="plus"
         color={colors.onPrimary}
-        onPress={() => console.log('Pressed')}
+        onPress={() => navigation.navigate('NewPass')}
       />
     </View>
   );

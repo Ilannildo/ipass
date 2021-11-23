@@ -6,11 +6,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   StatusBar,
-  ToastAndroid,
   Keyboard,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TextInput } from 'react-native-paper';
+import { TextInput, Snackbar } from 'react-native-paper';
 import { useCustomTheme } from '../../contexts/theme';
 import { Button } from '../../components/Button';
 import { useAuth } from '../../contexts/auth';
@@ -22,6 +21,7 @@ export const Authenticate: React.FC = () => {
   const [biometricSuccess, setBiometricSuccess] = useState<boolean>(false);
   const [biometricError, setBiometricError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [visibleSnackBar, setVisibleSnackBar] = useState<boolean>(false);
 
   const { colors, schemeColor } = useCustomTheme();
   const {
@@ -65,8 +65,9 @@ export const Authenticate: React.FC = () => {
       setLoading(true);
       const result = await handleSignInPassword(password);
       if (!result) {
+        // ToastAndroid.show('Senha incorreta', 2000);
+        setVisibleSnackBar(!visibleSnackBar);
         setLoading(false);
-        ToastAndroid.show('Senha incorreta', 2000);
       } else {
         setTimeout(() => {
           setLoading(false);
@@ -81,10 +82,14 @@ export const Authenticate: React.FC = () => {
         backgroundColor={colors.background}
         barStyle={schemeColor === 'dark' ? 'light-content' : 'dark-content'}
       />
+
       <View style={styles.header}>
-        <Image style={styles.logo} source={require('../../assets/icon.png')} />
+        <Image
+          style={styles.logo}
+          source={require('../../assets/logo-app.png')}
+        />
         <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
-          MyAccess Password Manager
+          My Access
         </Text>
         <View style={styles.inputArea}>
           <TextInput
@@ -99,8 +104,18 @@ export const Authenticate: React.FC = () => {
             onBlur={() => setFocused(false)}
             returnKeyType="done"
             onEndEditing={handleSubmit}
-            style={{ backgroundColor: colors.onPrimary }}
+            style={{
+              backgroundColor: colors.background,
+            }}
+            theme={{
+              colors: {
+                text: colors.onPrimaryContainer,
+                placeholder: colors.outline,
+              },
+            }}
             activeOutlineColor={colors.primary}
+            outlineColor={colors.outline}
+            selectionColor={colors.onPrimaryContainer}
             right={
               <TextInput.Icon
                 name={passwordVisble ? 'eye-off' : 'eye'}
@@ -108,6 +123,8 @@ export const Authenticate: React.FC = () => {
                 color={colors.onPrimaryContainer}
               />
             }
+            children={undefined}
+            autoComplete={false}
           />
         </View>
 
@@ -159,6 +176,18 @@ export const Authenticate: React.FC = () => {
           Esqueceu sua senha master?
         </Text>
       </TouchableOpacity>
+      <Snackbar
+        visible={visibleSnackBar}
+        onDismiss={() => setVisibleSnackBar(false)}
+        duration={700}
+        action={{
+          label: 'Fechar',
+          onPress: () => {
+            console.log('Fechou snack');
+          },
+        }}>
+        Senha incorreta
+      </Snackbar>
     </View>
   );
 };
@@ -181,7 +210,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 10,
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: '500',
   },
   inputArea: {
@@ -189,18 +218,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 20,
   },
-  // inputArea: {
-  //   flexDirection: 'row',
-  //   width: '100%',
-  //   marginTop: 40,
-  //   borderWidth: 1,
-  //   borderRadius: 5,
-  //   paddingLeft: 20,
-  //   paddingRight: 20,
-  //   marginBottom: 20,
-  //   justifyContent: 'space-around',
-  //   alignItems: 'center',
-  // },
   input: {
     width: '100%',
     fontSize: 14,

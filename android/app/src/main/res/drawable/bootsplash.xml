@@ -3,6 +3,5 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
     <item android:drawable="@color/md_theme_light_background" />
 
-    <item android:drawable="@mipmap/bootsplash_logo" android:gravity="center" android:width="200dp" android:height="200dp" />
-
+    <item android:width="150dp" android:height="150dp" android:drawable="@mipmap/bootsplash_logo" android:gravity="center" />
 </layer-list>

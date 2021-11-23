@@ -3,11 +3,20 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home } from '../screens/Home';
 // import { Configuration } from '../screens/Configuration';
 import { ConfigurationRoutes } from './configuration.routes';
-import { Search } from '../screens/Search';
+import { NewPassword } from '../screens/NewPassword';
+import { useCustomTheme } from '../contexts/theme';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
+export type RootStackParamList = {
+  Home: undefined;
+  ConfigurationRoutes: undefined;
+  NewPass: undefined;
+};
+
 export const AppRoutes: React.FC = () => {
+  const { colors } = useCustomTheme();
+
   return (
     <Navigator>
       <Screen
@@ -26,11 +35,17 @@ export const AppRoutes: React.FC = () => {
         }}
       />
       <Screen
-        name="Search"
-        component={Search}
+        name="NewPass"
+        component={NewPassword}
         options={{
-          // title: 'Ajustes',
-          animation: 'fade_from_bottom',
+          title: 'Adicionar',
+          headerTitleAlign: 'center',
+          animation: 'slide_from_bottom',
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: colors.background,
+          },
+          headerTintColor: colors.onPrimaryContainer,
         }}
       />
     </Navigator>

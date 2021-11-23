@@ -1,5 +1,5 @@
 export const light = {
-  primary: '#129FDB',
+  primary: '#046FDB',
   onPrimary: '#FFFFFF',
   primaryContainer: '#C5E7FF',
   onPrimaryContainer: '#001E2E',
@@ -31,7 +31,7 @@ export const light = {
 };
 
 export const dark = {
-  primary: '#129FDB',
+  primary: '#3D89D7',
   onPrimary: '#00344C',
   primaryContainer: '#004C6D',
   onPrimaryContainer: '#FFFFFF',
@@ -47,7 +47,7 @@ export const dark = {
   errorContainer: '#930006',
   onError: '#680003',
   onErrorContainer: '#FFDAD4',
-  background: '#121D22',
+  background: '#111922',
   onBackground: '#E1E2E5',
   surface: '#2B3439',
   onSurface: '#E1E2E5',
@@ -56,7 +56,7 @@ export const dark = {
   outline: '#8B9197',
   inverseOnSurface: '#191C1E',
   inverseSurface: '#E1E2E5',
-  primaryInverse: '#00658F',
+  primaryInverse: '#3757A7',
   success: '#73D6B2',
   warning: '#F5DA96',
   backdrop: '#191C1E',

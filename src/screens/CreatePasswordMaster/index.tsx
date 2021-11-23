@@ -6,7 +6,6 @@ import { Alert } from '../../components/Alert';
 import { FloatingLabelInputPassword } from '../../components/FloatingLabelInputPassword';
 import { useAuth } from '../../contexts/auth';
 import { useCustomTheme } from '../../contexts/theme';
-import { theme } from '../../styles/theme';
 
 export const CreatePasswordMaster: React.FC = () => {
   const [password, setPassword] = useState('');
@@ -35,22 +34,6 @@ export const CreatePasswordMaster: React.FC = () => {
     const { biometryType } = await ReactNativeBiometrics.isSensorAvailable();
     if (biometryType === ReactNativeBiometrics.Biometrics) {
       setEnableAlert(true);
-      // Alert.alert(
-      //   'Usar sua digital',
-      //   'Deseja habilitar sua Digital para realizar ações dentro do app?',
-      //   [
-      //     {
-      //       text: 'Habilitar digital',
-      //       onPress: async () => await handleBiometrics(),
-      //       style: 'default',
-      //     },
-      //     {
-      //       text: 'Ainda não',
-      //       onPress: () => handleUserNotBiocmetrics(),
-      //       style: 'cancel',
-      //     },
-      //   ],
-      // );
     }
     setLoading(false);
     setError(false);
@@ -168,25 +151,7 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     marginBottom: 25,
     fontSize: 14,
-  },
-  button: {
-    width: '100%',
-    backgroundColor: theme.colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: theme.colors.secundary,
-    fontWeight: 'bold',
-  },
-  buttonTextForgotPass: {
-    color: theme.colors.title,
-    textAlign: 'right',
-  },
-  textOr: {
-    textAlign: 'center',
-    color: theme.colors.title,
+    opacity: 0.6,
   },
   footer: {
     width: '100%',
