@@ -99,7 +99,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
             ? colors.error
             : isFocused
             ? colors.primary
-            : colors.outline,
+            : colors.onOutline,
           borderBottomWidth: isPassword && isFilled ? 0 : isFocused ? 2 : 1,
         },
       ]}>
@@ -113,7 +113,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
               ? colors.error
               : isFocused || isFilled
               ? colors.primary
-              : colors.outline,
+              : colors.onOutline,
           },
         ]}>
         {label}
@@ -141,7 +141,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
                     ? colors.warning
                     : forcePassword === 'forte'
                     ? colors.success
-                    : colors.outline,
+                    : colors.onOutline,
               },
             ]}
           />
@@ -154,7 +154,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
                     ? colors.warning
                     : forcePassword === 'forte'
                     ? colors.success
-                    : colors.outline,
+                    : colors.onOutline,
               },
             ]}
           />
@@ -163,7 +163,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
               styles.line,
               {
                 backgroundColor:
-                  forcePassword === 'forte' ? colors.success : colors.outline,
+                  forcePassword === 'forte' ? colors.success : colors.onOutline,
               },
             ]}
           />

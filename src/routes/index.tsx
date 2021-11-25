@@ -17,6 +17,7 @@ export const Routes = () => {
 
   if (loading) {
     return <LoadingIndicator />;
+  } else {
+    return logged ? <AppRoutes /> : <AuthRoutes />;
   }
-  return logged ? <AppRoutes /> : <AuthRoutes />;
 };

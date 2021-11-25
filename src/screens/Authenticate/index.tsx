@@ -65,14 +65,12 @@ export const Authenticate: React.FC = () => {
       setLoading(true);
       const result = await handleSignInPassword(password);
       if (!result) {
-        // ToastAndroid.show('Senha incorreta', 2000);
         setVisibleSnackBar(!visibleSnackBar);
         setLoading(false);
       } else {
         setTimeout(() => {
-          setLoading(false);
           handleLoggedUser();
-        }, 1000);
+        }, 500);
       }
     }
   };

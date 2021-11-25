@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/core';
 import React from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useAuth } from '../../../../contexts/auth';
-import { useCustomTheme } from '../../../../contexts/theme';
+import { useAuth } from '../../contexts/auth';
+import { useCustomTheme } from '../../contexts/theme';
 
 export const Header: React.FC = () => {
   const { user } = useAuth();

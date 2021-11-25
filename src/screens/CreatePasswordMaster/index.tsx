@@ -34,6 +34,8 @@ export const CreatePasswordMaster: React.FC = () => {
     const { biometryType } = await ReactNativeBiometrics.isSensorAvailable();
     if (biometryType === ReactNativeBiometrics.Biometrics) {
       setEnableAlert(true);
+    } else {
+      handleLoggedUser();
     }
     setLoading(false);
     setError(false);
@@ -54,7 +56,6 @@ export const CreatePasswordMaster: React.FC = () => {
       setLoading(false);
       await handleUserNotBiocmetrics();
     } else {
-      setLoading(false);
       handleLoggedUser();
     }
   };

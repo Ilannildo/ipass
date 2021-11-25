@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
-import { useCustomTheme } from '../../../../contexts/theme';
+import { useCustomTheme } from '../../contexts/theme';
 
 type Props = TouchableOpacityProps & {
   label: string;

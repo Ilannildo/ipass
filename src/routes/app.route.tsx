@@ -1,7 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home } from '../screens/Home';
-// import { Configuration } from '../screens/Configuration';
 import { ConfigurationRoutes } from './configuration.routes';
 import { NewPassword } from '../screens/NewPassword';
 import { useCustomTheme } from '../contexts/theme';
@@ -16,7 +15,6 @@ export type RootStackParamList = {
 
 export const AppRoutes: React.FC = () => {
   const { colors } = useCustomTheme();
-
   return (
     <Navigator>
       <Screen

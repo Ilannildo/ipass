@@ -4,6 +4,9 @@ import android.os.Bundle; // <- add this necessary import
 import com.facebook.react.ReactActivity;
 import android.content.res.Configuration; // <--- import
 import com.zoontek.rnbootsplash.RNBootSplash;
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
 public class MainActivity extends ReactActivity {
 
@@ -30,5 +33,15 @@ public class MainActivity extends ReactActivity {
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
     getReactInstanceManager().onConfigurationChanged(this, newConfig);
+  }
+
+  @Override
+  protected ReactActivityDelegate createReactActivityDelegate() {
+    return new ReactActivityDelegate(this, getMainComponentName()) {
+      @Override
+      protected ReactRootView createRootView() {
+       return new RNGestureHandlerEnabledRootView(MainActivity.this);
+      }
+    };
   }
 }

@@ -31,6 +31,7 @@ type Props = {
     surfaceVariant: string;
     onSurfaceVariant: string;
     outline: string;
+    onOutline: string;
     inverseOnSurface: string;
     inverseSurface: string;
     primaryInverse: string;

@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableOpacityProps,
-} from 'react-native';
-import { useCustomTheme } from '../../../../contexts/theme';
+import { Text, StyleSheet } from 'react-native';
+import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
+import { useCustomTheme } from '../../contexts/theme';
 
-type Props = TouchableOpacityProps & {
+type Props = RectButtonProps & {
   title: string;
   selected: boolean;
 };
@@ -19,7 +15,7 @@ export const CategoriesButton: React.FC<Props> = ({
 }) => {
   const { colors } = useCustomTheme();
   return (
-    <TouchableOpacity
+    <RectButton
       style={[
         styles.container,
         {
@@ -34,7 +30,7 @@ export const CategoriesButton: React.FC<Props> = ({
         ]}>
         {title}
       </Text>
-    </TouchableOpacity>
+    </RectButton>
   );
 };
 

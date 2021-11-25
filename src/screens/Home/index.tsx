@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import {
   FlatList,
   StatusBar,
@@ -9,12 +9,13 @@ import {
 } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
 import { FAB } from 'react-native-paper';
-import { CategoriesButton } from './components/CategoriesButton';
-import { Header } from './components/Header';
-import { PasswordCard } from './components/PasswordCard';
+import { CategoriesButton } from '../../components/CategoriesButton';
+import { Header } from '../../components/Header';
+import { PasswordCard } from '../../components/PasswordCard';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../routes/app.route';
 import { useNavigation } from '@react-navigation/core';
+import { getAllPasswords } from '../../utils/storage';
 
 interface CategoriesProps {
   key: string;
@@ -61,6 +62,7 @@ export const Home: React.FC = () => {
       ]);
     }
 
+    getAllPasswords();
     fetchCategories();
   }, []);
 
@@ -107,7 +109,57 @@ export const Home: React.FC = () => {
             categorie="Aplicativo"
             date="16 de nov de 2021"
             time="16:39"
-            color="#AAFFEF"
+            color="#DEBDFF"
+            onView={() => console.log('Visualizar')}
+            onEdit={() => console.log('Editar')}
+            passwordForce="Fraca"
+          />
+          <PasswordCard
+            label="Facebook"
+            categorie="Aplicativo"
+            date="16 de nov de 2021"
+            time="16:39"
+            color="#C5FFF4"
+            onView={() => console.log('Visualizar')}
+            onEdit={() => console.log('Editar')}
+            passwordForce="Fraca"
+          />
+          <PasswordCard
+            label="Facebook"
+            categorie="Aplicativo"
+            date="16 de nov de 2021"
+            time="16:39"
+            color="#B9DCFF"
+            onView={() => console.log('Visualizar')}
+            onEdit={() => console.log('Editar')}
+            passwordForce="Fraca"
+          />
+          <PasswordCard
+            label="Facebook"
+            categorie="Aplicativo"
+            date="16 de nov de 2021"
+            time="16:39"
+            color="#FFB4C1"
+            onView={() => console.log('Visualizar')}
+            onEdit={() => console.log('Editar')}
+            passwordForce="Fraca"
+          />
+          <PasswordCard
+            label="Facebook"
+            categorie="Aplicativo"
+            date="16 de nov de 2021"
+            time="16:39"
+            color="#FFD3B4"
+            onView={() => console.log('Visualizar')}
+            onEdit={() => console.log('Editar')}
+            passwordForce="Fraca"
+          />
+          <PasswordCard
+            label="Facebook"
+            categorie="Aplicativo"
+            date="16 de nov de 2021"
+            time="16:39"
+            color="#DEBDFF"
             onView={() => console.log('Visualizar')}
             onEdit={() => console.log('Editar')}
             passwordForce="Fraca"
