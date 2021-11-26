@@ -1,6 +1,6 @@
 import { getRealm } from '../services/realm';
 
-type StorageSchemaType = {
+export type StorageSchemaType = {
   _id?: number;
   categorie: string;
   name: string;
@@ -8,13 +8,14 @@ type StorageSchemaType = {
   password: string;
   date: string;
   time: string;
+  force: string;
   color: string;
 };
 
 export const getAllPasswords = async () => {
   const realm = await getRealm();
   const data = realm.objects<StorageSchemaType>('StorageSchema');
-  console.log('Todos os storages => ', JSON.stringify(data));
+  return data;
 };
 
 export const savePassword = (data: StorageSchemaType): Promise<boolean> => {

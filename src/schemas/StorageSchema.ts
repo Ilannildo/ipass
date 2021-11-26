@@ -14,5 +14,6 @@ export const StorageSchema: ObjectSchema = {
     date: 'string',
     time: 'string',
     color: 'string',
+    force: 'string',
   },
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   StatusBar,
@@ -15,7 +15,10 @@ import { PasswordCard } from '../../components/PasswordCard';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../routes/app.route';
 import { useNavigation } from '@react-navigation/core';
-import { getAllPasswords } from '../../utils/storage';
+import { StorageSchemaType } from '../../utils/storage';
+import { Results } from 'realm';
+import { getRealm } from '../../services/realm';
+import { PasswordCardLoading } from '../../components/ComponentsLoading/PasswordCardLoading';
 
 interface CategoriesProps {
   key: string;
@@ -27,8 +30,10 @@ type newPassScreenProp = NativeStackNavigationProp<RootStackParamList>;
 export const Home: React.FC = () => {
   const { colors, schemeColor } = useCustomTheme();
   const [categories, setCategories] = useState<CategoriesProps[]>([]);
-  // const {filteredCategories, setFilteredCategories} = useState([]);
   const [categoriesSelected, setCategoriesSelected] = useState<string>('all');
+  const [loading, setLoading] = useState(true);
+
+  const [storage, setStorage] = useState<Results<StorageSchemaType>>([] as any);
 
   const navigation = useNavigation<newPassScreenProp>();
 
@@ -44,27 +49,42 @@ export const Home: React.FC = () => {
           title: 'Todos',
         },
         {
-          key: 'used',
-          title: 'Mais usadas',
-        },
-        {
-          key: 'card',
-          title: 'Cartão',
-        },
-        {
-          key: 'social',
-          title: 'Social',
-        },
-        {
           key: 'app',
           title: 'Aplicativos',
         },
+        {
+          key: 'site',
+          title: 'Sites',
+        },
       ]);
     }
-
-    getAllPasswords();
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    async function loadStorage() {
+      setLoading(true);
+      const realm = await getRealm();
+      const data =
+        categoriesSelected === 'all'
+          ? realm.objects<StorageSchemaType>('StorageSchema')
+          : realm
+              .objects<StorageSchemaType>('StorageSchema')
+              .filtered('categorie == $0', categoriesSelected);
+      setStorage(data);
+      data.addListener(() => {
+        setStorage(data);
+        setLoading(false);
+      });
+
+      return () => {
+        data.removeAllListeners();
+        realm.close();
+      };
+    }
+
+    loadStorage();
+  }, [categoriesSelected]);
 
   return (
     <View
@@ -104,73 +124,38 @@ export const Home: React.FC = () => {
         </View>
 
         <View style={styles.areaListPass}>
-          <PasswordCard
-            label="Facebook"
-            categorie="Aplicativo"
-            date="16 de nov de 2021"
-            time="16:39"
-            color="#DEBDFF"
-            onView={() => console.log('Visualizar')}
-            onEdit={() => console.log('Editar')}
-            passwordForce="Fraca"
-          />
-          <PasswordCard
-            label="Facebook"
-            categorie="Aplicativo"
-            date="16 de nov de 2021"
-            time="16:39"
-            color="#C5FFF4"
-            onView={() => console.log('Visualizar')}
-            onEdit={() => console.log('Editar')}
-            passwordForce="Fraca"
-          />
-          <PasswordCard
-            label="Facebook"
-            categorie="Aplicativo"
-            date="16 de nov de 2021"
-            time="16:39"
-            color="#B9DCFF"
-            onView={() => console.log('Visualizar')}
-            onEdit={() => console.log('Editar')}
-            passwordForce="Fraca"
-          />
-          <PasswordCard
-            label="Facebook"
-            categorie="Aplicativo"
-            date="16 de nov de 2021"
-            time="16:39"
-            color="#FFB4C1"
-            onView={() => console.log('Visualizar')}
-            onEdit={() => console.log('Editar')}
-            passwordForce="Fraca"
-          />
-          <PasswordCard
-            label="Facebook"
-            categorie="Aplicativo"
-            date="16 de nov de 2021"
-            time="16:39"
-            color="#FFD3B4"
-            onView={() => console.log('Visualizar')}
-            onEdit={() => console.log('Editar')}
-            passwordForce="Fraca"
-          />
-          <PasswordCard
-            label="Facebook"
-            categorie="Aplicativo"
-            date="16 de nov de 2021"
-            time="16:39"
-            color="#DEBDFF"
-            onView={() => console.log('Visualizar')}
-            onEdit={() => console.log('Editar')}
-            passwordForce="Fraca"
-          />
-          {/* <View style={styles.listEmpty}>
+          {loading ? (
+            <>
+              <PasswordCardLoading />
+              <PasswordCardLoading />
+              <PasswordCardLoading />
+              <PasswordCardLoading />
+              <PasswordCardLoading />
+            </>
+          ) : (
+            storage.map(item => (
+              <PasswordCard
+                key={item._id}
+                categorie={item.categorie}
+                color={item.color}
+                date={item.date}
+                label={item.name}
+                onEdit={() => console.log(`Editar ${item.name}`)}
+                onView={() => console.log(`Visualizar ${item.name}`)}
+                passwordForce={item.force}
+                time={item.time}
+              />
+            ))
+          )}
+        </View>
+        {storage.length === 0 && (
+          <View style={styles.listEmpty}>
             <Text
               style={[styles.emptyText, { color: colors.onPrimaryContainer }]}>
-              Nada por aqui 🥺
+              Não há nada por aqui 🥺
             </Text>
-          </View> */}
-        </View>
+          </View>
+        )}
       </ScrollView>
       <FAB
         style={[styles.fab, { backgroundColor: colors.primary }]}
@@ -199,6 +184,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 10,
     marginHorizontal: 30,
+    marginBottom: 100,
   },
   title: {
     fontSize: 16,

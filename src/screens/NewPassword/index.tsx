@@ -16,6 +16,7 @@ type FormProps = {
   password: string;
   date: string;
   time: string;
+  force: string;
   color: string;
 };
 
@@ -70,6 +71,7 @@ export const NewPassword: React.FC = () => {
     setFormData({
       ...formData,
       password: value,
+      force: 'Forte',
     });
   };
 
@@ -145,6 +147,7 @@ export const NewPassword: React.FC = () => {
           login: '',
           name: '',
           password: '',
+          force: '',
         });
         setLoading(false);
       }, 300);
