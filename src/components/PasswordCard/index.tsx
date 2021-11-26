@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  TouchableOpacity,
   Text,
   StyleSheet,
   TouchableOpacityProps,
@@ -10,6 +9,7 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 import { useCustomTheme } from '../../contexts/theme';
+import { RectButton } from 'react-native-gesture-handler';
 
 type Props = TouchableOpacityProps & {
   label: string;
@@ -34,7 +34,7 @@ export const PasswordCard: React.FC<Props> = ({
 }) => {
   const { colors } = useCustomTheme();
   return (
-    <TouchableOpacity
+    <RectButton
       onPress={onView}
       style={[
         styles.container,
@@ -77,9 +77,9 @@ export const PasswordCard: React.FC<Props> = ({
       </View>
 
       <View style={styles.right}>
-        <TouchableOpacity style={styles.rightEditBtn} onPress={onEdit}>
+        <RectButton style={styles.rightEditBtn} onPress={onEdit}>
           <Feather name="edit" size={20} color={colors.onPrimaryContainer} />
-        </TouchableOpacity>
+        </RectButton>
         <View style={styles.rightFooter}>
           <View style={styles.item}>
             <MaterialIcons
@@ -97,7 +97,7 @@ export const PasswordCard: React.FC<Props> = ({
           </Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </RectButton>
   );
 };
 

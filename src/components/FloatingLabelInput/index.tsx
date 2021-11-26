@@ -7,7 +7,6 @@ import {
   Text,
 } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
-import { theme } from '../../styles/theme';
 
 type Props = TextInputProps & {
   label: string;
@@ -45,7 +44,7 @@ export const FloatingLabelInput: React.FC<Props> = ({ label, ...rest }) => {
       style={[
         styles.container,
         {
-          borderBottomColor: isFocused ? colors.primary : colors.grey,
+          borderBottomColor: isFocused ? colors.primary : colors.onOutline,
           borderBottomWidth: isFocused ? 2 : 1,
         },
       ]}>
@@ -55,7 +54,7 @@ export const FloatingLabelInput: React.FC<Props> = ({ label, ...rest }) => {
           {
             top: isFocused || isFilled ? -8 : +18,
             fontSize: isFocused || isFilled ? 13 : 16,
-            color: isFocused || isFilled ? colors.primary : colors.grey,
+            color: isFocused || isFilled ? colors.primary : colors.onOutline,
           },
         ]}>
         {label}
@@ -64,8 +63,8 @@ export const FloatingLabelInput: React.FC<Props> = ({ label, ...rest }) => {
         {...rest}
         ref={inputRef}
         keyboardAppearance="default"
-        placeholderTextColor={colors.grey}
-        style={styles.labeledInput}
+        placeholderTextColor={colors.onOutline}
+        style={[styles.labeledInput, { color: colors.onPrimaryContainer }]}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChangeText={handleChangeText}
@@ -86,7 +85,7 @@ const styles = StyleSheet.create({
   },
   labeledInput: {
     marginTop: 10,
-    color: theme.colors.black,
+    // color: theme.colors.black,
     fontWeight: '500',
     fontSize: 16,
   },

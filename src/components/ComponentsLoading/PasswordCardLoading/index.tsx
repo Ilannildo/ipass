@@ -1,33 +1,62 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useCustomTheme } from '../../../contexts/theme';
 
 export const PasswordCardLoading: React.FC = () => {
+  const { colors } = useCustomTheme();
   return (
-    <View style={[styles.container, { backgroundColor: '#FFFFFF' }]}>
+    <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <View style={styles.left}>
-        <View style={[styles.leftTop, { backgroundColor: '#EDEDED' }]} />
-        <View style={[styles.title, { backgroundColor: '#EDEDED' }]} />
+        <View
+          style={[styles.leftTop, { backgroundColor: colors.surfaceVariant }]}
+        />
+        <View
+          style={[styles.title, { backgroundColor: colors.surfaceVariant }]}
+        />
         <View style={styles.footer}>
           <View style={[styles.item, { opacity: 0.5 }]}>
             {/* <MaterialIcons name="date-range" size={10} color="#EDEDED" /> */}
-            <View style={[styles.footertext, { backgroundColor: '#EDEDED' }]} />
+            <View
+              style={[
+                styles.footertext,
+                { backgroundColor: colors.surfaceVariant },
+              ]}
+            />
           </View>
           <View style={styles.item}>
             {/* <MaterialIcons name="access-time" size={10} color="#EDEDED" /> */}
-            <View style={[styles.footertext, { backgroundColor: '#EDEDED' }]} />
+            <View
+              style={[
+                styles.footertext,
+                { backgroundColor: colors.surfaceVariant },
+              ]}
+            />
           </View>
         </View>
       </View>
 
       <View style={styles.right}>
-        <View style={[styles.rightEditBtn, { backgroundColor: '#EDEDED' }]} />
+        <View
+          style={[
+            styles.rightEditBtn,
+            { backgroundColor: colors.surfaceVariant },
+          ]}
+        />
         <View style={styles.rightFooter}>
           <View style={[styles.item, { opacity: 0.5 }]}>
             {/* <MaterialIcons name="lock-outline" size={12} color="#EDEDED" /> */}
-            <View style={[styles.footertext, { backgroundColor: '#EDEDED' }]} />
+            <View
+              style={[
+                styles.footertext,
+                { backgroundColor: colors.surfaceVariant },
+              ]}
+            />
           </View>
           <View
-            style={[styles.passwordForce, { backgroundColor: '#EDEDED' }]}
+            style={[
+              styles.passwordForce,
+              { backgroundColor: colors.surfaceVariant },
+            ]}
           />
         </View>
       </View>

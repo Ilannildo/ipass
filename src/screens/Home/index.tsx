@@ -8,17 +8,17 @@ import {
   ScrollView,
 } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
-import { FAB } from 'react-native-paper';
-import { CategoriesButton } from '../../components/CategoriesButton';
-import { Header } from '../../components/Header';
-import { PasswordCard } from '../../components/PasswordCard';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../routes/app.route';
 import { useNavigation } from '@react-navigation/core';
-import { StorageSchemaType } from '../../utils/storage';
+import { FAB } from 'react-native-paper';
 import { Results } from 'realm';
-import { getRealm } from '../../services/realm';
 import { PasswordCardLoading } from '../../components/ComponentsLoading/PasswordCardLoading';
+import { CategoriesButton } from '../../components/CategoriesButton';
+import { PasswordCard } from '../../components/PasswordCard';
+import { RootStackParamList } from '../../routes/app.route';
+import { StorageSchemaType } from '../../utils/storage';
+import { Header } from '../../components/Header';
+import { getRealm } from '../../services/realm';
 
 interface CategoriesProps {
   key: string;

@@ -12,11 +12,13 @@ export const LoadingIndicator: React.FC<Props> = ({ transparent = false }) => {
     <View
       style={[
         styles.container,
-        !transparent && { backgroundColor: colors.secundary },
+        !transparent && { backgroundColor: colors.background },
       ]}>
       <ActivityIndicator color={colors.primary} size="large" />
       {!transparent && (
-        <Text style={[styles.text, { color: colors.black }]}>Carregando</Text>
+        <Text style={[styles.text, { color: colors.onPrimaryContainer }]}>
+          Carregando
+        </Text>
       )}
     </View>
   );
