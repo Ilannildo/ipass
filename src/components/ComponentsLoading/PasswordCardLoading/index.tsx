@@ -5,7 +5,8 @@ import { useCustomTheme } from '../../../contexts/theme';
 export const PasswordCardLoading: React.FC = () => {
   const { colors } = useCustomTheme();
   return (
-    <View style={[styles.container, { backgroundColor: colors.surface }]}>
+    <View
+      style={[styles.container, { backgroundColor: colors.inverseOnSurface }]}>
       <View style={styles.left}>
         <View
           style={[styles.leftTop, { backgroundColor: colors.surfaceVariant }]}
@@ -14,8 +15,7 @@ export const PasswordCardLoading: React.FC = () => {
           style={[styles.title, { backgroundColor: colors.surfaceVariant }]}
         />
         <View style={styles.footer}>
-          <View style={[styles.item, { opacity: 0.5 }]}>
-            {/* <MaterialIcons name="date-range" size={10} color="#EDEDED" /> */}
+          <View style={styles.item}>
             <View
               style={[
                 styles.footertext,
@@ -24,7 +24,6 @@ export const PasswordCardLoading: React.FC = () => {
             />
           </View>
           <View style={styles.item}>
-            {/* <MaterialIcons name="access-time" size={10} color="#EDEDED" /> */}
             <View
               style={[
                 styles.footertext,
@@ -43,8 +42,7 @@ export const PasswordCardLoading: React.FC = () => {
           ]}
         />
         <View style={styles.rightFooter}>
-          <View style={[styles.item, { opacity: 0.5 }]}>
-            {/* <MaterialIcons name="lock-outline" size={12} color="#EDEDED" /> */}
+          <View style={styles.item}>
             <View
               style={[
                 styles.footertext,
@@ -74,6 +72,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginTop: 20,
+    marginLeft: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -108,6 +107,7 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     alignItems: 'center',
+    opacity: 0.5,
   },
   right: {
     justifyContent: 'space-between',

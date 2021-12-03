@@ -157,9 +157,6 @@ export const AuthProvider: React.FC = ({ children }) => {
 
       const { success } = result;
       setIsBiometrics(true);
-      // if (success) {
-      //   setLogged(true);
-      // }
       return success;
     } catch (error) {
       ToastAndroid.show('Biometrics failed', 2000);

@@ -16,7 +16,6 @@ import { useAuth } from '../../contexts/auth';
 
 export const Authenticate: React.FC = () => {
   const [password, setPassword] = useState<string>('');
-  const [focused, setFocused] = useState<boolean>(false);
   const [passwordVisble, setPasswordVisible] = useState<boolean>(false);
   const [biometricSuccess, setBiometricSuccess] = useState<boolean>(false);
   const [biometricError, setBiometricError] = useState<boolean>(false);
@@ -29,6 +28,7 @@ export const Authenticate: React.FC = () => {
     createSignatureBiometrics,
     isBiometrics,
     handleLoggedUser,
+    user,
   } = useAuth();
 
   useEffect(() => {
@@ -87,7 +87,9 @@ export const Authenticate: React.FC = () => {
           source={require('../../assets/logo-app.png')}
         />
         <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
-          My Access
+          {user.givenName
+            ? `Bem vindo de volta ${user.givenName}`
+            : 'Bem vindo de volta ao My Access'}
         </Text>
         <View style={styles.inputArea}>
           <TextInput
@@ -98,8 +100,6 @@ export const Authenticate: React.FC = () => {
             placeholderTextColor={colors.outline}
             secureTextEntry={!passwordVisble}
             value={password}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
             returnKeyType="done"
             onEndEditing={handleSubmit}
             style={{
@@ -177,9 +177,10 @@ export const Authenticate: React.FC = () => {
       <Snackbar
         visible={visibleSnackBar}
         onDismiss={() => setVisibleSnackBar(false)}
-        duration={700}
+        duration={1000}
         action={{
           label: 'Fechar',
+          color: colors.primary,
           onPress: () => {
             console.log('Fechou snack');
           },

@@ -12,6 +12,7 @@ export const ConfigurationRoutes: React.FC = () => {
         component={Configuration}
         options={{
           title: 'Ajustes',
+          headerTitleAlign: 'center',
           headerShadowVisible: false,
         }}
       />

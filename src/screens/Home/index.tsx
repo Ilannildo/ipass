@@ -6,6 +6,7 @@ import {
   Text,
   View,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -140,7 +141,7 @@ export const Home: React.FC = () => {
                 color={item.color}
                 date={item.date}
                 label={item.name}
-                onEdit={() => console.log(`Editar ${item.name}`)}
+                onEdit={() => Alert.alert(`Editar item => ${item.name}`)}
                 onView={() => console.log(`Visualizar ${item.name}`)}
                 passwordForce={item.force}
                 time={item.time}
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
   areaListPass: {
     width: '100%',
     marginTop: 10,
-    marginHorizontal: 30,
+    // marginHorizontal: 30,
     marginBottom: 100,
   },
   title: {

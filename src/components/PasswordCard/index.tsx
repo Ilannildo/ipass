@@ -33,6 +33,7 @@ export const PasswordCard: React.FC<Props> = ({
   onView,
 }) => {
   const { colors } = useCustomTheme();
+
   return (
     <RectButton
       onPress={onView}
@@ -111,6 +112,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginTop: 20,
+    marginLeft: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -160,6 +162,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   passwordForce: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  leftActionsContainer: {
+    flex: 1,
+    // width: '90%',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingRight: 50,
+    paddingVertical: 10,
+    marginTop: 20,
+  },
+  actionText: {
     fontSize: 16,
     fontWeight: '500',
   },
