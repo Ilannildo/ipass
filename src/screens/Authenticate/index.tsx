@@ -88,7 +88,7 @@ export const Authenticate: React.FC = () => {
         />
         <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
           {user.givenName
-            ? `Bem vindo de volta ${user.givenName}`
+            ? `Bem vindo ${user.givenName}`
             : 'Bem vindo de volta ao My Access'}
         </Text>
         <View style={styles.inputArea}>

@@ -21,7 +21,7 @@ type contextData = {
   user: UserStorageType;
   handleSignInPassword: (password: string) => Promise<boolean>;
   handleSignIn: () => Promise<void>;
-  handleSignOut: () => void;
+  handleSignOut: () => Promise<void>;
   handleLoggedUser: () => void;
   handleCreateKeysFingerprint: () => Promise<void>;
   createSignatureBiometrics: () => Promise<boolean>;
