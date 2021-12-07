@@ -17,12 +17,14 @@ export const MenuItem: React.FC<Props> = ({ title, iconName, onPress }) => {
       style={[styles.container, { backgroundColor: colors.background }]}
       onPress={onPress}
       activeOpacity={0.8}>
-      {iconName === 'user' || iconName === 'file-text' ? (
-        <Feather name={iconName} size={30} color={colors.onPrimaryContainer} />
+      {iconName === 'user' ||
+      iconName === 'file-text' ||
+      iconName === 'shield' ? (
+        <Feather name={iconName} size={28} color={colors.onPrimaryContainer} />
       ) : (
         <Ionicons
           name={iconName || 'menu'}
-          size={30}
+          size={28}
           color={colors.onPrimaryContainer}
         />
       )}

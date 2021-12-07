@@ -7,6 +7,8 @@ type Props = {
   toggleThemeDefault: () => void;
   toggleThemeLight: () => void;
   toggleThemeDark: () => void;
+  toggleTheme: (value: ThemeType) => void;
+  theme: ThemeType;
   colors: {
     primary: string;
     onPrimary: string;
@@ -68,6 +70,10 @@ export const CustomThemeProvider: React.FC = ({ children }) => {
     setTheme('dark');
     setSchemeColors('dark');
   };
+
+  const toggleTheme = (value: ThemeType) => {
+    setTheme(value);
+  };
   const toggleThemeLight = () => {
     setTheme('light');
     setSchemeColors('light');
@@ -80,9 +86,11 @@ export const CustomThemeProvider: React.FC = ({ children }) => {
     <CustomThemeContext.Provider
       value={{
         schemeColor: schemeColors,
+        theme,
         toggleThemeDark,
         toggleThemeDefault,
         toggleThemeLight,
+        toggleTheme,
         colors:
           theme === 'default'
             ? scheme === 'dark'

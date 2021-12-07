@@ -4,6 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { CustomThemeProvider } from './contexts/theme';
 import { AuthProvider } from './contexts/auth';
 import { Routes } from './routes';
+import { Provider } from 'react-native-paper';
 
 const App: React.FC = () => {
   return (
@@ -11,7 +12,9 @@ const App: React.FC = () => {
       <NavigationContainer>
         <AuthProvider>
           <CustomThemeProvider>
-            <Routes />
+            <Provider>
+              <Routes />
+            </Provider>
           </CustomThemeProvider>
         </AuthProvider>
       </NavigationContainer>

@@ -1,4 +1,6 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/core';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -7,57 +9,26 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
+import { Dialog, Portal, RadioButton, Button as Bt } from 'react-native-paper';
 import { Button } from '../../components/Button';
 import { MenuItem } from '../../components/MenuItem';
 import { useAuth } from '../../contexts/auth';
 import { useCustomTheme } from '../../contexts/theme';
+import { SettingstStackParamList } from '../../routes/configuration.routes';
 
-const DataMenuConfig = [
-  {
-    key: '1',
-    title: 'Impressão digital',
-    icon: 'md-finger-print-sharp',
-    redirectScreen: 'FingerprintScreen',
-  },
-  {
-    key: '2',
-    title: 'Tema',
-    icon: 'color-palette-outline',
-    redirectScreen: 'ThemeScreen',
-  },
-  {
-    key: '3',
-    title: 'Senha master',
-    icon: 'md-key-outline',
-    redirectScreen: 'EditPasswordMaster',
-  },
-  {
-    key: '4',
-    title: 'Sincronizar/Backup',
-    icon: 'md-sync-outline',
-    redirectScreen: 'BackupScreen',
-  },
-  {
-    key: '5',
-    title: 'Meus dados',
-    icon: 'user',
-    redirectScreen: 'MeScreen',
-  },
-  {
-    key: '6',
-    title: 'Sobre',
-    icon: 'file-text',
-    redirectScreen: 'About',
-  },
-];
+type SettingsScreenProp = NativeStackNavigationProp<SettingstStackParamList>;
+type ThemeType = 'light' | 'dark' | 'default';
 
 export const Configuration: React.FC = () => {
-  const { colors, schemeColor } = useCustomTheme();
-  const { user, handleSignOut } = useAuth();
+  const [themeDialog, setThemeDialog] = useState(false);
+  const { colors, schemeColor, theme, toggleTheme } = useCustomTheme();
+  const [selectTheme, setSelectTheme] = useState<ThemeType>(theme);
+  const { user } = useAuth();
+  const navigation = useNavigation<SettingsScreenProp>();
 
-  const logout = async () => {
-    await handleSignOut();
-  };
+  // const logout = async () => {
+  //   await handleSignOut();
+  // };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -83,14 +54,111 @@ export const Configuration: React.FC = () => {
         </View>
 
         <View style={styles.body}>
-          {DataMenuConfig.map(menu => (
+          <MenuItem
+            title="Segurança"
+            iconName="shield"
+            onPress={() => navigation.navigate('SafetyScreen')}
+          />
+          <MenuItem
+            title="Tema"
+            iconName="color-palette-outline"
+            onPress={() => setThemeDialog(true)}
+          />
+          <Portal>
+            <Dialog
+              style={{ backgroundColor: colors.background }}
+              visible={themeDialog}
+              onDismiss={() => setThemeDialog(false)}>
+              <Dialog.Title style={{ color: colors.onPrimaryContainer }}>
+                Escolha um tema
+              </Dialog.Title>
+              <RadioButton.Group
+                onValueChange={value => setSelectTheme(value)}
+                value={selectTheme}>
+                <RadioButton.Item
+                  label="Automático (sistema)"
+                  value="default"
+                  uncheckedColor={colors.outline}
+                  color={colors.primary}
+                  position="leading"
+                  labelStyle={{
+                    textAlign: 'left',
+                    marginLeft: 20,
+                    color: colors.onPrimaryContainer,
+                  }}
+                />
+                <RadioButton.Item
+                  label="Claro"
+                  value="light"
+                  color={colors.primary}
+                  uncheckedColor={colors.outline}
+                  position="leading"
+                  labelStyle={{
+                    textAlign: 'left',
+                    marginLeft: 20,
+                    color: colors.onPrimaryContainer,
+                  }}
+                />
+                <RadioButton.Item
+                  label="Escuro"
+                  value="dark"
+                  color={colors.primary}
+                  uncheckedColor={colors.outline}
+                  position="leading"
+                  labelStyle={{
+                    textAlign: 'left',
+                    marginLeft: 20,
+                    color: colors.onPrimaryContainer,
+                  }}
+                />
+              </RadioButton.Group>
+              <Dialog.Actions>
+                <Bt
+                  style={{ marginRight: 20 }}
+                  color={colors.primary}
+                  onPress={() => setThemeDialog(false)}>
+                  Cancelar
+                </Bt>
+                <Bt
+                  color={colors.primary}
+                  style={{ marginRight: 15 }}
+                  onPress={() => {
+                    toggleTheme(selectTheme);
+                    setThemeDialog(false);
+                  }}>
+                  Ok
+                </Bt>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
+          <MenuItem
+            title="Senha master"
+            iconName="md-key-outline"
+            onPress={() => console.log('Teste')}
+          />
+          <MenuItem
+            title="Sincronizar/Backup"
+            iconName="md-sync-outline"
+            onPress={() => console.log('Teste')}
+          />
+          <MenuItem
+            title="Meus dados"
+            iconName="user"
+            onPress={() => console.log('Teste')}
+          />
+          <MenuItem
+            title="Sobre"
+            iconName="file-text"
+            onPress={() => console.log('Teste')}
+          />
+          {/* {DataMenuConfig.map(menu => (
             <MenuItem
               key={menu.key}
               title={menu.title}
               iconName={menu.icon}
-              onPress={() => console.log(menu.redirectScreen)}
+              onPress={() => navigation.navigate(menu.redirectScreen)}
             />
-          ))}
+          ))} */}
         </View>
         <View style={styles.footer}>
           <Button label="Sair" filled />

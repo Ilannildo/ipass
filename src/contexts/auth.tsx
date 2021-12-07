@@ -24,6 +24,8 @@ type contextData = {
   handleSignOut: () => Promise<void>;
   handleLoggedUser: () => void;
   handleCreateKeysFingerprint: () => Promise<void>;
+  disableBiometrics: () => void;
+  handleSimpleBiometrics: () => Promise<boolean>;
   createSignatureBiometrics: () => Promise<boolean>;
   deleteKeysBiometrics: () => Promise<void>;
   handleUserNotBiocmetrics: () => Promise<void>;
@@ -164,6 +166,22 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
   }, []);
 
+  const handleSimpleBiometrics = useCallback(async () => {
+    try {
+      const result = await ReactNativeBiometrics.simplePrompt({
+        promptMessage: 'Confirme para continuar',
+        cancelButtonText: 'Cancelar',
+      });
+
+      const { success } = result;
+      // setIsBiometrics(true);
+      return success;
+    } catch (error) {
+      ToastAndroid.show('Biometria falhou', 2000);
+      return false;
+    }
+  }, []);
+
   const deleteKeysBiometrics = useCallback(async () => {
     const resultObject = await ReactNativeBiometrics.deleteKeys();
     if (resultObject.keysDeleted) {
@@ -173,6 +191,10 @@ export const AuthProvider: React.FC = ({ children }) => {
       console.log('Unsuccessful deletion because there were no keys to delete');
     }
   }, []);
+
+  const disableBiometrics = () => {
+    setIsBiometrics(false);
+  };
 
   const handleCreateKeysFingerprint = useCallback(async () => {
     try {
@@ -323,7 +345,9 @@ export const AuthProvider: React.FC = ({ children }) => {
         handleSignIn,
         handleSignOut,
         handleLoggedUser,
+        disableBiometrics,
         createSignatureBiometrics,
+        handleSimpleBiometrics,
         deleteKeysBiometrics,
         handleCreateKeysFingerprint,
         handleUserNotBiocmetrics,
