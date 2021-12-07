@@ -13,6 +13,7 @@ import { TextInput, Snackbar } from 'react-native-paper';
 import { useCustomTheme } from '../../contexts/theme';
 import { Button } from '../../components/Button';
 import { useAuth } from '../../contexts/auth';
+import { useBiometry } from '../../contexts/biometry';
 
 export const Authenticate: React.FC = () => {
   const [password, setPassword] = useState<string>('');
@@ -23,19 +24,14 @@ export const Authenticate: React.FC = () => {
   const [visibleSnackBar, setVisibleSnackBar] = useState<boolean>(false);
 
   const { colors, schemeColor } = useCustomTheme();
-  const {
-    handleSignInPassword,
-    createSignatureBiometrics,
-    isBiometrics,
-    handleLoggedUser,
-    user,
-  } = useAuth();
+  const { handleSignInPassword, handleLoggedUser, user } = useAuth();
+  const { isBiometrics, handleSimpleBiometrics } = useBiometry();
 
   useEffect(() => {
     const handleBiometrics = async () => {
       setBiometricError(false);
       setBiometricSuccess(false);
-      const result = await createSignatureBiometrics();
+      const result = await handleSimpleBiometrics();
       if (!result) {
         setBiometricError(true);
       } else {
@@ -49,7 +45,7 @@ export const Authenticate: React.FC = () => {
     if (isBiometrics) {
       handleBiometrics();
     }
-  }, [createSignatureBiometrics, isBiometrics, handleLoggedUser]);
+  }, [handleSimpleBiometrics, isBiometrics, handleLoggedUser]);
 
   const changePassword = (value: string) => {
     setPassword(value);

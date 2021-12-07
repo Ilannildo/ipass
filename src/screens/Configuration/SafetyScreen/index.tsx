@@ -1,36 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useCustomTheme } from '../../../contexts/theme';
 import { Switch } from 'react-native-paper';
 import { useAuth } from '../../../contexts/auth';
 import ReactNativeBiometrics from 'react-native-biometrics';
+import { useBiometry } from '../../../contexts/biometry';
 
 export const SafetyScreen: React.FC = () => {
   const { colors } = useCustomTheme();
   const {
     isBiometrics,
     handleSimpleBiometrics,
-    createSignatureBiometrics,
-    handleCreateKeysFingerprint,
-    deleteKeysBiometrics,
-  } = useAuth();
+    enableBiometrics,
+    disableBiometrics,
+    isAvaliableBiometrics,
+  } = useBiometry();
 
   const onChange = async (value: boolean) => {
     if (value) {
-      console.log('Habilitar impressão');
-      const { keysExist } = await ReactNativeBiometrics.biometricKeysExist();
-      if (!keysExist) {
-        await handleCreateKeysFingerprint();
+      const result = await handleSimpleBiometrics();
+      if (result) {
+        await enableBiometrics();
       }
-      const result = await createSignatureBiometrics();
-      if (!result) {
-        await deleteKeysBiometrics();
-      }
-      console.log('Biometria =>', result);
     } else {
       const result = await handleSimpleBiometrics();
       if (result) {
-        await deleteKeysBiometrics();
+        await disableBiometrics();
       }
     }
   };
@@ -48,12 +43,14 @@ export const SafetyScreen: React.FC = () => {
         </View>
         <Switch
           value={isBiometrics}
+          disabled={!isAvaliableBiometrics}
           onValueChange={value => onChange(value)}
           children={undefined}
           color={colors.primary}
-          thumbColor={isBiometrics ? colors.primary : colors.background}
+          thumbColor={isBiometrics ? colors.primary : '#FBFCFF'}
           trackColor={{
             false: '#AFAFAF',
+            true: colors.primaryInverse,
           }}
         />
       </View>

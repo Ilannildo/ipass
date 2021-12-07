@@ -1,12 +1,5 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ToastAndroid } from 'react-native';
-import ReactNativeBiometrics from 'react-native-biometrics';
 import { GoogleSignin, statusCodes, User } from 'react-native-google-signin';
 import { api } from '../services/api';
 import { getRealm } from '../services/realm';
@@ -15,7 +8,7 @@ type contextData = {
   signed: boolean;
   logged: boolean;
   authenticated: boolean;
-  isBiometrics: boolean;
+  // isBiometrics: boolean;
   loading: boolean;
   loadingSignIn: boolean;
   user: UserStorageType;
@@ -23,12 +16,12 @@ type contextData = {
   handleSignIn: () => Promise<void>;
   handleSignOut: () => Promise<void>;
   handleLoggedUser: () => void;
-  handleCreateKeysFingerprint: () => Promise<void>;
-  disableBiometrics: () => void;
-  handleSimpleBiometrics: () => Promise<boolean>;
-  createSignatureBiometrics: () => Promise<boolean>;
-  deleteKeysBiometrics: () => Promise<void>;
-  handleUserNotBiocmetrics: () => Promise<void>;
+  // handleCreateKeysFingerprint: () => Promise<void>;
+  // disableBiometrics: () => void;
+  // handleSimpleBiometrics: () => Promise<boolean>;
+  // createSignatureBiometrics: () => Promise<boolean>;
+  // deleteKeysBiometrics: () => Promise<void>;
+  handleUserNotBiometrics: () => void;
   savePasswordStorage: (uid: string, passwordMaster: string) => Promise<void>;
 };
 
@@ -86,9 +79,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   // Quando o usuário estiver logado, mas ainda não usou digital nem senha
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
-  // Quando o usuário não utiliza a biometria
-  const [isBiometrics, setIsBiometrics] = useState<boolean>(false);
-
   // Informações do usuário do google
   const [googleUser, setGoogleUser] = useState<User>({} as User);
 
@@ -111,8 +101,8 @@ export const AuthProvider: React.FC = ({ children }) => {
     return false;
   };
 
-  const handleUserNotBiocmetrics = async () => {
-    await deleteKeysBiometrics();
+  const handleUserNotBiometrics = () => {
+    // await deleteKeysBiometrics();
     setLogged(true);
   };
 
@@ -146,65 +136,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   const handleLoggedUser = () => {
     setLogged(true);
   };
-
-  const createSignatureBiometrics = useCallback(async () => {
-    let epochTimeSeconds = Math.round(new Date().getTime() / 1000).toString();
-    let payload = epochTimeSeconds + 'my access app';
-    try {
-      const result = await ReactNativeBiometrics.createSignature({
-        promptMessage: 'Confirme para continuar',
-        cancelButtonText: 'Usar senha',
-        payload: payload,
-      });
-
-      const { success } = result;
-      setIsBiometrics(true);
-      return success;
-    } catch (error) {
-      ToastAndroid.show('Biometrics failed', 2000);
-      return false;
-    }
-  }, []);
-
-  const handleSimpleBiometrics = useCallback(async () => {
-    try {
-      const result = await ReactNativeBiometrics.simplePrompt({
-        promptMessage: 'Confirme para continuar',
-        cancelButtonText: 'Cancelar',
-      });
-
-      const { success } = result;
-      // setIsBiometrics(true);
-      return success;
-    } catch (error) {
-      ToastAndroid.show('Biometria falhou', 2000);
-      return false;
-    }
-  }, []);
-
-  const deleteKeysBiometrics = useCallback(async () => {
-    const resultObject = await ReactNativeBiometrics.deleteKeys();
-    if (resultObject.keysDeleted) {
-      console.log('Successful deletion');
-      setIsBiometrics(false);
-    } else {
-      console.log('Unsuccessful deletion because there were no keys to delete');
-    }
-  }, []);
-
-  const disableBiometrics = () => {
-    setIsBiometrics(false);
-  };
-
-  const handleCreateKeysFingerprint = useCallback(async () => {
-    try {
-      const resultObject = await ReactNativeBiometrics.createKeys();
-      setIsBiometrics(true);
-      console.log('Public Key => ', resultObject.publicKey);
-    } catch (error) {
-      console.log('Error => ', error);
-    }
-  }, []);
 
   const handleSignIn = async () => {
     setLoadingSignIn(true);
@@ -264,7 +195,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
       // Deleta os dados do dispositivo
       await removeStorage();
-      await deleteKeysBiometrics();
+      // await deleteKeysBiometrics();
 
       // Remove do estado
       setGoogleUser({} as User); // Remember to remove the user from your app's state as well
@@ -278,13 +209,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   };
 
   useEffect(() => {
-    const getKeysBiometrics = async () => {
-      const { keysExist } = await ReactNativeBiometrics.biometricKeysExist();
-      if (keysExist) {
-        setIsBiometrics(true);
-      }
-    };
-
     const getPasswordStorage = async () => {
       const realm = await getRealm();
       const data = realm.objects<AuthSchemaType>('AuthSchema');
@@ -312,7 +236,6 @@ export const AuthProvider: React.FC = ({ children }) => {
           Authorization: `bearer ${data[0].accessToken}`,
         };
         await getPasswordStorage();
-        await getKeysBiometrics();
         setSigned(true);
       }
       setLoading(false);
@@ -337,7 +260,6 @@ export const AuthProvider: React.FC = ({ children }) => {
         signed, // Quando o usuário está cadastrado e logado, mas não não possui senha gravada
         logged, // Quando o usuário está logado e com senha cadastrada
         authenticated, // Quando o usuário estiver logado, mas ainda não usou digital nem senha
-        isBiometrics,
         user: userSigned,
         loading,
         loadingSignIn,
@@ -345,12 +267,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         handleSignIn,
         handleSignOut,
         handleLoggedUser,
-        disableBiometrics,
-        createSignatureBiometrics,
-        handleSimpleBiometrics,
-        deleteKeysBiometrics,
-        handleCreateKeysFingerprint,
-        handleUserNotBiocmetrics,
+        handleUserNotBiometrics,
         savePasswordStorage,
       }}>
       {children}

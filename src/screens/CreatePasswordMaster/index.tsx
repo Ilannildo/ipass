@@ -6,6 +6,7 @@ import { Alert } from '../../components/Alert';
 import { FloatingLabelInputPassword } from '../../components/FloatingLabelInputPassword';
 import { useAuth } from '../../contexts/auth';
 import { useCustomTheme } from '../../contexts/theme';
+import { useBiometry } from '../../contexts/biometry';
 
 export const CreatePasswordMaster: React.FC = () => {
   const [password, setPassword] = useState('');
@@ -18,11 +19,16 @@ export const CreatePasswordMaster: React.FC = () => {
   const {
     user,
     savePasswordStorage,
-    handleCreateKeysFingerprint,
-    createSignatureBiometrics,
-    handleUserNotBiocmetrics,
+    handleUserNotBiometrics,
     handleLoggedUser,
   } = useAuth();
+
+  const {
+    // handleCreateKeysFingerprint,
+    handleSimpleBiometrics,
+    enableBiometrics,
+    isAvaliableBiometrics,
+  } = useBiometry();
 
   const { colors, schemeColor } = useCustomTheme();
 
@@ -31,8 +37,11 @@ export const CreatePasswordMaster: React.FC = () => {
     setDisableButton(true);
 
     await savePasswordStorage(user.uid, password);
-    const { biometryType } = await ReactNativeBiometrics.isSensorAvailable();
-    if (biometryType === ReactNativeBiometrics.Biometrics) {
+    if (isAvaliableBiometrics) {
+      // const { keysExist } = await ReactNativeBiometrics.biometricKeysExist();
+      // if (!keysExist) {
+      //   await handleCreateKeysFingerprint();
+      // }
       setEnableAlert(true);
     } else {
       handleLoggedUser();
@@ -45,24 +54,21 @@ export const CreatePasswordMaster: React.FC = () => {
   const handleBiometrics = async () => {
     setLoading(true);
     setEnableAlert(false);
-    const { keysExist } = await ReactNativeBiometrics.biometricKeysExist();
-    if (!keysExist) {
-      await handleCreateKeysFingerprint();
-    }
+    const result = await handleSimpleBiometrics();
 
-    const result = await createSignatureBiometrics();
     if (!result) {
       console.log('Biometrics cancelled, ativo nas configs');
       setLoading(false);
-      await handleUserNotBiocmetrics();
+      handleUserNotBiometrics();
     } else {
+      await enableBiometrics();
       handleLoggedUser();
     }
   };
   const handleNotBiometrics = async () => {
     setLoading(false);
     setEnableAlert(false);
-    await handleUserNotBiocmetrics();
+    handleUserNotBiometrics();
   };
 
   const handleTextPass = (text: string) => {
