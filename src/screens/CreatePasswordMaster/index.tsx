@@ -38,10 +38,6 @@ export const CreatePasswordMaster: React.FC = () => {
 
     await savePasswordStorage(user.uid, password);
     if (isAvaliableBiometrics) {
-      // const { keysExist } = await ReactNativeBiometrics.biometricKeysExist();
-      // if (!keysExist) {
-      //   await handleCreateKeysFingerprint();
-      // }
       setEnableAlert(true);
     } else {
       handleLoggedUser();

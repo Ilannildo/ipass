@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { TextInput, Title } from 'react-native-paper';
 import { CategoriesButton } from '../../components/CategoriesButton';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
@@ -8,6 +8,7 @@ import { Button } from '../../components/Button';
 import { ColorButton } from '../../components/ColorButton';
 import { savePassword } from '../../utils/storage';
 import { useNavigation } from '@react-navigation/core';
+import { passwordForce } from '../../utils/roles';
 
 type FormProps = {
   categorie: string;
@@ -68,10 +69,12 @@ export const NewPassword: React.FC = () => {
   };
 
   const handleChangePassword = (value: string) => {
+    const force = passwordForce(value);
     setFormData({
       ...formData,
       password: value,
-      force: 'Forte',
+      force:
+        force < 30 ? 'Fraca' : force >= 30 && force < 60 ? 'Média' : 'Forte',
     });
   };
 
@@ -139,11 +142,12 @@ export const NewPassword: React.FC = () => {
             value: '#FFD3B4',
           },
         ]);
+        const date = new Date();
         setFormData({
           categorie: 'app',
           color: '#DEBDFF',
-          date: '11 de nov de 2021',
-          time: '19:25',
+          date: date.toString(),
+          time: date.getTime().toString(),
           login: '',
           name: '',
           password: '',
@@ -217,6 +221,8 @@ export const NewPassword: React.FC = () => {
             placeholder="Digite seu login"
             onChangeText={handleChangeLogin}
             placeholderTextColor={colors.outline}
+            autoCapitalize="none"
+            autoCorrect={false}
             returnKeyType="next"
             style={{
               backgroundColor: colors.background,
@@ -268,6 +274,24 @@ export const NewPassword: React.FC = () => {
             children={undefined}
             autoComplete={false}
           />
+          <Text
+            style={[
+              styles.passwordForce,
+              { color: colors.onPrimaryContainer },
+            ]}>
+            {'Força da sua senha: '}
+            <Text
+              style={{
+                color:
+                  formData.force === 'Fraca'
+                    ? colors.error
+                    : formData.force === 'Média'
+                    ? colors.warning
+                    : colors.success,
+              }}>
+              {formData.force}
+            </Text>
+          </Text>
         </View>
 
         <View style={styles.selectColor}>
@@ -347,5 +371,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 30,
     paddingRight: 30,
+  },
+  passwordForce: {
+    fontSize: 14,
+    marginTop: 10,
+    marginBottom: 10,
   },
 });

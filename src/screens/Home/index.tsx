@@ -20,6 +20,7 @@ import { RootStackParamList } from '../../routes/app.route';
 import { StorageSchemaType } from '../../utils/storage';
 import { Header } from '../../components/Header';
 import { getRealm } from '../../services/realm';
+import { maskDate, maskTime } from '../../utils/masks';
 
 interface CategoriesProps {
   key: string;
@@ -139,12 +140,12 @@ export const Home: React.FC = () => {
                 key={item._id}
                 categorie={item.categorie}
                 color={item.color}
-                date={item.date}
+                date={maskDate(item.date)}
                 label={item.name}
                 onEdit={() => Alert.alert(`Editar item => ${item.name}`)}
                 onView={() => console.log(`Visualizar ${item.name}`)}
                 passwordForce={item.force}
-                time={item.time}
+                time={maskTime(item.time)}
               />
             ))
           )}
