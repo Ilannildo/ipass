@@ -151,14 +151,6 @@ export const Configuration: React.FC = () => {
             iconName="file-text"
             onPress={() => console.log('Teste')}
           />
-          {/* {DataMenuConfig.map(menu => (
-            <MenuItem
-              key={menu.key}
-              title={menu.title}
-              iconName={menu.icon}
-              onPress={() => navigation.navigate(menu.redirectScreen)}
-            />
-          ))} */}
         </View>
         <View style={styles.footer}>
           <Button label="Sair" filled />

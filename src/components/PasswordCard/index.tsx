@@ -7,7 +7,7 @@ import {
   ColorValue,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Feather from 'react-native-vector-icons/Feather';
+// import Feather from 'react-native-vector-icons/Feather';
 import { useCustomTheme } from '../../contexts/theme';
 import { RectButton } from 'react-native-gesture-handler';
 
@@ -78,9 +78,9 @@ export const PasswordCard: React.FC<Props> = ({
       </View>
 
       <View style={styles.right}>
-        <RectButton style={styles.rightEditBtn} onPress={onEdit}>
+        {/* <RectButton style={styles.rightEditBtn} onPress={onEdit}>
           <Feather name="edit" size={20} color={colors.onPrimaryContainer} />
-        </RectButton>
+        </RectButton> */}
         <View style={styles.rightFooter}>
           <View style={styles.item}>
             <MaterialIcons
@@ -93,7 +93,11 @@ export const PasswordCard: React.FC<Props> = ({
               Nível da senha
             </Text>
           </View>
-          <Text style={[styles.passwordForce, { color: colors.error }]}>
+          <Text
+            style={[
+              styles.passwordForce,
+              { color: colors.onPrimaryContainer },
+            ]}>
             {passwordForce ? passwordForce : 'FORÇA'}
           </Text>
         </View>
@@ -105,14 +109,16 @@ export const PasswordCard: React.FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    maxWidth: 350,
+    maxWidth: 370,
     height: 100,
     maxHeight: 150,
-    borderRadius: 16,
+    borderRadius: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginTop: 20,
-    marginLeft: 30,
+    // opacity: 0.5,
+    // marginLeft: 30,
+    // marginHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

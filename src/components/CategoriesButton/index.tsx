@@ -41,10 +41,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 16,
+    borderRadius: 35,
   },
   title: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '500',
   },
 });

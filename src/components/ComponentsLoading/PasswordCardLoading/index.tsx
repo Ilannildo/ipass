@@ -68,14 +68,15 @@ export const PasswordCardLoading: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    maxWidth: 350,
+    maxWidth: 370,
     height: 100,
     maxHeight: 150,
-    borderRadius: 16,
+    borderRadius: 25,
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginTop: 20,
-    marginLeft: 30,
+    // marginLeft: 30,
+    // marginHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

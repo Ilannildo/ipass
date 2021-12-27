@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   area: {
     width: '100%',
-    paddingHorizontal: 30,
+    paddingHorizontal: 10,
     marginTop: 20,
   },
   areaList: {
@@ -185,20 +185,21 @@ const styles = StyleSheet.create({
   areaListPass: {
     width: '100%',
     marginTop: 10,
-    // marginHorizontal: 30,
+    alignItems: 'center',
     marginBottom: 100,
   },
   title: {
     fontSize: 16,
     fontWeight: '500',
     marginBottom: 10,
-    marginLeft: 30,
+    marginLeft: 25,
   },
   categoriesList: {
-    height: 40,
+    height: 60,
     justifyContent: 'center',
+    alignItems: 'center',
     paddingBottom: 5,
-    marginLeft: 32,
+    marginLeft: 25,
     paddingRight: 32,
   },
   listEmpty: {

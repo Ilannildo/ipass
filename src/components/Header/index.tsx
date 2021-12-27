@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
 const styles = StyleSheet.create({
   header: {
     width: '100%',
-    paddingHorizontal: 30,
+    paddingHorizontal: 25,
     marginTop: 30,
     alignItems: 'center',
     flexDirection: 'row',
