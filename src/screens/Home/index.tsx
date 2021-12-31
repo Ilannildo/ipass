@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   FlatList,
   StatusBar,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation, useFocusEffect } from '@react-navigation/core';
 import { FAB } from 'react-native-paper';
 import { Results } from 'realm';
 import { PasswordCardLoading } from '../../components/ComponentsLoading/PasswordCardLoading';
@@ -63,30 +63,57 @@ export const Home: React.FC = () => {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    async function loadStorage() {
+  useFocusEffect(
+    useCallback(() => {
       setLoading(true);
-      const realm = await getRealm();
-      const data =
-        categoriesSelected === 'all'
-          ? realm.objects<StorageSchemaType>('StorageSchema')
-          : realm
-              .objects<StorageSchemaType>('StorageSchema')
-              .filtered('categorie == $0', categoriesSelected);
-      setStorage(data);
-      data.addListener(() => {
+      async function loadStorage() {
+        const realm = await getRealm();
+        const data =
+          categoriesSelected === 'all'
+            ? realm.objects<StorageSchemaType>('StorageSchema')
+            : realm
+                .objects<StorageSchemaType>('StorageSchema')
+                .filtered('categorie == $0', categoriesSelected);
         setStorage(data);
-        setLoading(false);
-      });
+        data.addListener(() => {
+          setStorage(data);
+          setLoading(false);
+        });
 
-      return () => {
-        data.removeAllListeners();
-        realm.close();
-      };
-    }
+        return () => {
+          data.removeAllListeners();
+          realm.close();
+        };
+      }
 
-    loadStorage();
-  }, [categoriesSelected]);
+      loadStorage();
+    }, [categoriesSelected]),
+  );
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   async function loadStorage() {
+  //     const realm = await getRealm();
+  //     const data =
+  //       categoriesSelected === 'all'
+  //         ? realm.objects<StorageSchemaType>('StorageSchema')
+  //         : realm
+  //             .objects<StorageSchemaType>('StorageSchema')
+  //             .filtered('categorie == $0', categoriesSelected);
+  //     setStorage(data);
+  //     data.addListener(() => {
+  //       setStorage(data);
+  //       setLoading(false);
+  //     });
+
+  //     return () => {
+  //       data.removeAllListeners();
+  //       realm.close();
+  //     };
+  //   }
+
+  //   loadStorage();
+  // }, [categoriesSelected]);
 
   return (
     <View
