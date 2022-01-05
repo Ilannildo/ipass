@@ -11,9 +11,10 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TextInput, Snackbar } from 'react-native-paper';
 import { useCustomTheme } from '../../contexts/theme';
-import { Button } from '../../components/Button';
+// import { Button } from '../../components/Button';
 import { useAuth } from '../../contexts/auth';
 import { useBiometry } from '../../contexts/biometry';
+import { Button } from '../../components/design/Button';
 
 export const Authenticate: React.FC = () => {
   const [password, setPassword] = useState<string>('');
@@ -82,7 +83,7 @@ export const Authenticate: React.FC = () => {
           style={styles.logo}
           source={require('../../assets/logo-app.png')}
         />
-        <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
+        <Text style={[styles.title, { color: colors.onSurface }]}>
           {user.givenName
             ? `Bem vindo ${user.givenName}`
             : 'Bem vindo de volta ao My Access'}
@@ -103,18 +104,18 @@ export const Authenticate: React.FC = () => {
             }}
             theme={{
               colors: {
-                text: colors.onPrimaryContainer,
+                text: colors.onSurface,
                 placeholder: colors.outline,
               },
             }}
             activeOutlineColor={colors.primary}
             outlineColor={colors.outline}
-            selectionColor={colors.onPrimaryContainer}
+            selectionColor={colors.onSurface}
             right={
               <TextInput.Icon
                 name={passwordVisble ? 'eye-off' : 'eye'}
                 onPress={togglePasswordVisible}
-                color={colors.onPrimaryContainer}
+                color={colors.outline}
               />
             }
             children={undefined}
@@ -122,13 +123,13 @@ export const Authenticate: React.FC = () => {
           />
         </View>
 
-        <Button
+        {/* <Button
           label="Debloquear"
           filled
           onPress={handleSubmit}
           disabled={password === ''}
           loading={loading}
-        />
+        /> */}
 
         {isBiometrics && (
           <View style={styles.info}>
@@ -164,12 +165,19 @@ export const Authenticate: React.FC = () => {
           </View>
         )}
       </View>
+      <View style={styles.btnArea}>
+        <Button
+          label="Entrar"
+          enabled={password !== ''}
+          onPress={handleSubmit}
+        />
 
-      <TouchableOpacity>
-        <Text style={[styles.textInfo, { color: colors.primary }]}>
-          Esqueceu sua senha master?
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={[styles.textInfo, { color: colors.primary }]}>
+            Esqueceu sua senha master?
+          </Text>
+        </TouchableOpacity>
+      </View>
       <Snackbar
         visible={visibleSnackBar}
         onDismiss={() => setVisibleSnackBar(false)}
@@ -191,13 +199,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
   },
   header: {
     width: '100%',
     alignItems: 'center',
     marginBottom: 20,
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
   },
   logo: {
     width: 150,
@@ -218,14 +226,20 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   info: {
-    marginTop: 60,
+    marginTop: 40,
     alignItems: 'center',
   },
   textInfo: {
     fontSize: 14,
     fontWeight: '500',
+    marginTop: 16,
   },
   icon: {
     marginBottom: 5,
+  },
+  btnArea: {
+    width: '100%',
+    paddingHorizontal: 24,
+    alignItems: 'center',
   },
 });

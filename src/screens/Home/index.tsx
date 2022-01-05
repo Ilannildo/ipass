@@ -9,18 +9,18 @@ import {
   Alert,
 } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
+import { PasswordCardLoading } from '../../components/ComponentsLoading/PasswordCardLoading';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation, useFocusEffect } from '@react-navigation/core';
-import { FAB } from 'react-native-paper';
-import { Results } from 'realm';
-import { PasswordCardLoading } from '../../components/ComponentsLoading/PasswordCardLoading';
-import { CategoriesButton } from '../../components/CategoriesButton';
-import { PasswordCard } from '../../components/PasswordCard';
 import { RootStackParamList } from '../../routes/app.route';
 import { StorageSchemaType } from '../../utils/storage';
+import { maskDate, maskTime } from '../../utils/masks';
+import { Ship } from '../../components/design/Ship';
+import { Card } from '../../components/design/Card';
+import { Fab } from '../../components/design/Fab';
 import { Header } from '../../components/Header';
 import { getRealm } from '../../services/realm';
-import { maskDate, maskTime } from '../../utils/masks';
+import { Results } from 'realm';
 
 interface CategoriesProps {
   key: string;
@@ -57,6 +57,14 @@ export const Home: React.FC = () => {
         {
           key: 'site',
           title: 'Sites',
+        },
+        {
+          key: 'label',
+          title: 'Label',
+        },
+        {
+          key: 'teste',
+          title: 'Teste',
         },
       ]);
     }
@@ -125,11 +133,10 @@ export const Home: React.FC = () => {
       ]}>
       <ScrollView>
         <StatusBar
-          backgroundColor={colors.inverseOnSurface}
+          backgroundColor={colors.background}
           barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
         />
         <Header />
-        <View style={styles.area} />
         <View style={styles.areaList}>
           <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
             Categorias
@@ -139,10 +146,12 @@ export const Home: React.FC = () => {
             keyExtractor={item => String(item.key)}
             horizontal
             showsHorizontalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View style={{ width: 16 }} />}
             renderItem={({ item }) => (
-              <CategoriesButton
-                title={item.title}
+              <Ship
+                label={item.title}
                 selected={item.key === categoriesSelected}
+                icon
                 onPress={() => {
                   handleCategoriesSelected(item.key);
                 }}
@@ -163,7 +172,7 @@ export const Home: React.FC = () => {
             </>
           ) : (
             storage.map(item => (
-              <PasswordCard
+              <Card
                 key={item._id}
                 categorie={item.categorie}
                 color={item.color}
@@ -186,12 +195,7 @@ export const Home: React.FC = () => {
           </View>
         )}
       </ScrollView>
-      <FAB
-        style={[styles.fab, { backgroundColor: colors.primary }]}
-        icon="plus"
-        color={colors.onPrimary}
-        onPress={() => navigation.navigate('NewPass')}
-      />
+      <Fab onPress={() => navigation.navigate('NewPass')} />
     </View>
   );
 };
@@ -210,24 +214,25 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   areaListPass: {
-    width: '100%',
+    // width: '100%',
     marginTop: 10,
-    alignItems: 'center',
     marginBottom: 100,
+    paddingHorizontal: 24,
   },
   title: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500',
-    marginBottom: 10,
-    marginLeft: 25,
+    lineHeight: 20,
+    marginBottom: 16,
+    marginLeft: 24,
   },
   categoriesList: {
-    height: 60,
+    // height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 5,
-    marginLeft: 25,
-    paddingRight: 32,
+    paddingBottom: 24,
+    marginLeft: 24,
+    paddingRight: 36,
   },
   listEmpty: {
     height: 500,

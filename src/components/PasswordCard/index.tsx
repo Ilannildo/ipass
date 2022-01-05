@@ -5,11 +5,12 @@ import {
   StyleSheet,
   TouchableOpacityProps,
   ColorValue,
+  Animated,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import Feather from 'react-native-vector-icons/Feather';
 import { useCustomTheme } from '../../contexts/theme';
-import { RectButton } from 'react-native-gesture-handler';
+import { RectButton, Swipeable } from 'react-native-gesture-handler';
 
 type Props = TouchableOpacityProps & {
   label: string;
@@ -34,75 +35,100 @@ export const PasswordCard: React.FC<Props> = ({
 }) => {
   const { colors } = useCustomTheme();
 
-  return (
-    <RectButton
-      onPress={onView}
-      style={[
-        styles.container,
-        { backgroundColor: color ? color : colors.tertiaryContainer },
-      ]}>
-      <View style={styles.left}>
-        <View style={[styles.leftTop, { borderColor: colors.outline }]}>
-          <Text
-            style={[styles.leftTopText, { color: colors.onPrimaryContainer }]}>
-            {categorie ? categorie : 'Categoria'}
-          </Text>
-        </View>
-        <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
-          {label ? label : 'Título'}
-        </Text>
-        <View style={styles.footer}>
-          <View style={styles.item}>
-            <MaterialIcons
-              name="date-range"
-              size={10}
-              color={colors.onPrimaryContainer}
-            />
-            <Text
-              style={[styles.footertext, { color: colors.onPrimaryContainer }]}>
-              {date ? date : '01 de jan de 2021'}
-            </Text>
-          </View>
-          <View style={styles.item}>
-            <MaterialIcons
-              name="access-time"
-              size={10}
-              color={colors.onPrimaryContainer}
-            />
-            <Text
-              style={[styles.footertext, { color: colors.onPrimaryContainer }]}>
-              {time ? time : '00:00'}
-            </Text>
-          </View>
-        </View>
+  const left = (
+    progress: Animated.AnimatedInterpolation,
+    dragX: Animated.AnimatedInterpolation,
+  ) => {
+    return (
+      <View style={{ flex: 1, backgroundColor: color }}>
+        <Text>Editar</Text>
       </View>
+    );
+  };
 
-      <View style={styles.right}>
-        {/* <RectButton style={styles.rightEditBtn} onPress={onEdit}>
-          <Feather name="edit" size={20} color={colors.onPrimaryContainer} />
-        </RectButton> */}
-        <View style={styles.rightFooter}>
-          <View style={styles.item}>
-            <MaterialIcons
-              name="lock-outline"
-              size={12}
-              color={colors.onPrimaryContainer}
-            />
-            <Text
-              style={[styles.footertext, { color: colors.onPrimaryContainer }]}>
-              Nível da senha
+  return (
+    <>
+      <Swipeable renderLeftActions={left}>
+        <RectButton
+          onPress={onView}
+          style={[
+            styles.container,
+            { backgroundColor: color ? color : colors.tertiaryContainer },
+          ]}>
+          <View style={styles.left}>
+            <View style={[styles.leftTop, { borderColor: colors.outline }]}>
+              <Text
+                style={[
+                  styles.leftTopText,
+                  { color: colors.onPrimaryContainer },
+                ]}>
+                {categorie ? categorie : 'Categoria'}
+              </Text>
+            </View>
+            <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
+              {label ? label : 'Título'}
             </Text>
+            <View style={styles.footer}>
+              <View style={styles.item}>
+                <MaterialIcons
+                  name="date-range"
+                  size={10}
+                  color={colors.onPrimaryContainer}
+                />
+                <Text
+                  style={[
+                    styles.footertext,
+                    { color: colors.onPrimaryContainer },
+                  ]}>
+                  {date ? date : '01 de jan de 2021'}
+                </Text>
+              </View>
+              <View style={styles.item}>
+                <MaterialIcons
+                  name="access-time"
+                  size={10}
+                  color={colors.onPrimaryContainer}
+                />
+                <Text
+                  style={[
+                    styles.footertext,
+                    { color: colors.onPrimaryContainer },
+                  ]}>
+                  {time ? time : '00:00'}
+                </Text>
+              </View>
+            </View>
           </View>
-          <Text
-            style={[
-              styles.passwordForce,
-              { color: colors.onPrimaryContainer },
-            ]}>
-            {passwordForce ? passwordForce : 'FORÇA'}
-          </Text>
-        </View>
-      </View>
-    </RectButton>
+
+          <View style={styles.right}>
+            <View style={styles.rightFooter}>
+              <View style={styles.item}>
+                <MaterialIcons
+                  name="lock-outline"
+                  size={12}
+                  color={colors.onPrimaryContainer}
+                />
+                <Text
+                  style={[
+                    styles.footertext,
+                    { color: colors.onPrimaryContainer },
+                  ]}>
+                  Nível da senha
+                </Text>
+              </View>
+              <Text
+                style={[
+                  styles.passwordForce,
+                  { color: colors.onPrimaryContainer },
+                ]}>
+                {passwordForce ? passwordForce : 'FORÇA'}
+              </Text>
+            </View>
+          </View>
+        </RectButton>
+      </Swipeable>
+      <View style={{ marginBottom: 20 }} />
+    </>
   );
 };
 
@@ -115,10 +141,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    marginTop: 20,
-    // opacity: 0.5,
-    // marginLeft: 30,
     // marginHorizontal: 20,
+    // marginTop: 20,
+    // opacity: 0.5,
+    alignSelf: 'center',
+    // marginHorizontal: 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

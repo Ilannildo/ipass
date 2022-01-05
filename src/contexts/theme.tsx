@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ColorSchemeName, useColorScheme } from 'react-native';
-import { dark, light } from '../styles/colorSchemas';
+// import { dark, light } from '../styles/colorSchemas';
+import { dark, light } from '../styles/schemaColors';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 type Props = {
   schemeColor: ColorSchemeName;
@@ -9,6 +11,38 @@ type Props = {
   toggleThemeDark: () => void;
   toggleTheme: (value: ThemeType) => void;
   theme: ThemeType;
+  // colors: {
+  //   primary: string;
+  //   onPrimary: string;
+  //   primaryContainer: string;
+  //   onPrimaryContainer: string;
+  //   secondary: string;
+  //   onSecondary: string;
+  //   secondaryContainer: string;
+  //   onSecondaryContainer: string;
+  //   tertiary: string;
+  //   onTertiary: string;
+  //   tertiaryContainer: string;
+  //   onTertiaryContainer: string;
+  //   error: string;
+  //   errorContainer: string;
+  //   onError: string;
+  //   onErrorContainer: string;
+  //   background: string;
+  //   onBackground: string;
+  //   surface: string;
+  //   onSurface: string;
+  //   surfaceVariant: string;
+  //   onSurfaceVariant: string;
+  //   outline: string;
+  //   onOutline: string;
+  //   inverseOnSurface: string;
+  //   inverseSurface: string;
+  //   primaryInverse: string;
+  //   success: string;
+  //   warning: string;
+  //   backdrop: string;
+  // };
   colors: {
     primary: string;
     onPrimary: string;
@@ -33,7 +67,6 @@ type Props = {
     surfaceVariant: string;
     onSurfaceVariant: string;
     outline: string;
-    onOutline: string;
     inverseOnSurface: string;
     inverseSurface: string;
     primaryInverse: string;
@@ -56,13 +89,17 @@ export const CustomThemeProvider: React.FC = ({ children }) => {
     if (theme === 'default') {
       if (scheme === 'dark') {
         setSchemeColors('dark');
+        changeNavigationBarColor(dark.background, false, true);
       } else {
         setSchemeColors('light');
+        changeNavigationBarColor(light.background, true, true);
       }
     } else if (theme === 'light') {
       setSchemeColors('light');
+      changeNavigationBarColor(light.background, true, true);
     } else if (theme === 'dark') {
       setSchemeColors('dark');
+      changeNavigationBarColor(dark.background, false, true);
     }
   }, [scheme, theme]);
 

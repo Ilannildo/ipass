@@ -8,6 +8,7 @@
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="android:statusBarColor">@color/md_theme_dark_background</item>
         <item name="android:textColor">@color/md_theme_dark_onPrimaryContainer</item>
+        <item name="android:navigationBarColor">@color/md_theme_dark_background</item>
 
         <!-- Customizando alert -->
         <item name="android:alertDialogTheme">@style/AlertDialogStyle</item>
