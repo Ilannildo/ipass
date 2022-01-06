@@ -28,6 +28,11 @@ export const light = {
   success: '#15BB7F',
   warning: '#EFC250',
   backdrop: '#191C1E',
+  color1: '#74F8E5',
+  color2: '#CBE5FF',
+  color3: '#FFD9DF',
+  color4: '#FFDCC2',
+  color5: '#F0DAFF',
 };
 
 export const dark = {
@@ -60,4 +65,9 @@ export const dark = {
   success: '#73D6B2',
   warning: '#F5DA96',
   backdrop: '#191C1E',
+  color1: '#005047',
+  color2: '#004A75',
+  color3: '#7C293F',
+  color4: '#703800',
+  color5: '#5A3384',
 };

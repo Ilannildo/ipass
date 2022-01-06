@@ -99,7 +99,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
             ? colors.error
             : isFocused
             ? colors.primary
-            : colors.onOutline,
+            : colors.outline,
           borderBottomWidth: isPassword && isFilled ? 0 : isFocused ? 2 : 1,
         },
       ]}>
@@ -107,13 +107,13 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
         style={[
           styles.placeholderLabel,
           {
-            top: isFocused || isFilled ? -8 : +18,
+            top: isFocused || isFilled ? -8 : +25,
             fontSize: isFocused || isFilled ? 13 : 16,
             color: error
               ? colors.error
               : isFocused || isFilled
               ? colors.primary
-              : colors.onOutline,
+              : colors.outline,
           },
         ]}>
         {label}
@@ -123,7 +123,8 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
         ref={inputRef}
         keyboardAppearance="default"
         placeholderTextColor={colors.outline}
-        style={[styles.labeledInput, { color: colors.onPrimaryContainer }]}
+        style={[styles.labeledInput, { color: colors.onSurface }]}
+        selectionColor={colors.primary}
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChangeText={handleChangeText}
@@ -141,7 +142,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
                     ? colors.warning
                     : forcePassword === 'forte'
                     ? colors.success
-                    : colors.onOutline,
+                    : colors.outline,
               },
             ]}
           />
@@ -154,7 +155,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
                     ? colors.warning
                     : forcePassword === 'forte'
                     ? colors.success
-                    : colors.onOutline,
+                    : colors.outline,
               },
             ]}
           />
@@ -163,7 +164,7 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
               styles.line,
               {
                 backgroundColor:
-                  forcePassword === 'forte' ? colors.success : colors.onOutline,
+                  forcePassword === 'forte' ? colors.success : colors.outline,
               },
             ]}
           />
@@ -176,8 +177,8 @@ export const FloatingLabelInputPassword: React.FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 50,
-    marginTop: 25,
+    height: 56,
+    marginTop: 32,
   },
   placeholderLabel: {
     position: 'absolute',
@@ -188,6 +189,8 @@ const styles = StyleSheet.create({
     // color: theme.colors.black,
     fontWeight: '500',
     fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: 0.5,
   },
   line: {
     width: '32%',

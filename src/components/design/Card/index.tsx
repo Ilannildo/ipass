@@ -1,15 +1,14 @@
 import React from 'react';
-import { ColorValue, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useCustomTheme } from '../../../contexts/theme';
-import { hexToRgbA } from '../../../utils/roles';
 import { styles } from './styles';
 
 type Props = RectButtonProps & {
   label: string;
   categorie: string;
-  color: ColorValue;
+  color: number;
   date: string;
   time: string;
   passwordForce: string;
@@ -25,12 +24,26 @@ export const Card: React.FC<Props> = ({
   ...rest
 }) => {
   const { colors } = useCustomTheme();
-  const rgba = hexToRgbA(color.toString());
+  // const rgba = hexToRgbA(color.toString());
   return (
     <>
       <RectButton
         {...rest}
-        style={[styles.container, { backgroundColor: rgba }]}>
+        style={[
+          styles.container,
+          {
+            backgroundColor:
+              color === 1
+                ? colors.color1
+                : color === 2
+                ? colors.color1
+                : color === 3
+                ? colors.color3
+                : color === 4
+                ? colors.color4
+                : colors.color5,
+          },
+        ]}>
         <View>
           <Text style={[styles.title, { color: colors.onSurface }]}>
             {label}

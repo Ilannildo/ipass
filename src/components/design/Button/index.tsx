@@ -8,7 +8,7 @@ type Props = RectButtonProps & {
   label: string;
 };
 
-export const Button: React.FC<Props> = ({ label, enabled, ...rest }) => {
+export const Button: React.FC<Props> = ({ label, enabled = true, ...rest }) => {
   const { colors } = useCustomTheme();
   return (
     <RectButton
@@ -18,6 +18,7 @@ export const Button: React.FC<Props> = ({ label, enabled, ...rest }) => {
           backgroundColor: enabled ? colors.primary : 'rgba(27, 27, 31, 0.12)',
         },
       ]}
+      rippleColor={colors.onPrimary}
       enabled={enabled}
       {...rest}>
       <Text

@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { TextInput, Title } from 'react-native-paper';
-import { CategoriesButton } from '../../components/CategoriesButton';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useCustomTheme } from '../../contexts/theme';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/design/Button';
 import { ColorButton } from '../../components/ColorButton';
 import { savePassword } from '../../utils/storage';
 import { useNavigation } from '@react-navigation/core';
 import { passwordForce } from '../../utils/roles';
+import { Ship } from '../../components/design/Ship';
 
 type FormProps = {
   categorie: string;
   name: string;
+  description: string;
   login: string;
   password: string;
   date: string;
   time: string;
   force: string;
-  color: string;
+  color: number;
 };
 
 type CategoriesProps = {
@@ -26,7 +27,7 @@ type CategoriesProps = {
   title: string;
 };
 type ColorsProps = {
-  key: string;
+  key: number;
   value: string;
 };
 
@@ -37,7 +38,7 @@ export const NewPassword: React.FC = () => {
   const [categoriesName, setCategoriesName] = useState<string>('Aplicativo');
 
   const [selectionColors, setSelectionColors] = useState<ColorsProps[]>([]);
-  const [colorSelect, setColorSelect] = useState<string>('1');
+  const [colorSelect, setColorSelect] = useState<number>(1);
 
   const [passwordVisble, setPasswordVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -67,6 +68,12 @@ export const NewPassword: React.FC = () => {
       login: text,
     });
   };
+  const handleChangeDescription = (text: string) => {
+    setFormData({
+      ...formData,
+      description: text,
+    });
+  };
 
   const handleChangePassword = (value: string) => {
     const force = passwordForce(value);
@@ -94,7 +101,7 @@ export const NewPassword: React.FC = () => {
   const handleSelectColors = (color: ColorsProps) => {
     setFormData({
       ...formData,
-      color: color.value,
+      color: color.key,
     });
     setColorSelect(color.key);
   };
@@ -122,33 +129,34 @@ export const NewPassword: React.FC = () => {
         ]);
         setSelectionColors([
           {
-            key: '1',
-            value: '#DEBDFF',
+            key: 1,
+            value: colors.color1,
           },
           {
-            key: '2',
-            value: '#C5FFF4',
+            key: 2,
+            value: colors.color2,
           },
           {
-            key: '3',
-            value: '#B9DCFF',
+            key: 3,
+            value: colors.color3,
           },
           {
-            key: '4',
-            value: '#FFB4C1',
+            key: 4,
+            value: colors.color4,
           },
           {
-            key: '5',
-            value: '#FFD3B4',
+            key: 5,
+            value: colors.color5,
           },
         ]);
         const date = new Date();
         setFormData({
           categorie: 'app',
-          color: '#DEBDFF',
+          color: 2,
           date: date.toString(),
           time: date.getTime().toString(),
           login: '',
+          description: '',
           name: '',
           password: '',
           force: '',
@@ -158,7 +166,7 @@ export const NewPassword: React.FC = () => {
     };
 
     load();
-  }, []);
+  }, [colors]);
 
   if (loading) {
     return (
@@ -171,7 +179,7 @@ export const NewPassword: React.FC = () => {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.areaList}>
-        <Title style={[styles.title, { color: colors.onPrimaryContainer }]}>
+        <Title style={[styles.title, { color: colors.onSurface }]}>
           Selecione uma categoria
         </Title>
         <FlatList
@@ -179,11 +187,13 @@ export const NewPassword: React.FC = () => {
           keyExtractor={item => String(item.key)}
           horizontal
           showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={{ width: 16 }} />}
           renderItem={({ item }) => (
-            <CategoriesButton
-              title={item.title}
+            <Ship
+              label={item.title}
               selected={item.key === categoriesSelected}
               onPress={() => handleSelectCategories(item)}
+              icon
             />
           )}
           contentContainerStyle={styles.categoriesList}
@@ -193,7 +203,7 @@ export const NewPassword: React.FC = () => {
           <TextInput
             label={`Nome do ${categoriesName}`}
             value={formData.name}
-            mode="flat"
+            mode="outlined"
             placeholder={`Digite o nome do ${categoriesName}`}
             onChangeText={handleChangeName}
             returnKeyType="next"
@@ -202,13 +212,41 @@ export const NewPassword: React.FC = () => {
             }}
             theme={{
               colors: {
-                text: colors.onPrimaryContainer,
-                placeholder: colors.onOutline,
+                text: colors.onSurface,
+                placeholder: colors.outline,
+                primary: colors.primary,
               },
             }}
-            underlineColor={colors.onOutline}
+            underlineColor={colors.outline}
             activeUnderlineColor={colors.primary}
-            selectionColor={colors.onPrimaryContainer}
+            selectionColor={colors.primary}
+            children={undefined}
+            autoComplete={false}
+          />
+        </View>
+        <View style={styles.inputArea}>
+          <TextInput
+            label="Descrição"
+            mode="outlined"
+            value={formData.description}
+            placeholder="Faça uma breve descrição... ✍️"
+            onChangeText={handleChangeDescription}
+            placeholderTextColor={colors.outline}
+            autoCorrect={false}
+            returnKeyType="next"
+            style={{
+              backgroundColor: colors.background,
+            }}
+            theme={{
+              colors: {
+                text: colors.onSurface,
+                placeholder: colors.outline,
+                primary: colors.primary,
+              },
+            }}
+            underlineColor={colors.outline}
+            activeUnderlineColor={colors.primary}
+            selectionColor={colors.primary}
             children={undefined}
             autoComplete={false}
           />
@@ -216,7 +254,7 @@ export const NewPassword: React.FC = () => {
         <View style={styles.inputArea}>
           <TextInput
             label="Seu login"
-            mode="flat"
+            mode="outlined"
             value={formData.login}
             placeholder="Digite seu login"
             onChangeText={handleChangeLogin}
@@ -229,13 +267,14 @@ export const NewPassword: React.FC = () => {
             }}
             theme={{
               colors: {
-                text: colors.onPrimaryContainer,
-                placeholder: colors.onOutline,
+                text: colors.onSurface,
+                placeholder: colors.outline,
+                primary: colors.primary,
               },
             }}
-            underlineColor={colors.onOutline}
+            underlineColor={colors.outline}
             activeUnderlineColor={colors.primary}
-            selectionColor={colors.onPrimaryContainer}
+            selectionColor={colors.primary}
             children={undefined}
             autoComplete={false}
           />
@@ -243,7 +282,7 @@ export const NewPassword: React.FC = () => {
         <View style={styles.inputArea}>
           <TextInput
             label={'Sua senha'}
-            mode="flat"
+            mode="outlined"
             placeholder="Digite sua senha master"
             onChangeText={handleChangePassword}
             placeholderTextColor={colors.outline}
@@ -257,10 +296,11 @@ export const NewPassword: React.FC = () => {
             theme={{
               colors: {
                 text: colors.onPrimaryContainer,
-                placeholder: colors.onOutline,
+                placeholder: colors.outline,
+                primary: colors.primary,
               },
             }}
-            underlineColor={colors.onOutline}
+            underlineColor={colors.outline}
             activeUnderlineColor={colors.primary}
             selectionColor={colors.onPrimaryContainer}
             right={
@@ -311,12 +351,7 @@ export const NewPassword: React.FC = () => {
         </View>
 
         <View style={styles.btnArea}>
-          <Button
-            label="Salvar"
-            onPress={handleSave}
-            filled
-            loading={loading}
-          />
+          <Button label="Salvar" onPress={handleSave} />
         </View>
       </View>
     </View>
@@ -329,10 +364,12 @@ const styles = StyleSheet.create({
   },
   areaList: {
     width: '100%',
-    marginTop: 40,
+    marginTop: 30,
   },
   title: {
-    marginBottom: 10,
+    fontSize: 16,
+    fontWeight: '500',
+    marginBottom: 16,
     marginLeft: 30,
   },
   categoriesList: {

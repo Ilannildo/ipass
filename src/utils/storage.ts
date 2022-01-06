@@ -5,17 +5,30 @@ export type StorageSchemaType = {
   categorie: string;
   name: string;
   login: string;
+  description: string;
   password: string;
   date: string;
   time: string;
   force: string;
-  color: string;
+  color: number;
 };
 
 export const getAllPasswords = async () => {
   const realm = await getRealm();
   const data = realm.objects<StorageSchemaType>('StorageSchema');
   return data;
+};
+
+export const clearStoragePassword = async () => {
+  const realm = await getRealm();
+  try {
+    realm.write(() => {
+      realm.delete(realm.objects('StorageSchema'));
+      // realm.objects("Cat")
+    });
+  } catch (error) {
+    console.log('Error ao deletar storage password', error);
+  }
 };
 
 export const savePassword = (data: StorageSchemaType): Promise<boolean> => {

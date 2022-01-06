@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   StatusBar,
@@ -11,7 +11,7 @@ import {
 import { useCustomTheme } from '../../contexts/theme';
 import { PasswordCardLoading } from '../../components/ComponentsLoading/PasswordCardLoading';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation, useFocusEffect } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 import { RootStackParamList } from '../../routes/app.route';
 import { StorageSchemaType } from '../../utils/storage';
 import { maskDate, maskTime } from '../../utils/masks';
@@ -19,8 +19,8 @@ import { Ship } from '../../components/design/Ship';
 import { Card } from '../../components/design/Card';
 import { Fab } from '../../components/design/Fab';
 import { Header } from '../../components/Header';
-import { getRealm } from '../../services/realm';
 import { Results } from 'realm';
+import { getRealm } from '../../services/realm';
 
 interface CategoriesProps {
   key: string;
@@ -71,57 +71,60 @@ export const Home: React.FC = () => {
     fetchCategories();
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
+  useEffect(() => {
+    const getStorage = async () => {
       setLoading(true);
-      async function loadStorage() {
-        const realm = await getRealm();
-        const data =
-          categoriesSelected === 'all'
-            ? realm.objects<StorageSchemaType>('StorageSchema')
-            : realm
-                .objects<StorageSchemaType>('StorageSchema')
-                .filtered('categorie == $0', categoriesSelected);
-        setStorage(data);
+      const realm = await getRealm();
+      const data =
+        categoriesSelected === 'all'
+          ? realm.objects<StorageSchemaType>('StorageSchema')
+          : realm
+              .objects<StorageSchemaType>('StorageSchema')
+              .filtered('categorie == $0', categoriesSelected);
+      setStorage(data);
+      try {
         data.addListener(() => {
           setStorage(data);
-          setLoading(false);
         });
-
-        return () => {
-          data.removeAllListeners();
-          realm.close();
-        };
+      } catch (error) {
+        console.log('Erro ao buscar storage');
       }
+      setLoading(false);
+      return () => {
+        data.removeAllListeners();
+        realm.close();
+      };
+    };
+    // clearStoragePassword();
+    getStorage();
+  }, [categoriesSelected]);
 
-      loadStorage();
-    }, [categoriesSelected]),
-  );
-
-  // useEffect(() => {
-  //   setLoading(true);
-  //   async function loadStorage() {
-  //     const realm = await getRealm();
-  //     const data =
-  //       categoriesSelected === 'all'
-  //         ? realm.objects<StorageSchemaType>('StorageSchema')
-  //         : realm
-  //             .objects<StorageSchemaType>('StorageSchema')
-  //             .filtered('categorie == $0', categoriesSelected);
-  //     setStorage(data);
-  //     data.addListener(() => {
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     setLoading(true);
+  //     async function loadStorage() {
+  //       const realm = await getRealm();
+  //       const data =
+  //         categoriesSelected === 'all'
+  //           ? realm.objects<StorageSchemaType>('StorageSchema')
+  //           : realm
+  //               .objects<StorageSchemaType>('StorageSchema')
+  //               .filtered('categorie == $0', categoriesSelected);
   //       setStorage(data);
-  //       setLoading(false);
-  //     });
+  //       data.addListener(() => {
+  //         setStorage(data);
+  //         setLoading(false);
+  //       });
 
-  //     return () => {
-  //       data.removeAllListeners();
-  //       realm.close();
-  //     };
-  //   }
+  //       return () => {
+  //         data.removeAllListeners();
+  //         realm.close();
+  //       };
+  //     }
 
-  //   loadStorage();
-  // }, [categoriesSelected]);
+  //     loadStorage();
+  //   }, [categoriesSelected]),
+  // );
 
   return (
     <View
