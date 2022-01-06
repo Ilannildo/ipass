@@ -10,17 +10,17 @@ import { BiometryProvider } from './contexts/biometry';
 const App: React.FC = () => {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <AuthProvider>
-          <BiometryProvider>
-            <CustomThemeProvider>
+      <CustomThemeProvider>
+        <NavigationContainer>
+          <AuthProvider>
+            <BiometryProvider>
               <Provider>
                 <Routes />
               </Provider>
-            </CustomThemeProvider>
-          </BiometryProvider>
-        </AuthProvider>
-      </NavigationContainer>
+            </BiometryProvider>
+          </AuthProvider>
+        </NavigationContainer>
+      </CustomThemeProvider>
     </SafeAreaProvider>
   );
 };

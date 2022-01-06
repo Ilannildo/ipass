@@ -122,8 +122,8 @@ export const Configuration: React.FC = () => {
                 <Bt
                   color={colors.primary}
                   style={{ marginRight: 15 }}
-                  onPress={() => {
-                    toggleTheme(selectTheme);
+                  onPress={async () => {
+                    await toggleTheme(selectTheme);
                     setThemeDialog(false);
                   }}>
                   Ok

@@ -8,13 +8,18 @@ import {
   StatusBar,
   Keyboard,
 } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TextInput, Snackbar } from 'react-native-paper';
 import { useCustomTheme } from '../../contexts/theme';
 // import { Button } from '../../components/Button';
 import { useAuth } from '../../contexts/auth';
 import { useBiometry } from '../../contexts/biometry';
 import { Button } from '../../components/design/Button';
+import LottieView from 'lottie-react-native';
+
+const FingerLight = require('../../lottie/finger-light.json');
+const FingerErrorLight = require('../../lottie/finger-error-light.json');
+const FingerSuccessLight = require('../../lottie/finger-success-light.json');
 
 export const Authenticate: React.FC = () => {
   const [password, setPassword] = useState<string>('');
@@ -39,7 +44,7 @@ export const Authenticate: React.FC = () => {
         setBiometricSuccess(true);
         setTimeout(() => {
           handleLoggedUser();
-        }, 500);
+        }, 1700);
       }
     };
 
@@ -123,28 +128,105 @@ export const Authenticate: React.FC = () => {
           />
         </View>
 
-        {/* <Button
-          label="Debloquear"
-          filled
-          onPress={handleSubmit}
-          disabled={password === ''}
-          loading={loading}
-        /> */}
-
         {isBiometrics && (
           <View style={styles.info}>
-            <MaterialCommunityIcons
-              name={biometricError ? 'fingerprint-off' : 'fingerprint'}
-              size={24}
-              style={styles.icon}
-              color={
-                biometricError
-                  ? colors.error
-                  : biometricSuccess
-                  ? colors.success
-                  : colors.onPrimaryContainer
-              }
-            />
+            {biometricError ? (
+              <LottieView
+                source={FingerErrorLight}
+                autoPlay
+                // loop
+                colorFilters={[
+                  {
+                    keypath: 'Layer 4',
+                    color: colors.error,
+                  },
+                  {
+                    keypath: 'Layer 3',
+                    color: colors.error,
+                  },
+                  {
+                    keypath: 'red',
+                    color: colors.error,
+                  },
+                  {
+                    keypath: 'gray',
+                    color: colors.secondaryContainer,
+                  },
+                ]}
+                style={styles.anim}
+              />
+            ) : biometricSuccess ? (
+              <LottieView
+                source={FingerSuccessLight}
+                autoPlay
+                // loop
+                colorFilters={[
+                  {
+                    keypath: 'Layer 3',
+                    color: colors.success,
+                  },
+                  {
+                    keypath: 'red',
+                    color: colors.success,
+                  },
+                  {
+                    keypath: 'gray',
+                    color: colors.secondaryContainer,
+                  },
+                ]}
+                style={styles.anim}
+              />
+            ) : (
+              <LottieView
+                source={FingerLight}
+                autoPlay
+                // loop
+                colorFilters={[
+                  {
+                    keypath: 'Shape Layer 11',
+                    color: colors.primary,
+                  },
+                  {
+                    keypath: 'Shape Layer 10',
+                    color: colors.primary,
+                  },
+                  {
+                    keypath: 'Shape Layer 8',
+                    color: colors.primary,
+                  },
+                  {
+                    keypath: 'Shape Layer 7',
+                    color: colors.primary,
+                  },
+                  {
+                    keypath: 'Shape Layer 13',
+                    color: colors.primary,
+                  },
+                  {
+                    keypath: 'Shape Layer 14',
+                    color: colors.secondaryContainer,
+                  },
+                  {
+                    keypath: 'Shape Layer 6',
+                    color: colors.secondaryContainer,
+                  },
+                  {
+                    keypath: 'Shape Layer 5',
+                    color: colors.secondaryContainer,
+                  },
+                  {
+                    keypath: 'Shape Layer 3',
+                    color: colors.secondaryContainer,
+                  },
+                  {
+                    keypath: 'Shape Layer 2',
+                    color: colors.secondaryContainer,
+                  },
+                ]}
+                style={styles.anim}
+              />
+            )}
+
             <Text
               style={[
                 styles.textInfo,
@@ -157,7 +239,7 @@ export const Authenticate: React.FC = () => {
                 },
               ]}>
               {biometricError
-                ? 'Impressão digital cancelada pelo usuário'
+                ? 'Impressão digital cancelada'
                 : biometricSuccess
                 ? 'Impressão digital reconhecida'
                 : 'Sensor de impressão digital'}
@@ -241,5 +323,10 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 24,
     alignItems: 'center',
+  },
+  anim: {
+    marginBottom: 10,
+    width: 50,
+    height: 50,
   },
 });
