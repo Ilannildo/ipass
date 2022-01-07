@@ -152,7 +152,7 @@ export const NewPassword: React.FC = () => {
         const date = new Date();
         setFormData({
           categorie: 'app',
-          color: 2,
+          color: 1,
           date: date.toString(),
           time: date.getTime().toString(),
           login: '',

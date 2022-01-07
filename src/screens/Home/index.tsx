@@ -21,6 +21,7 @@ import { Fab } from '../../components/design/Fab';
 import { Header } from '../../components/Header';
 import { Results } from 'realm';
 import { getRealm } from '../../services/realm';
+import LottieView from 'lottie-react-native';
 
 interface CategoriesProps {
   key: string;
@@ -36,12 +37,28 @@ export const Home: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   const [storage, setStorage] = useState<Results<StorageSchemaType>>([] as any);
+  const [storageFiltered, setStorageFiltered] = useState<
+    Results<StorageSchemaType>
+  >([] as any);
 
   const navigation = useNavigation<newPassScreenProp>();
 
   function handleCategoriesSelected(categorie: string) {
     setCategoriesSelected(categorie);
+    if (categorie === 'all') {
+      return setStorageFiltered(storage);
+    }
+    const filtered = storage.filtered('categorie == $0', categorie);
+    setStorageFiltered(filtered);
   }
+
+  // useEffect(() => {
+  //   if (categoriesSelected === 'all') {
+  //     return setStorageFiltered(storage);
+  //   }
+  //   const filtered = storage.filtered('categorie == $0', categoriesSelected);
+  //   setStorageFiltered(filtered);
+  // }, [storage, categoriesSelected]);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -75,15 +92,12 @@ export const Home: React.FC = () => {
     const getStorage = async () => {
       setLoading(true);
       const realm = await getRealm();
-      const data =
-        categoriesSelected === 'all'
-          ? realm.objects<StorageSchemaType>('StorageSchema')
-          : realm
-              .objects<StorageSchemaType>('StorageSchema')
-              .filtered('categorie == $0', categoriesSelected);
+      const data = realm.objects<StorageSchemaType>('StorageSchema');
+      setStorageFiltered(data);
       setStorage(data);
       try {
         data.addListener(() => {
+          setStorageFiltered(data);
           setStorage(data);
         });
       } catch (error) {
@@ -97,7 +111,8 @@ export const Home: React.FC = () => {
     };
     // clearStoragePassword();
     getStorage();
-  }, [categoriesSelected]);
+    setCategoriesSelected('all');
+  }, []);
 
   // useFocusEffect(
   //   useCallback(() => {
@@ -164,32 +179,34 @@ export const Home: React.FC = () => {
           />
         </View>
 
-        <View style={styles.areaListPass}>
-          {loading ? (
-            <>
-              <PasswordCardLoading />
-              <PasswordCardLoading />
-              <PasswordCardLoading />
-              <PasswordCardLoading />
-              <PasswordCardLoading />
-            </>
-          ) : (
-            storage.map(item => (
+        {loading ? (
+          <View style={styles.listEmpty}>
+            <LottieView
+              // source={require('../../lottie/loading.json')}
+              source={require('../../lottie/loader.json')}
+              autoPlay
+              style={styles.anim}
+            />
+          </View>
+        ) : (
+          <View style={styles.areaListPass}>
+            {storageFiltered.map(item => (
               <Card
                 key={item._id}
                 categorie={item.categorie}
                 color={item.color}
                 date={maskDate(item.date)}
                 label={item.name}
+                description={item.description}
                 onEdit={() => Alert.alert(`Editar item => ${item.name}`)}
                 onView={() => console.log(`Visualizar ${item.name}`)}
                 passwordForce={item.force}
                 time={maskTime(item.time)}
               />
-            ))
-          )}
-        </View>
-        {storage.length === 0 && (
+            ))}
+          </View>
+        )}
+        {storageFiltered.length === 0 && (
           <View style={styles.listEmpty}>
             <Text
               style={[styles.emptyText, { color: colors.onPrimaryContainer }]}>
@@ -250,5 +267,15 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
+  },
+  animView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  anim: {
+    // marginBottom: 10,
+    width: 100,
+    height: 100,
   },
 });

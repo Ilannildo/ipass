@@ -11,6 +11,7 @@ type Props = RectButtonProps & {
   color: number;
   date: string;
   time: string;
+  description: string;
   passwordForce: string;
   onEdit: () => void;
   onView: () => void;
@@ -20,6 +21,7 @@ export const Card: React.FC<Props> = ({
   color,
   date,
   label,
+  description,
   time,
   ...rest
 }) => {
@@ -36,7 +38,7 @@ export const Card: React.FC<Props> = ({
               color === 1
                 ? colors.color1
                 : color === 2
-                ? colors.color1
+                ? colors.color2
                 : color === 3
                 ? colors.color3
                 : color === 4
@@ -51,7 +53,7 @@ export const Card: React.FC<Props> = ({
           <Text
             numberOfLines={1}
             style={[styles.subtitle, { color: colors.onSurfaceVariant }]}>
-            {'Uma breve observação se o usuário quiser'}
+            {description || 'Uma breve observação se o usuário quiser'}
           </Text>
           <View style={styles.footer}>
             <View style={styles.item}>

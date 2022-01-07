@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useCustomTheme } from '../../../contexts/theme';
 import { Switch } from 'react-native-paper';
-import { useAuth } from '../../../contexts/auth';
-import ReactNativeBiometrics from 'react-native-biometrics';
 import { useBiometry } from '../../../contexts/biometry';
 
 export const SafetyScreen: React.FC = () => {
@@ -34,10 +32,10 @@ export const SafetyScreen: React.FC = () => {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.content}>
         <View>
-          <Text style={[styles.label, { color: colors.onPrimaryContainer }]}>
+          <Text style={[styles.label, { color: colors.onSurface }]}>
             Acesso ao app
           </Text>
-          <Text style={[styles.text, { color: colors.outline }]}>
+          <Text style={[styles.text, { color: colors.onSurfaceVariant }]}>
             Solicitar biometria para acessar o app
           </Text>
         </View>
@@ -50,7 +48,7 @@ export const SafetyScreen: React.FC = () => {
           thumbColor={isBiometrics ? colors.primary : '#FBFCFF'}
           trackColor={{
             false: '#AFAFAF',
-            true: colors.primaryInverse,
+            true: colors.secondaryContainer,
           }}
         />
       </View>

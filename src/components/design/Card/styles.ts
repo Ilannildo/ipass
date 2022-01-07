@@ -37,5 +37,6 @@ export const styles = StyleSheet.create({
     fontWeight: 'normal',
     lineHeight: 20,
     letterSpacing: 0.25,
+    marginLeft: 5,
   },
 });

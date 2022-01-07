@@ -28,6 +28,7 @@ export const ConfigurationRoutes: React.FC = () => {
           headerStyle: {
             backgroundColor: colors.background,
           },
+          headerTintColor: colors.onSurface,
         }}
       />
       <Screen
@@ -40,6 +41,7 @@ export const ConfigurationRoutes: React.FC = () => {
           headerStyle: {
             backgroundColor: colors.background,
           },
+          headerTintColor: colors.onSurface,
           animation: 'fade_from_bottom',
         }}
       />

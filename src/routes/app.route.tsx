@@ -43,7 +43,7 @@ export const AppRoutes: React.FC = () => {
           headerStyle: {
             backgroundColor: colors.background,
           },
-          headerTintColor: colors.onPrimaryContainer,
+          headerTintColor: colors.onSurface,
         }}
       />
     </Navigator>
