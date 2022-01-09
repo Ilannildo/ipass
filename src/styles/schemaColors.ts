@@ -36,7 +36,7 @@ export const light = {
 };
 
 export const dark = {
-  primary: '#BFC2FF',
+  primary: '#9EA3FF',
   onPrimary: '#1B1C8E',
   primaryContainer: '#3438A4',
   onPrimaryContainer: '#E0E0FF',

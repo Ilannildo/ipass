@@ -20,7 +20,7 @@ import { SettingstStackParamList } from '../../routes/configuration.routes';
 type SettingsScreenProp = NativeStackNavigationProp<SettingstStackParamList>;
 type ThemeType = 'light' | 'dark' | 'default';
 
-export const Configuration: React.FC = () => {
+export const Settings: React.FC = () => {
   const [themeDialog, setThemeDialog] = useState(false);
   const { colors, schemeColor, theme, toggleTheme } = useCustomTheme();
   const [selectTheme, setSelectTheme] = useState<ThemeType>(theme);

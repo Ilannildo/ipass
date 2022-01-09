@@ -1,8 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Configuration } from '../screens/Configuration';
+import { Settings } from '../screens/Settings';
 import { useCustomTheme } from '../contexts/theme';
-import { SafetyScreen } from '../screens/Configuration/SafetyScreen';
+import { SafetyScreen } from '../screens/Settings/SafetyScreen';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -19,8 +19,8 @@ export const ConfigurationRoutes: React.FC = () => {
   return (
     <Navigator>
       <Screen
-        name="Configuration"
-        component={Configuration}
+        name="Settings"
+        component={Settings}
         options={{
           title: 'Ajustes',
           headerTitleAlign: 'center',
