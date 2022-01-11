@@ -9,7 +9,6 @@ import {
   Alert,
 } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
-import { PasswordCardLoading } from '../../components/ComponentsLoading/PasswordCardLoading';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/core';
 import { RootStackParamList } from '../../routes/app.route';
@@ -96,6 +95,7 @@ export const Home: React.FC = () => {
       setStorageFiltered(data);
       setStorage(data);
       try {
+        console.log('Buscou novamente');
         data.addListener(() => {
           setStorageFiltered(data);
           setStorage(data);
@@ -199,7 +199,7 @@ export const Home: React.FC = () => {
                 label={item.name}
                 description={item.description}
                 onEdit={() => Alert.alert(`Editar item => ${item.name}`)}
-                onView={() => console.log(`Visualizar ${item.name}`)}
+                onDetail={() => navigation.navigate('Detail')}
                 passwordForce={item.force}
                 time={maskTime(item.time)}
               />

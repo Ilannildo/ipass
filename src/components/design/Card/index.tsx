@@ -14,7 +14,7 @@ type Props = RectButtonProps & {
   description: string;
   passwordForce: string;
   onEdit: () => void;
-  onView: () => void;
+  onDetail: () => void;
 };
 
 export const Card: React.FC<Props> = ({
@@ -23,6 +23,7 @@ export const Card: React.FC<Props> = ({
   label,
   description,
   time,
+  onDetail,
   ...rest
 }) => {
   const { colors } = useCustomTheme();
@@ -31,6 +32,7 @@ export const Card: React.FC<Props> = ({
     <>
       <RectButton
         {...rest}
+        onPress={onDetail}
         style={[
           styles.container,
           {

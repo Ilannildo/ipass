@@ -4,6 +4,7 @@ import { Home } from '../screens/Home';
 import { ConfigurationRoutes } from './configuration.routes';
 import { NewPassword } from '../screens/NewPassword';
 import { useCustomTheme } from '../contexts/theme';
+import Detail from '../screens/Detail';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -11,6 +12,7 @@ export type RootStackParamList = {
   Home: undefined;
   ConfigurationRoutes: undefined;
   NewPass: undefined;
+  Detail: undefined;
 };
 
 export const AppRoutes: React.FC = () => {
@@ -46,6 +48,7 @@ export const AppRoutes: React.FC = () => {
           headerTintColor: colors.onSurface,
         }}
       />
+      <Screen name="Detail" component={Detail} />
     </Navigator>
   );
 };
