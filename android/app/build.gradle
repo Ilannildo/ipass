@@ -206,6 +206,7 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+    implementation "com.madgag.spongycastle:prov:1.56.0.0"
 }
 
 // apply plugin: 'com.google.gms.google-services' // <--- this should be the last line
