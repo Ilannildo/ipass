@@ -31,7 +31,7 @@ type ColorsProps = {
   value: string;
 };
 
-export const NewPassword: React.FC = () => {
+export const Add: React.FC = () => {
   const { colors } = useCustomTheme();
   const [categoriesSelected, setCategoriesSelected] = useState<string>('app');
   const [categories, setCategories] = useState<CategoriesProps[]>([]);

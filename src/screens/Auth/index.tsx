@@ -21,7 +21,7 @@ const FingerLight = require('../../lottie/finger-light.json');
 const FingerErrorLight = require('../../lottie/finger-error-light.json');
 const FingerSuccessLight = require('../../lottie/finger-success-light.json');
 
-export const Authenticate: React.FC = () => {
+export const Auth: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [passwordVisble, setPasswordVisible] = useState<boolean>(false);
   const [biometricSuccess, setBiometricSuccess] = useState<boolean>(false);
@@ -252,6 +252,7 @@ export const Authenticate: React.FC = () => {
           label="Entrar"
           enabled={password !== ''}
           onPress={handleSubmit}
+          loading={loading}
         />
 
         <TouchableOpacity>

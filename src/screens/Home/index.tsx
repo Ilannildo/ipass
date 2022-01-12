@@ -11,7 +11,7 @@ import {
 import { useCustomTheme } from '../../contexts/theme';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/core';
-import { RootStackParamList } from '../../routes/app.route';
+import { AppRoutesListParams } from '../../routes/app.route';
 import { StorageSchemaType } from '../../utils/storage';
 import { maskDate, maskTime } from '../../utils/masks';
 import { Ship } from '../../components/design/Ship';
@@ -27,7 +27,7 @@ interface CategoriesProps {
   title: string;
 }
 
-type newPassScreenProp = NativeStackNavigationProp<RootStackParamList>;
+type navigationProps = NativeStackNavigationProp<AppRoutesListParams>;
 
 export const Home: React.FC = () => {
   const { colors, schemeColor } = useCustomTheme();
@@ -40,7 +40,7 @@ export const Home: React.FC = () => {
     Results<StorageSchemaType>
   >([] as any);
 
-  const navigation = useNavigation<newPassScreenProp>();
+  const navigation = useNavigation<navigationProps>();
 
   function handleCategoriesSelected(categorie: string) {
     setCategoriesSelected(categorie);
@@ -50,14 +50,6 @@ export const Home: React.FC = () => {
     const filtered = storage.filtered('categorie == $0', categorie);
     setStorageFiltered(filtered);
   }
-
-  // useEffect(() => {
-  //   if (categoriesSelected === 'all') {
-  //     return setStorageFiltered(storage);
-  //   }
-  //   const filtered = storage.filtered('categorie == $0', categoriesSelected);
-  //   setStorageFiltered(filtered);
-  // }, [storage, categoriesSelected]);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -91,7 +83,9 @@ export const Home: React.FC = () => {
     const getStorage = async () => {
       setLoading(true);
       const realm = await getRealm();
-      const data = realm.objects<StorageSchemaType>('StorageSchema');
+      const data = realm
+        .objects<StorageSchemaType>('StorageSchema')
+        .sorted('date', true);
       setStorageFiltered(data);
       setStorage(data);
       try {
@@ -113,33 +107,6 @@ export const Home: React.FC = () => {
     getStorage();
     setCategoriesSelected('all');
   }, []);
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     setLoading(true);
-  //     async function loadStorage() {
-  //       const realm = await getRealm();
-  //       const data =
-  //         categoriesSelected === 'all'
-  //           ? realm.objects<StorageSchemaType>('StorageSchema')
-  //           : realm
-  //               .objects<StorageSchemaType>('StorageSchema')
-  //               .filtered('categorie == $0', categoriesSelected);
-  //       setStorage(data);
-  //       data.addListener(() => {
-  //         setStorage(data);
-  //         setLoading(false);
-  //       });
-
-  //       return () => {
-  //         data.removeAllListeners();
-  //         realm.close();
-  //       };
-  //     }
-
-  //     loadStorage();
-  //   }, [categoriesSelected]),
-  // );
 
   return (
     <View
@@ -182,9 +149,9 @@ export const Home: React.FC = () => {
         {loading ? (
           <View style={styles.listEmpty}>
             <LottieView
-              // source={require('../../lottie/loading.json')}
               source={require('../../lottie/loader.json')}
               autoPlay
+              duration={1000}
               style={styles.anim}
             />
           </View>
@@ -199,7 +166,19 @@ export const Home: React.FC = () => {
                 label={item.name}
                 description={item.description}
                 onEdit={() => Alert.alert(`Editar item => ${item.name}`)}
-                onDetail={() => navigation.navigate('Detail')}
+                onDetail={() => {
+                  navigation.navigate('Detail', {
+                    categorie: item.categorie,
+                    color: item.color,
+                    date: item.date,
+                    description: item.description,
+                    force: item.force,
+                    login: item.login,
+                    name: item.name,
+                    password: item.password,
+                    time: item.time,
+                  });
+                }}
                 passwordForce={item.force}
                 time={maskTime(item.time)}
               />
@@ -215,7 +194,7 @@ export const Home: React.FC = () => {
           </View>
         )}
       </ScrollView>
-      <Fab onPress={() => navigation.navigate('NewPass')} />
+      <Fab onPress={() => navigation.navigate('Add')} />
     </View>
   );
 };

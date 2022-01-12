@@ -2,17 +2,27 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home } from '../screens/Home';
 import { ConfigurationRoutes } from './configuration.routes';
-import { NewPassword } from '../screens/NewPassword';
+import { Add } from '../screens/Add';
 import { useCustomTheme } from '../contexts/theme';
 import Detail from '../screens/Detail';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
-export type RootStackParamList = {
+export type AppRoutesListParams = {
   Home: undefined;
   ConfigurationRoutes: undefined;
-  NewPass: undefined;
-  Detail: undefined;
+  Add: undefined;
+  Detail: {
+    categorie: string;
+    name: string;
+    login: string;
+    description: string;
+    password: string;
+    date: string;
+    time: string;
+    force: string;
+    color: number;
+  };
 };
 
 export const AppRoutes: React.FC = () => {
@@ -35,8 +45,8 @@ export const AppRoutes: React.FC = () => {
         }}
       />
       <Screen
-        name="NewPass"
-        component={NewPassword}
+        name="Add"
+        component={Add}
         options={{
           title: 'Adicionar',
           headerTitleAlign: 'center',
@@ -48,7 +58,20 @@ export const AppRoutes: React.FC = () => {
           headerTintColor: colors.onSurface,
         }}
       />
-      <Screen name="Detail" component={Detail} />
+      <Screen
+        name="Detail"
+        component={Detail}
+        options={{
+          title: 'Detalhes',
+          headerTitleAlign: 'center',
+          headerShadowVisible: false,
+          animation: 'slide_from_left',
+          headerStyle: {
+            backgroundColor: colors.background,
+          },
+          headerTintColor: colors.onSurface,
+        }}
+      />
     </Navigator>
   );
 };

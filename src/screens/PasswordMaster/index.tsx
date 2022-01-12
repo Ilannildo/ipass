@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 // import ReactNativeBiometrics from 'react-native-biometrics';
 // import { Button } from '../../components/Button';
 import { Alert } from '../../components/Alert';
-import { FloatingLabelInputPassword } from '../../components/FloatingLabelInputPassword';
 import { useAuth } from '../../contexts/auth';
 import { useCustomTheme } from '../../contexts/theme';
 import { useBiometry } from '../../contexts/biometry';
@@ -11,7 +10,7 @@ import { Button } from '../../components/design/Button';
 import { TextInput } from 'react-native-paper';
 import { verifyPasswordForce } from '../../utils/roles';
 
-export const CreatePasswordMaster: React.FC = () => {
+export const PasswordMaster: React.FC = () => {
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [forcePassword, setForcePasword] = useState<string>('');

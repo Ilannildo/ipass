@@ -10,3 +10,7 @@ export const maskDate = (date: string) => {
     locale: ptBR,
   });
 };
+
+export const maskPass = (pass: string) => {
+  return pass.replace(/[^;=]*$/, x => '*'.repeat(x.length));
+};
