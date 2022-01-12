@@ -2,16 +2,14 @@ import React from 'react';
 import { Image, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { GoogleSigninButton } from 'react-native-google-signin';
 import { useAuth } from '../../contexts/auth';
-import { theme } from '../../styles/theme';
 
 import Image1 from '../../assets/image-1.png';
 import { useCustomTheme } from '../../contexts/theme';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 
-export const WelcomeSignIn: React.FC = () => {
+export const SignIn: React.FC = () => {
   const { handleSignIn, loadingSignIn } = useAuth();
   const { schemeColor, colors } = useCustomTheme();
-  // const rem = useRem();
 
   const handleSignInGoogle = async () => {
     await handleSignIn();
@@ -29,7 +27,7 @@ export const WelcomeSignIn: React.FC = () => {
           style={[
             styles.title,
             {
-              color: colors.onPrimaryContainer,
+              color: colors.onSurface,
             },
           ]}>
           {'Um jeito fácil e seguro\nde guardar suas senhas'}
@@ -38,12 +36,11 @@ export const WelcomeSignIn: React.FC = () => {
       </View>
 
       <View style={styles.footer}>
-        <Text
-          style={[styles.textHasAccount, { color: colors.onPrimaryContainer }]}>
+        <Text style={[styles.textHasAccount, { color: colors.onBackground }]}>
           {'Faça login ou crie uma conta\nGRATUITA'}
         </Text>
 
-        <Text style={[styles.textDescrip, { color: colors.secondary }]}>
+        <Text style={[styles.textDescrip, { color: colors.onBackground }]}>
           {
             'Crie uma conta para maior segurança, backup dos seus dados  e muito mais'
           }

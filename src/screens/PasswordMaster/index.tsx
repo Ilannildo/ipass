@@ -26,12 +26,8 @@ export const PasswordMaster: React.FC = () => {
     handleLoggedUser,
   } = useAuth();
 
-  const {
-    // handleCreateKeysFingerprint,
-    handleSimpleBiometrics,
-    enableBiometrics,
-    isAvaliableBiometrics,
-  } = useBiometry();
+  const { handleSimpleBiometrics, enableBiometrics, isAvaliableBiometrics } =
+    useBiometry();
 
   const { colors, schemeColor } = useCustomTheme();
 
@@ -56,7 +52,6 @@ export const PasswordMaster: React.FC = () => {
     const result = await handleSimpleBiometrics();
 
     if (!result) {
-      console.log('Biometrics cancelled, ativo nas configs');
       setLoading(false);
       handleUserNotBiometrics();
     } else {
@@ -125,12 +120,15 @@ export const PasswordMaster: React.FC = () => {
           <TextInput
             label={'Senha master'}
             value={password}
-            mode="outlined"
+            mode="flat"
             placeholder={'Digite sua senha master'}
             onChangeText={handleTextPass}
             returnKeyType="next"
             style={{
-              backgroundColor: colors.background,
+              backgroundColor:
+                schemeColor === 'dark'
+                  ? 'rgba(158, 163, 255, 0.03)'
+                  : 'rgba(77, 81, 189, 0.03)',
             }}
             theme={{
               colors: {
@@ -141,6 +139,7 @@ export const PasswordMaster: React.FC = () => {
             }}
             underlineColor={colors.outline}
             activeUnderlineColor={colors.primary}
+            selectTextOnFocus
             selectionColor={colors.primary}
             children={undefined}
             autoComplete={false}
@@ -150,12 +149,15 @@ export const PasswordMaster: React.FC = () => {
           <TextInput
             label={'Repita sua senha master'}
             value={repeatPassword}
-            mode="outlined"
+            mode="flat"
             placeholder={'Confirme sua senha master'}
             onChangeText={handleTextRepeatPass}
             returnKeyType="next"
             style={{
-              backgroundColor: colors.background,
+              backgroundColor:
+                schemeColor === 'dark'
+                  ? 'rgba(158, 163, 255, 0.03)'
+                  : 'rgba(77, 81, 189, 0.03)',
             }}
             theme={{
               colors: {
@@ -166,6 +168,8 @@ export const PasswordMaster: React.FC = () => {
             }}
             underlineColor={colors.outline}
             activeUnderlineColor={colors.primary}
+            selectTextOnFocus
+            error={error}
             selectionColor={colors.primary}
             children={undefined}
             autoComplete={false}
@@ -180,6 +184,7 @@ export const PasswordMaster: React.FC = () => {
           label="Continuar"
           onPress={handleSubmitPassword}
           enabled={!disableButton}
+          loading={loading}
         />
       </View>
     </View>

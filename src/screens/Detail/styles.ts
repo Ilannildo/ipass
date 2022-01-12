@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     letterSpacing: 0.1,
   },
-  // icon: { opacity: 0.5 },
   content: {
     paddingHorizontal: 24,
   },
@@ -27,7 +26,6 @@ export const styles = StyleSheet.create({
   contentTop: {
     flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor: '#000',
   },
   contentMiddle: {
     flexDirection: 'row',
@@ -54,12 +52,19 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.1,
   },
   itemRight: {
-    // width: 123,
     height: 32,
     paddingHorizontal: 8,
     paddingVertical: 6,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 32,
+    left: 0,
+    width: '100%',
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
   },
 });

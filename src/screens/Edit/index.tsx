@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, ToastAndroid, View } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import { TextInput, Title } from 'react-native-paper';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useCustomTheme } from '../../contexts/theme';
 import { Button } from '../../components/design/Button';
 import { ColorButton } from '../../components/ColorButton';
-import { savePassword } from '../../utils/storage';
+import { updatePassword } from '../../utils/storage';
 import { useNavigation } from '@react-navigation/core';
 import { passwordForce } from '../../utils/roles';
 import { Ship } from '../../components/design/Ship';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AppRoutesListParams } from '../../routes/app.route';
 
 type FormProps = {
+  _id: number;
   categorie: string;
   name: string;
   description: string;
@@ -31,20 +35,36 @@ type ColorsProps = {
   value: string;
 };
 
-export const Add: React.FC = () => {
+export const Edit: React.FC = () => {
   const { colors, schemeColor } = useCustomTheme();
-  const [categoriesSelected, setCategoriesSelected] = useState<string>('app');
+  const route = useRoute();
+  const {
+    _id,
+    categorie,
+    name,
+    description,
+    login,
+    password,
+    date,
+    time,
+    force,
+    color,
+  } = route.params as FormProps;
+
+  const [categoriesSelected, setCategoriesSelected] =
+    useState<string>(categorie);
   const [categories, setCategories] = useState<CategoriesProps[]>([]);
-  const [categoriesName, setCategoriesName] = useState<string>('Aplicativo');
+  const [categoriesName, setCategoriesName] = useState<string>('');
 
   const [selectionColors, setSelectionColors] = useState<ColorsProps[]>([]);
   const [colorSelect, setColorSelect] = useState<number>(1);
 
   const [passwordVisble, setPasswordVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-
   const [formData, setFormData] = useState<FormProps>({} as FormProps);
-  const navigation = useNavigation();
+
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AppRoutesListParams>>();
 
   const handleSave = async () => {
     if (
@@ -59,12 +79,16 @@ export const Add: React.FC = () => {
     ) {
       ToastAndroid.show('Você não informou as informações necessárias', 1000);
     } else {
-      const result = await savePassword(formData);
-      if (result) {
-        ToastAndroid.show('Sua senha foi salva com sucesso', 500);
-        navigation.goBack();
-      } else {
-        console.log('Falhou ao salvar');
+      try {
+        const result = await updatePassword(formData);
+        if (result) {
+          ToastAndroid.show('Sua senha foi alterada com sucesso', 500);
+          navigation.navigate('Home');
+        } else {
+          console.log('Falhou ao salvar');
+        }
+      } catch (error) {
+        console.log('Teste error =>', error);
       }
     }
   };
@@ -90,12 +114,12 @@ export const Add: React.FC = () => {
   };
 
   const handleChangePassword = (value: string) => {
-    const force = passwordForce(value);
+    const force1 = passwordForce(value);
     setFormData({
       ...formData,
       password: value,
       force:
-        force < 30 ? 'Fraca' : force >= 30 && force < 60 ? 'Média' : 'Forte',
+        force1 < 30 ? 'Fraca' : force1 >= 30 && force1 < 60 ? 'Média' : 'Forte',
     });
   };
 
@@ -103,21 +127,21 @@ export const Add: React.FC = () => {
     setPasswordVisible(old => !old);
   };
 
-  const handleSelectCategories = (categorie: CategoriesProps) => {
-    setCategoriesSelected(categorie.key);
-    setCategoriesName(categorie.title);
+  const handleSelectCategories = (categorie1: CategoriesProps) => {
+    setCategoriesSelected(categorie1.key);
+    setCategoriesName(categorie1.title);
     setFormData({
       ...formData,
-      categorie: categorie.key,
+      categorie: categorie1.key,
     });
   };
 
-  const handleSelectColors = (color: ColorsProps) => {
+  const handleSelectColors = (color1: ColorsProps) => {
     setFormData({
       ...formData,
-      color: color.key,
+      color: color1.key,
     });
-    setColorSelect(color.key);
+    setColorSelect(color1.key);
   };
 
   useEffect(() => {
@@ -163,24 +187,36 @@ export const Add: React.FC = () => {
             value: colors.color5,
           },
         ]);
-        const date = new Date();
         setFormData({
-          categorie: 'app',
-          color: 1,
-          date: date.toString(),
-          time: date.getTime().toString(),
-          login: '',
-          description: '',
-          name: '',
-          password: '',
-          force: '',
+          _id,
+          categorie,
+          color,
+          date,
+          time,
+          login,
+          description,
+          name,
+          password,
+          force,
         });
         setLoading(false);
       }, 300);
     };
 
     load();
-  }, [colors]);
+  }, [
+    _id,
+    colors,
+    categorie,
+    color,
+    date,
+    time,
+    login,
+    description,
+    name,
+    password,
+    force,
+  ]);
 
   if (loading) {
     return (

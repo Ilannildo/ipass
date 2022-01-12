@@ -96,7 +96,7 @@ export const Auth: React.FC = () => {
         <View style={styles.inputArea}>
           <TextInput
             label="Senha master"
-            mode="outlined"
+            mode="flat"
             placeholder="Digite sua senha master"
             onChangeText={changePassword}
             placeholderTextColor={colors.outline}
@@ -105,17 +105,22 @@ export const Auth: React.FC = () => {
             returnKeyType="done"
             onEndEditing={handleSubmit}
             style={{
-              backgroundColor: colors.background,
+              backgroundColor:
+                schemeColor === 'dark'
+                  ? 'rgba(158, 163, 255, 0.03)'
+                  : 'rgba(77, 81, 189, 0.03)',
             }}
             theme={{
               colors: {
                 text: colors.onSurface,
                 placeholder: colors.outline,
+                primary: colors.primary,
               },
             }}
-            activeOutlineColor={colors.primary}
-            outlineColor={colors.outline}
-            selectionColor={colors.onSurface}
+            underlineColor={colors.outline}
+            activeUnderlineColor={colors.primary}
+            selectTextOnFocus
+            selectionColor={colors.primary}
             right={
               <TextInput.Icon
                 name={passwordVisble ? 'eye-off' : 'eye'}

@@ -8,6 +8,7 @@ import { Provider } from 'react-native-paper';
 import { BiometryProvider } from './contexts/biometry';
 import { AutofillProvider } from './contexts/autofill';
 import { AutoFillApp } from './AutoFillApp';
+import { StorageProvider } from './contexts/storage';
 
 type AppProps = {
   isContextAutoFill?: number;
@@ -33,13 +34,15 @@ export const App: React.FC<AppProps> = ({
           <NavigationContainer>
             <AuthProvider>
               <BiometryProvider>
-                <Provider>
-                  {isAutofill ? (
-                    <AutoFillApp urls={serviceIdentifiers} />
-                  ) : (
-                    <Routes />
-                  )}
-                </Provider>
+                <StorageProvider>
+                  <Provider>
+                    {isAutofill ? (
+                      <AutoFillApp urls={serviceIdentifiers} />
+                    ) : (
+                      <Routes />
+                    )}
+                  </Provider>
+                </StorageProvider>
               </BiometryProvider>
             </AuthProvider>
           </NavigationContainer>

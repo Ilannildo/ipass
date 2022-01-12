@@ -119,11 +119,39 @@ public class AutoFillBridge extends ReactContextBaseJavaModule {
 
             if (mAutofillManager != null) {
                 Intent intent = new Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE);
-                intent.setData(Uri.parse("package:com.buttercup"));
+                intent.setData(Uri.parse("package:com.ipass"));
                 requestPermissionsPromise = promise;
                 currentActivity.startActivityForResult(intent, AUTOFILL_REQ_CODE);
             } else {
                 promise.reject("404", "Autofill not supported");
+            }
+        } else {
+            promise.reject("404", "Autofill not supported");
+        }
+    }
+
+    /**
+     * Attempt to open the Android Autofill settings panel
+     * @param promise
+     */
+    @ReactMethod
+    public void forceAutofill(Promise promise) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            Activity currentActivity = getCurrentActivity();
+
+            if (currentActivity == null) {
+                Log.d(TAG, "Auto fill - no activity");
+                promise.reject("500", "Activity doesn't exist");
+                return;
+            }
+
+            AutofillManager mAutofillManager = getReactApplicationContext().getSystemService(AutofillManager.class);
+
+            if (mAutofillManager != null) {
+                mAutofillManager.disableAutofillServices();
+                promise.resolve(true);
+            } else {
+                promise.resolve(false);
             }
         } else {
             promise.reject("404", "Autofill not supported");

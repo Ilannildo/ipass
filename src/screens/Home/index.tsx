@@ -10,17 +10,17 @@ import {
 } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation, useFocusEffect } from '@react-navigation/core';
 import { AppRoutesListParams } from '../../routes/app.route';
 import { StorageSchemaType } from '../../utils/storage';
 import { maskDate, maskTime } from '../../utils/masks';
 import { Ship } from '../../components/design/Ship';
 import { Card } from '../../components/design/Card';
+import { useStorage } from '../../contexts/storage';
 import { Fab } from '../../components/design/Fab';
 import { Header } from '../../components/Header';
-import { Results } from 'realm';
-import { getRealm } from '../../services/realm';
 import LottieView from 'lottie-react-native';
+import { Results } from 'realm';
 
 interface CategoriesProps {
   key: string;
@@ -31,11 +31,12 @@ type navigationProps = NativeStackNavigationProp<AppRoutesListParams>;
 
 export const Home: React.FC = () => {
   const { colors, schemeColor } = useCustomTheme();
+  const { loading, storage } = useStorage();
   const [categories, setCategories] = useState<CategoriesProps[]>([]);
   const [categoriesSelected, setCategoriesSelected] = useState<string>('all');
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
-  const [storage, setStorage] = useState<Results<StorageSchemaType>>([] as any);
+  // const [storage, setStorage] = useState<Results<StorageSchemaType>>([] as any);
   const [storageFiltered, setStorageFiltered] = useState<
     Results<StorageSchemaType>
   >([] as any);
@@ -80,33 +81,35 @@ export const Home: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const getStorage = async () => {
-      setLoading(true);
-      const realm = await getRealm();
-      const data = realm
-        .objects<StorageSchemaType>('StorageSchema')
-        .sorted('date', true);
-      setStorageFiltered(data);
-      setStorage(data);
-      try {
-        console.log('Buscou novamente');
-        data.addListener(() => {
-          setStorageFiltered(data);
-          setStorage(data);
-        });
-      } catch (error) {
-        console.log('Erro ao buscar storage');
-      }
-      setLoading(false);
-      return () => {
-        data.removeAllListeners();
-        realm.close();
-      };
-    };
-    // clearStoragePassword();
-    getStorage();
+    // const getStorage = async () => {
+    //   setLoading(true);
+    //   const realm = await getRealm();
+    //   const data = realm
+    //     .objects<StorageSchemaType>('StorageSchema')
+    //     .sorted('date', true);
+    //   setStorageFiltered(data);
+    //   setStorage(data);
+    //   try {
+    //     console.log('Buscou novamente');
+    //     data.addListener(() => {
+    //       setStorageFiltered(data);
+    //       setStorage(data);
+    //     });
+    //   } catch (error) {
+    //     console.log('Erro ao buscar storage');
+    //   }
+    //   setLoading(false);
+    //   return () => {
+    //     data.removeAllListeners();
+    //     realm.close();
+    //   };
+    // };
+    // getStorage();
+    setStorageFiltered(storage);
     setCategoriesSelected('all');
-  }, []);
+  }, [storage]);
+
+  useFocusEffect(() => {});
 
   return (
     <View
@@ -168,6 +171,7 @@ export const Home: React.FC = () => {
                 onEdit={() => Alert.alert(`Editar item => ${item.name}`)}
                 onDetail={() => {
                   navigation.navigate('Detail', {
+                    _id: item._id,
                     categorie: item.categorie,
                     color: item.color,
                     date: item.date,

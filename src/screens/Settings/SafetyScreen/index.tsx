@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useCustomTheme } from '../../../contexts/theme';
-import { Switch } from 'react-native-paper';
+import { Button, Dialog, Switch } from 'react-native-paper';
 import { useBiometry } from '../../../contexts/biometry';
+import { useAutofill } from '../../../contexts/autofill';
+import { AlertDialog } from '../../../components/design/Dialog';
 
 export const SafetyScreen: React.FC = () => {
   const { colors } = useCustomTheme();
+  const [openResponse, setOpenResponse] = useState(false);
+  const { enabled, handleAutofillSettings, handleDisabled } = useAutofill();
   const {
     isBiometrics,
     handleSimpleBiometrics,
@@ -14,7 +18,7 @@ export const SafetyScreen: React.FC = () => {
     isAvaliableBiometrics,
   } = useBiometry();
 
-  const onChange = async (value: boolean) => {
+  const onChangeBiometry = async (value: boolean) => {
     if (value) {
       const result = await handleSimpleBiometrics();
       if (result) {
@@ -25,6 +29,17 @@ export const SafetyScreen: React.FC = () => {
       if (result) {
         await disableBiometrics();
       }
+    }
+  };
+
+  const onChangeAutofill = async (value: boolean) => {
+    if (!value) {
+      await handleDisabled();
+      console.log('desabilitar auto fill service');
+    } else {
+      console.log('habilitar auto fill service');
+      await handleAutofillSettings();
+      setOpenResponse(true);
     }
   };
 
@@ -42,7 +57,7 @@ export const SafetyScreen: React.FC = () => {
         <Switch
           value={isBiometrics}
           disabled={!isAvaliableBiometrics}
-          onValueChange={value => onChange(value)}
+          onValueChange={value => onChangeBiometry(value)}
           children={undefined}
           color={colors.primary}
           thumbColor={isBiometrics ? colors.primary : '#FBFCFF'}
@@ -52,6 +67,45 @@ export const SafetyScreen: React.FC = () => {
           }}
         />
       </View>
+      <View style={styles.content}>
+        <View>
+          <Text style={[styles.label, { color: colors.onSurface }]}>
+            Autopreencimento
+          </Text>
+          <Text style={[styles.text, { color: colors.onSurfaceVariant }]}>
+            Ativar autopreencimento de senhas nos seus aplicativos
+          </Text>
+        </View>
+        <Switch
+          value={enabled}
+          disabled={!isAvaliableBiometrics}
+          onValueChange={value => onChangeAutofill(value)}
+          children={undefined}
+          color={colors.primary}
+          thumbColor={enabled ? colors.primary : '#FBFCFF'}
+          trackColor={{
+            false: '#AFAFAF',
+            true: colors.secondaryContainer,
+          }}
+        />
+      </View>
+      <AlertDialog
+        visible={openResponse}
+        onDismiss={() => setOpenResponse(false)}>
+        <Dialog.Title style={{ color: colors.onSurface }}>
+          {enabled
+            ? 'Autopreencimento ativado'
+            : 'Autopreencimento não ativado'}
+        </Dialog.Title>
+        <Dialog.Actions>
+          <Button
+            color={colors.primary}
+            style={{ marginRight: 15 }}
+            onPress={() => setOpenResponse(false)}>
+            Ok
+          </Button>
+        </Dialog.Actions>
+      </AlertDialog>
     </View>
   );
 };

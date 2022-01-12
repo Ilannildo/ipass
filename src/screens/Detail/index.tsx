@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView, StatusBar, Text, View } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
@@ -6,13 +6,28 @@ import { StorageSchemaType } from '../../utils/storage';
 import { styles } from './styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { maskDate, maskPass, maskTime } from '../../utils/masks';
+import { RoundButton } from '../../components/design/RoundButton';
+import { AppRoutesListParams } from '../../routes/app.route';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export const Detail: React.FC = () => {
   const route = useRoute();
   const { colors, schemeColor } = useCustomTheme();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AppRoutesListParams>>();
 
-  const { name, description, date, color, time, login, password } =
-    route.params as StorageSchemaType;
+  const {
+    _id,
+    name,
+    description,
+    date,
+    color,
+    time,
+    login,
+    password,
+    categorie,
+    force,
+  } = route.params as StorageSchemaType;
   return (
     <View
       style={[
@@ -35,7 +50,7 @@ export const Detail: React.FC = () => {
           <View
             style={[
               styles.contentItem,
-              { borderBottomColor: colors.primaryContainer },
+              { borderBottomColor: colors.secondaryContainer },
             ]}>
             <View style={styles.contentTop}>
               <MaterialIcons
@@ -57,7 +72,7 @@ export const Detail: React.FC = () => {
           <View
             style={[
               styles.contentMiddle,
-              { borderBottomColor: colors.primaryContainer },
+              { borderBottomColor: colors.secondaryContainer },
             ]}>
             <View style={styles.contentTop}>
               <MaterialIcons
@@ -86,7 +101,8 @@ export const Detail: React.FC = () => {
                       : colors.color5,
                 },
               ]}>
-              <Text style={[styles.itemText, { color: colors.onSurface }]}>
+              <Text
+                style={[styles.itemText, { color: colors.onPrimaryContainer }]}>
                 {maskDate(date) || 'Not found'}
               </Text>
             </View>
@@ -94,7 +110,7 @@ export const Detail: React.FC = () => {
           <View
             style={[
               styles.contentMiddle,
-              { borderBottomColor: colors.primaryContainer },
+              { borderBottomColor: colors.secondaryContainer },
             ]}>
             <View style={styles.contentTop}>
               <MaterialIcons
@@ -123,7 +139,8 @@ export const Detail: React.FC = () => {
                       : colors.color5,
                 },
               ]}>
-              <Text style={[styles.itemText, { color: colors.onSurface }]}>
+              <Text
+                style={[styles.itemText, { color: colors.onPrimaryContainer }]}>
                 {maskTime(time) || 'Nenhum descrição foi informada'}
               </Text>
             </View>
@@ -131,7 +148,7 @@ export const Detail: React.FC = () => {
           <View
             style={[
               styles.contentItem,
-              { borderBottomColor: colors.primaryContainer },
+              { borderBottomColor: colors.secondaryContainer },
             ]}>
             <View style={styles.contentTop}>
               <MaterialIcons
@@ -153,7 +170,7 @@ export const Detail: React.FC = () => {
           <View
             style={[
               styles.contentItem,
-              { borderBottomColor: colors.primaryContainer },
+              { borderBottomColor: colors.secondaryContainer },
             ]}>
             <View style={styles.contentTop}>
               <MaterialIcons
@@ -174,6 +191,27 @@ export const Detail: React.FC = () => {
           </View>
         </View>
       </ScrollView>
+      <View style={styles.footer}>
+        <RoundButton color={color} icon="delete" />
+        <RoundButton
+          color={color}
+          icon="mode-edit"
+          onPress={() =>
+            navigation.navigate('Edit', {
+              _id,
+              name,
+              description,
+              date,
+              color,
+              categorie,
+              force,
+              time,
+              login,
+              password,
+            })
+          }
+        />
+      </View>
     </View>
   );
 };

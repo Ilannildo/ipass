@@ -14,6 +14,7 @@ export interface AutofillBridgeInterface {
   DEVICE_SUPPORTS_AUTOFILL: boolean;
   getAutoFillSystemStatus: () => Promise<boolean>;
   openAutoFillSystemSettings: () => Promise<void>;
+  forceAutofill: () => Promise<boolean>;
   cancelAutoFill: () => Promise<void>;
   completeAutoFill: (
     username: string,

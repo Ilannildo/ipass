@@ -1,4 +1,5 @@
 import { getRealm } from '../services/realm';
+import Realm from 'realm';
 
 export type StorageSchemaType = {
   _id?: number;
@@ -42,6 +43,24 @@ export const savePassword = (data: StorageSchemaType): Promise<boolean> => {
     try {
       realm.write(() => {
         realm.create<StorageSchemaType>('StorageSchema', data);
+      });
+      resolve(true);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const updatePassword = (data: StorageSchemaType): Promise<boolean> => {
+  return new Promise(async (resolve, reject) => {
+    const realm = await getRealm();
+    try {
+      realm.write(() => {
+        realm.create<StorageSchemaType>(
+          'StorageSchema',
+          data,
+          Realm.UpdateMode.Modified,
+        );
       });
       resolve(true);
     } catch (error) {

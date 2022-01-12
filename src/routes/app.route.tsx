@@ -5,6 +5,7 @@ import { ConfigurationRoutes } from './configuration.routes';
 import { Add } from '../screens/Add';
 import { useCustomTheme } from '../contexts/theme';
 import Detail from '../screens/Detail';
+import { Edit } from '../screens/Edit';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -13,6 +14,19 @@ export type AppRoutesListParams = {
   ConfigurationRoutes: undefined;
   Add: undefined;
   Detail: {
+    _id?: number;
+    categorie: string;
+    name: string;
+    login: string;
+    description: string;
+    password: string;
+    date: string;
+    time: string;
+    force: string;
+    color: number;
+  };
+  Edit: {
+    _id?: number;
     categorie: string;
     name: string;
     login: string;
@@ -63,6 +77,20 @@ export const AppRoutes: React.FC = () => {
         component={Detail}
         options={{
           title: 'Detalhes',
+          headerTitleAlign: 'center',
+          headerShadowVisible: false,
+          animation: 'slide_from_left',
+          headerStyle: {
+            backgroundColor: colors.background,
+          },
+          headerTintColor: colors.onSurface,
+        }}
+      />
+      <Screen
+        name="Edit"
+        component={Edit}
+        options={{
+          title: 'Editar',
           headerTitleAlign: 'center',
           headerShadowVisible: false,
           animation: 'slide_from_left',
