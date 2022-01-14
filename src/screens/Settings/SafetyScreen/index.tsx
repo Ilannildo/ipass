@@ -9,7 +9,12 @@ import { AlertDialog } from '../../../components/design/Dialog';
 export const SafetyScreen: React.FC = () => {
   const { colors } = useCustomTheme();
   const [openResponse, setOpenResponse] = useState(false);
-  const { enabled, handleAutofillSettings, handleDisabled } = useAutofill();
+  const {
+    enabled,
+    handleAutofillSettings,
+    handleDisabled,
+    isAvaliableAutofill,
+  } = useAutofill();
   const {
     isBiometrics,
     handleSimpleBiometrics,
@@ -45,50 +50,54 @@ export const SafetyScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={styles.content}>
-        <View>
-          <Text style={[styles.label, { color: colors.onSurface }]}>
-            Acesso ao app
-          </Text>
-          <Text style={[styles.text, { color: colors.onSurfaceVariant }]}>
-            Solicitar biometria para acessar o app
-          </Text>
+      {isAvaliableBiometrics && (
+        <View style={styles.content}>
+          <View>
+            <Text style={[styles.label, { color: colors.onSurface }]}>
+              Acesso ao app
+            </Text>
+            <Text style={[styles.text, { color: colors.onSurfaceVariant }]}>
+              Solicitar biometria para acessar o app
+            </Text>
+          </View>
+          <Switch
+            value={isBiometrics}
+            disabled={!isAvaliableBiometrics}
+            onValueChange={value => onChangeBiometry(value)}
+            children={undefined}
+            color={colors.primary}
+            thumbColor={isBiometrics ? colors.primary : '#FBFCFF'}
+            trackColor={{
+              false: '#AFAFAF',
+              true: colors.secondaryContainer,
+            }}
+          />
         </View>
-        <Switch
-          value={isBiometrics}
-          disabled={!isAvaliableBiometrics}
-          onValueChange={value => onChangeBiometry(value)}
-          children={undefined}
-          color={colors.primary}
-          thumbColor={isBiometrics ? colors.primary : '#FBFCFF'}
-          trackColor={{
-            false: '#AFAFAF',
-            true: colors.secondaryContainer,
-          }}
-        />
-      </View>
-      <View style={styles.content}>
-        <View>
-          <Text style={[styles.label, { color: colors.onSurface }]}>
-            Autopreencimento
-          </Text>
-          <Text style={[styles.text, { color: colors.onSurfaceVariant }]}>
-            Ativar autopreencimento de senhas nos seus aplicativos
-          </Text>
+      )}
+      {isAvaliableAutofill && (
+        <View style={styles.content}>
+          <View>
+            <Text style={[styles.label, { color: colors.onSurface }]}>
+              Autopreencimento
+            </Text>
+            <Text style={[styles.text, { color: colors.onSurfaceVariant }]}>
+              Ativar autopreencimento de senhas nos seus aplicativos
+            </Text>
+          </View>
+          <Switch
+            value={enabled}
+            disabled={!isAvaliableBiometrics}
+            onValueChange={value => onChangeAutofill(value)}
+            children={undefined}
+            color={colors.primary}
+            thumbColor={enabled ? colors.primary : '#FBFCFF'}
+            trackColor={{
+              false: '#AFAFAF',
+              true: colors.secondaryContainer,
+            }}
+          />
         </View>
-        <Switch
-          value={enabled}
-          disabled={!isAvaliableBiometrics}
-          onValueChange={value => onChangeAutofill(value)}
-          children={undefined}
-          color={colors.primary}
-          thumbColor={enabled ? colors.primary : '#FBFCFF'}
-          trackColor={{
-            false: '#AFAFAF',
-            true: colors.secondaryContainer,
-          }}
-        />
-      </View>
+      )}
       <AlertDialog
         visible={openResponse}
         onDismiss={() => setOpenResponse(false)}>

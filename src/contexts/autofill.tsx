@@ -8,6 +8,7 @@ interface IAutofill {
 interface IAutofillContext {
   isAutofill: boolean;
   enabled: boolean;
+  isAvaliableAutofill: boolean;
   handleAutofillSettings: () => Promise<void>;
   handleDisabled: () => Promise<void>;
 }
@@ -24,6 +25,7 @@ export const AutofillContext = React.createContext<IAutofillContext>(
 export function AutofillProvider(props: AutofillProviderProps) {
   const { isAutofill } = props;
   const [enabled, setEnabled] = useState(false);
+  const [isAvaliableAutofill, setIsAvaliableAutofill] = useState(false);
 
   const context: IAutofill = useMemo(
     () => ({
@@ -53,7 +55,17 @@ export function AutofillProvider(props: AutofillProviderProps) {
   const getStatus = async () => {
     try {
       const result = await AutoFillBridge.getAutoFillSystemStatus();
+      console.log('Auto fill =>', result);
       setEnabled(result);
+    } catch (error) {
+      console.log('Error', error);
+    }
+  };
+
+  const getAvaliable = async () => {
+    try {
+      setIsAvaliableAutofill(AutoFillBridge.DEVICE_SUPPORTS_AUTOFILL);
+      // console.log('Auto fill =>', result);
     } catch (error) {
       console.log('Error', error);
     }
@@ -61,11 +73,18 @@ export function AutofillProvider(props: AutofillProviderProps) {
 
   useEffect(() => {
     getStatus();
+    getAvaliable();
   }, []);
 
   return (
     <AutofillContext.Provider
-      value={{ ...context, enabled, handleAutofillSettings, handleDisabled }}>
+      value={{
+        ...context,
+        enabled,
+        handleAutofillSettings,
+        handleDisabled,
+        isAvaliableAutofill,
+      }}>
       {props.children}
     </AutofillContext.Provider>
   );

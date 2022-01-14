@@ -30,7 +30,7 @@ export const Auth: React.FC = () => {
   const [visibleSnackBar, setVisibleSnackBar] = useState<boolean>(false);
 
   const { colors, schemeColor } = useCustomTheme();
-  const { handleSignInPassword, handleLoggedUser, user } = useAuth();
+  const { handleSignInPassword, handleLoggedUser } = useAuth();
   const { isBiometrics, handleSimpleBiometrics } = useBiometry();
 
   useEffect(() => {
@@ -82,17 +82,18 @@ export const Auth: React.FC = () => {
         backgroundColor={colors.background}
         barStyle={schemeColor === 'dark' ? 'light-content' : 'dark-content'}
       />
-
+      {/* <ScrollView> */}
+      {/* <KeyboardAvoidingView behavior="padding" style={styles.header}> */}
       <View style={styles.header}>
         <Image
           style={styles.logo}
           source={require('../../assets/logo-app.png')}
         />
-        <Text style={[styles.title, { color: colors.onSurface }]}>
+        {/* <Text style={[styles.title, { color: colors.onSurface }]}>
           {user.givenName
             ? `Bem vindo ${user.givenName}`
             : 'Bem vindo de volta ao My Access'}
-        </Text>
+          </Text> */}
         <View style={styles.inputArea}>
           <TextInput
             label="Senha master"
@@ -266,6 +267,9 @@ export const Auth: React.FC = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      {/* </KeyboardAvoidingView> */}
+      {/* </ScrollView> */}
+
       <Snackbar
         visible={visibleSnackBar}
         onDismiss={() => setVisibleSnackBar(false)}

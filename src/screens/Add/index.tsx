@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, ToastAndroid, View } from 'react-native';
+import {
+  FlatList,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  View,
+} from 'react-native';
 import { TextInput, Title } from 'react-native-paper';
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useCustomTheme } from '../../contexts/theme';
@@ -192,197 +200,200 @@ export const Add: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={styles.areaList}>
-        <Title style={[styles.title, { color: colors.onSurface }]}>
-          Selecione uma categoria
-        </Title>
-        <FlatList
-          data={categories}
-          keyExtractor={item => String(item.key)}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={{ width: 16 }} />}
-          renderItem={({ item }) => (
-            <Ship
-              label={item.title}
-              selected={item.key === categoriesSelected}
-              onPress={() => handleSelectCategories(item)}
-              icon
+      <ScrollView showsHorizontalScrollIndicator={false}>
+        <KeyboardAvoidingView behavior="padding">
+          <View style={styles.areaList}>
+            <Title style={[styles.title, { color: colors.onSurface }]}>
+              Selecione uma categoria
+            </Title>
+            <FlatList
+              data={categories}
+              keyExtractor={item => String(item.key)}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              ItemSeparatorComponent={() => <View style={{ width: 16 }} />}
+              renderItem={({ item }) => (
+                <Ship
+                  label={item.title}
+                  selected={item.key === categoriesSelected}
+                  onPress={() => handleSelectCategories(item)}
+                  icon
+                />
+              )}
+              contentContainerStyle={styles.categoriesList}
             />
-          )}
-          contentContainerStyle={styles.categoriesList}
-        />
-
-        <View style={styles.inputArea}>
-          <TextInput
-            label={`Nome do ${categoriesName}`}
-            value={formData.name}
-            mode="flat"
-            placeholder={`Digite o nome do ${categoriesName}`}
-            onChangeText={handleChangeName}
-            returnKeyType="next"
-            style={{
-              backgroundColor:
-                schemeColor === 'dark'
-                  ? 'rgba(158, 163, 255, 0.03)'
-                  : 'rgba(77, 81, 189, 0.03)',
-            }}
-            theme={{
-              colors: {
-                text: colors.onSurface,
-                placeholder: colors.outline,
-                primary: colors.primary,
-              },
-            }}
-            underlineColor={colors.outline}
-            activeUnderlineColor={colors.primary}
-            selectTextOnFocus
-            selectionColor={colors.primary}
-            children={undefined}
-            autoComplete={false}
-          />
-        </View>
-        <View style={styles.inputArea}>
-          <TextInput
-            label="Descrição"
-            mode="flat"
-            value={formData.description}
-            placeholder="Faça uma breve descrição... ✍️"
-            onChangeText={handleChangeDescription}
-            placeholderTextColor={colors.outline}
-            autoCorrect={false}
-            returnKeyType="next"
-            style={{
-              backgroundColor:
-                schemeColor === 'dark'
-                  ? 'rgba(158, 163, 255, 0.03)'
-                  : 'rgba(77, 81, 189, 0.03)',
-            }}
-            theme={{
-              colors: {
-                text: colors.onSurface,
-                placeholder: colors.outline,
-                primary: colors.primary,
-              },
-            }}
-            underlineColor={colors.outline}
-            activeUnderlineColor={colors.primary}
-            selectTextOnFocus
-            selectionColor={colors.primary}
-            children={undefined}
-            autoComplete={false}
-          />
-        </View>
-        <View style={styles.inputArea}>
-          <TextInput
-            label="Seu login"
-            mode="flat"
-            value={formData.login}
-            placeholder="Digite seu login"
-            onChangeText={handleChangeLogin}
-            placeholderTextColor={colors.outline}
-            autoCapitalize="none"
-            autoCorrect={false}
-            returnKeyType="next"
-            style={{
-              backgroundColor:
-                schemeColor === 'dark'
-                  ? 'rgba(158, 163, 255, 0.03)'
-                  : 'rgba(77, 81, 189, 0.03)',
-            }}
-            theme={{
-              colors: {
-                text: colors.onSurface,
-                placeholder: colors.outline,
-                primary: colors.primary,
-              },
-            }}
-            underlineColor={colors.outline}
-            activeUnderlineColor={colors.primary}
-            selectTextOnFocus
-            selectionColor={colors.primary}
-            children={undefined}
-            autoComplete={false}
-          />
-        </View>
-        <View style={styles.inputArea}>
-          <TextInput
-            label={'Sua senha'}
-            mode="flat"
-            placeholder="Digite sua senha master"
-            onChangeText={handleChangePassword}
-            placeholderTextColor={colors.outline}
-            secureTextEntry={!passwordVisble}
-            value={formData.password}
-            returnKeyType="done"
-            style={{
-              backgroundColor:
-                schemeColor === 'dark'
-                  ? 'rgba(158, 163, 255, 0.03)'
-                  : 'rgba(77, 81, 189, 0.03)',
-            }}
-            theme={{
-              colors: {
-                text: colors.onSurface,
-                placeholder: colors.outline,
-                primary: colors.primary,
-              },
-            }}
-            underlineColor={colors.outline}
-            activeUnderlineColor={colors.primary}
-            selectTextOnFocus
-            selectionColor={colors.primary}
-            right={
-              <TextInput.Icon
-                name={passwordVisble ? 'eye-off' : 'eye'}
-                onPress={togglePasswordVisible}
-                color={colors.onPrimaryContainer}
-                size={20}
+            <View style={styles.inputArea}>
+              <TextInput
+                label={`Nome do ${categoriesName}`}
+                value={formData.name}
+                mode="flat"
+                placeholder={`Digite o nome do ${categoriesName}`}
+                onChangeText={handleChangeName}
+                returnKeyType="next"
+                style={{
+                  backgroundColor:
+                    schemeColor === 'dark'
+                      ? 'rgba(158, 163, 255, 0.03)'
+                      : 'rgba(77, 81, 189, 0.03)',
+                }}
+                theme={{
+                  colors: {
+                    text: colors.onSurface,
+                    placeholder: colors.outline,
+                    primary: colors.primary,
+                  },
+                }}
+                underlineColor={colors.outline}
+                activeUnderlineColor={colors.primary}
+                selectTextOnFocus
+                selectionColor={colors.primary}
+                children={undefined}
+                autoComplete={false}
               />
-            }
-            children={undefined}
-            autoComplete={false}
-          />
-          <Text
-            style={[
-              styles.passwordForce,
-              { color: colors.onPrimaryContainer },
-            ]}>
-            {'Força da sua senha: '}
-            <Text
-              style={{
-                color:
-                  formData.force === 'Fraca'
-                    ? colors.error
-                    : formData.force === 'Média'
-                    ? colors.warning
-                    : colors.success,
-              }}>
-              {formData.force}
-            </Text>
-          </Text>
-        </View>
-
-        <View style={styles.selectColor}>
-          <Title style={{ color: colors.onPrimaryContainer }}>
-            Selecione uma cor
-          </Title>
-          <View style={styles.colorArea}>
-            {selectionColors.map(item => (
-              <ColorButton
-                key={item.key}
-                color={item.value}
-                selected={item.key === colorSelect}
-                onPress={() => handleSelectColors(item)}
+            </View>
+            <View style={styles.inputArea}>
+              <TextInput
+                label="Descrição"
+                mode="flat"
+                value={formData.description}
+                placeholder="Faça uma breve descrição... ✍️"
+                onChangeText={handleChangeDescription}
+                placeholderTextColor={colors.outline}
+                autoCorrect={false}
+                returnKeyType="next"
+                style={{
+                  backgroundColor:
+                    schemeColor === 'dark'
+                      ? 'rgba(158, 163, 255, 0.03)'
+                      : 'rgba(77, 81, 189, 0.03)',
+                }}
+                theme={{
+                  colors: {
+                    text: colors.onSurface,
+                    placeholder: colors.outline,
+                    primary: colors.primary,
+                  },
+                }}
+                underlineColor={colors.outline}
+                activeUnderlineColor={colors.primary}
+                selectTextOnFocus
+                selectionColor={colors.primary}
+                children={undefined}
+                autoComplete={false}
               />
-            ))}
+            </View>
+            <View style={styles.inputArea}>
+              <TextInput
+                label="Seu login"
+                mode="flat"
+                value={formData.login}
+                placeholder="Digite seu login"
+                onChangeText={handleChangeLogin}
+                placeholderTextColor={colors.outline}
+                autoCapitalize="none"
+                autoCorrect={false}
+                returnKeyType="next"
+                style={{
+                  backgroundColor:
+                    schemeColor === 'dark'
+                      ? 'rgba(158, 163, 255, 0.03)'
+                      : 'rgba(77, 81, 189, 0.03)',
+                }}
+                theme={{
+                  colors: {
+                    text: colors.onSurface,
+                    placeholder: colors.outline,
+                    primary: colors.primary,
+                  },
+                }}
+                underlineColor={colors.outline}
+                activeUnderlineColor={colors.primary}
+                selectTextOnFocus
+                selectionColor={colors.primary}
+                children={undefined}
+                autoComplete={false}
+              />
+            </View>
+            <View style={styles.inputArea}>
+              <TextInput
+                label={'Sua senha'}
+                mode="flat"
+                placeholder="Digite sua senha master"
+                onChangeText={handleChangePassword}
+                placeholderTextColor={colors.outline}
+                secureTextEntry={!passwordVisble}
+                value={formData.password}
+                returnKeyType="done"
+                style={{
+                  backgroundColor:
+                    schemeColor === 'dark'
+                      ? 'rgba(158, 163, 255, 0.03)'
+                      : 'rgba(77, 81, 189, 0.03)',
+                }}
+                theme={{
+                  colors: {
+                    text: colors.onSurface,
+                    placeholder: colors.outline,
+                    primary: colors.primary,
+                  },
+                }}
+                underlineColor={colors.outline}
+                activeUnderlineColor={colors.primary}
+                selectTextOnFocus
+                selectionColor={colors.primary}
+                right={
+                  <TextInput.Icon
+                    name={passwordVisble ? 'eye-off' : 'eye'}
+                    onPress={togglePasswordVisible}
+                    color={colors.onPrimaryContainer}
+                    size={20}
+                  />
+                }
+                children={undefined}
+                autoComplete={false}
+              />
+              <Text
+                style={[
+                  styles.passwordForce,
+                  { color: colors.onPrimaryContainer },
+                ]}>
+                {'Força da sua senha: '}
+                <Text
+                  style={{
+                    color:
+                      formData.force === 'Fraca'
+                        ? colors.error
+                        : formData.force === 'Média'
+                        ? colors.warning
+                        : colors.success,
+                  }}>
+                  {formData.force}
+                </Text>
+              </Text>
+            </View>
+
+            <View style={styles.selectColor}>
+              <Title style={{ color: colors.onPrimaryContainer }}>
+                Selecione uma cor
+              </Title>
+              <View style={styles.colorArea}>
+                {selectionColors.map(item => (
+                  <ColorButton
+                    key={item.key}
+                    color={item.value}
+                    selected={item.key === colorSelect}
+                    onPress={() => handleSelectColors(item)}
+                  />
+                ))}
+              </View>
+            </View>
+
+            <View style={styles.btnArea}>
+              <Button label="Salvar" onPress={handleSave} />
+            </View>
           </View>
-        </View>
-
-        <View style={styles.btnArea}>
-          <Button label="Salvar" onPress={handleSave} />
-        </View>
-      </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
     </View>
   );
 };

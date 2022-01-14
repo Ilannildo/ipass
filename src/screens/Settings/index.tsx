@@ -14,6 +14,8 @@ import { Button } from '../../components/design/Button';
 import { AlertDialog } from '../../components/design/Dialog';
 import { MenuItem } from '../../components/MenuItem';
 import { useAuth } from '../../contexts/auth';
+import { useAutofill } from '../../contexts/autofill';
+import { useBiometry } from '../../contexts/biometry';
 import { useCustomTheme } from '../../contexts/theme';
 import { SettingstStackParamList } from '../../routes/configuration.routes';
 
@@ -26,10 +28,8 @@ export const Settings: React.FC = () => {
   const [selectTheme, setSelectTheme] = useState<ThemeType>(theme);
   const { user } = useAuth();
   const navigation = useNavigation<SettingsScreenProp>();
-
-  // const logout = async () => {
-  //   await handleSignOut();
-  // };
+  const { isAvaliableAutofill } = useAutofill();
+  const { isAvaliableBiometrics } = useBiometry();
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -55,11 +55,13 @@ export const Settings: React.FC = () => {
         </View>
 
         <View style={styles.body}>
-          <MenuItem
-            title="Segurança"
-            iconName="shield"
-            onPress={() => navigation.navigate('SafetyScreen')}
-          />
+          {(isAvaliableAutofill || isAvaliableBiometrics) && (
+            <MenuItem
+              title="Segurança"
+              iconName="shield"
+              onPress={() => navigation.navigate('SafetyScreen')}
+            />
+          )}
           <MenuItem
             title="Tema"
             iconName="color-palette-outline"
