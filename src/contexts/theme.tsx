@@ -95,12 +95,9 @@ export const CustomThemeProvider: React.FC = ({ children }) => {
   );
   const [loadingTheme, setLoadingTheme] = useState(true);
 
-  // TO DO: Criar método para salvar a escolha do tema do usuário no smartphone
-
   const saveTheme = async (currentTheme: ThemeType) => {
     try {
       await AsyncStorage.setItem('myaccess@theme', currentTheme);
-      console.log('Async save theme =>', currentTheme);
     } catch (e) {
       // saving error
       console.log(e);
@@ -116,21 +113,26 @@ export const CustomThemeProvider: React.FC = ({ children }) => {
         if (value !== null) {
           if (value === 'default') {
             if (scheme === 'dark') {
+              setTheme('dark');
               setSchemeColors('dark');
               changeNavigationBarColor(dark.background, false, true);
             } else {
+              setTheme('light');
               setSchemeColors('light');
               changeNavigationBarColor(light.background, true, true);
             }
           } else if (value === 'light') {
+            setTheme('light');
             setSchemeColors('light');
             changeNavigationBarColor(light.background, true, true);
           } else if (value === 'dark') {
+            setTheme('dark');
             setSchemeColors('dark');
             changeNavigationBarColor(dark.background, false, true);
           }
+        } else {
+          setTheme('default');
         }
-        setTheme(value);
         setLoadingTheme(false);
       } catch (e) {
         console.log(e);

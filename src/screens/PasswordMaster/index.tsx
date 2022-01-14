@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
-// import ReactNativeBiometrics from 'react-native-biometrics';
-// import { Button } from '../../components/Button';
-import { Alert } from '../../components/Alert';
 import { useAuth } from '../../contexts/auth';
 import { useCustomTheme } from '../../contexts/theme';
 import { useBiometry } from '../../contexts/biometry';
 import { Button } from '../../components/design/Button';
-import { TextInput } from 'react-native-paper';
+import { Dialog, TextInput, Button as Bt } from 'react-native-paper';
 import { verifyPasswordForce } from '../../utils/roles';
+import { AlertDialog } from '../../components/design/Dialog';
 
 export const PasswordMaster: React.FC = () => {
   const [password, setPassword] = useState('');
@@ -98,7 +96,7 @@ export const PasswordMaster: React.FC = () => {
         backgroundColor={colors.background}
         barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
       />
-      <Alert
+      {/* <Alert
         title="Usar impressão digital?"
         message="Deseja habilitar sua Digital para realizar ações dentro do app?"
         visible={enableAlert}
@@ -106,7 +104,33 @@ export const PasswordMaster: React.FC = () => {
         onCancelText="Ainda não"
         onConfirm={() => handleBiometrics()}
         onCancel={() => handleNotBiometrics()}
-      />
+      /> */}
+      <AlertDialog
+        visible={enableAlert}
+        onDismiss={() => handleNotBiometrics()}>
+        <Dialog.Title style={{ color: colors.onSurface }}>
+          Usar impressão digital?
+        </Dialog.Title>
+        <Dialog.Content>
+          Deseja habilitar sua Digital para realizar ações dentro do app?
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Bt
+            style={{ marginRight: 20 }}
+            color={colors.primary}
+            onPress={() => handleNotBiometrics()}>
+            Cancelar
+          </Bt>
+          <Bt
+            color={colors.primary}
+            style={{ marginRight: 15 }}
+            onPress={() => {
+              handleBiometrics();
+            }}>
+            Ok
+          </Bt>
+        </Dialog.Actions>
+      </AlertDialog>
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.onSurface }]}>
           Senha Master
