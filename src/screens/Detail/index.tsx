@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { ScrollView, StatusBar, Text, View } from 'react-native';
+import { ScrollView, StatusBar, Text, ToastAndroid, View } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
 import { StorageSchemaType } from '../../utils/storage';
 import { styles } from './styles';
@@ -10,11 +10,14 @@ import { RoundButton } from '../../components/design/RoundButton';
 import { AppRoutesListParams } from '../../routes/app.route';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Clipboard from '@react-native-clipboard/clipboard';
+import { Banner } from 'react-native-paper';
 
 export const Detail: React.FC = () => {
   const route = useRoute();
   const { colors, schemeColor } = useCustomTheme();
   const [visiblePassword, setVisiblePassword] = useState(false);
+  const [visibleBanner, setVisibleBanner] = useState(true);
   const navigation =
     useNavigation<NativeStackNavigationProp<AppRoutesListParams>>();
 
@@ -33,10 +36,14 @@ export const Detail: React.FC = () => {
 
   const handleCopyPassword = (pass: string) => {
     console.log('Senha copiada para a área de transferência', pass);
+    Clipboard.setString(pass);
+    ToastAndroid.show('Senha copiada para a área de transferência', 500);
   };
 
   const handleCopyLogin = (lo: string) => {
     console.log('Login copiado para a área de transferência', lo);
+    Clipboard.setString(lo);
+    ToastAndroid.show('Login copiado para a área de transferência', 500);
   };
 
   return (
@@ -52,6 +59,24 @@ export const Detail: React.FC = () => {
         barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
       />
       <ScrollView>
+        <Banner
+          visible={visibleBanner}
+          theme={{
+            colors: {
+              primary: colors.primary,
+              background: colors.background,
+              surface: colors.background,
+              text: colors.onSurface,
+            },
+          }}
+          actions={[
+            {
+              label: 'Entendi',
+              onPress: () => setVisibleBanner(false),
+            },
+          ]}>
+          Clique e mantenha pressionado para copiar seu login ou senha
+        </Banner>
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.onSurface }]}>
             {name || 'Title'}
