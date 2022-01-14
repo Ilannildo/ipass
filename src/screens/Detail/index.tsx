@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StatusBar, Text, View } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
 import { StorageSchemaType } from '../../utils/storage';
@@ -9,10 +9,12 @@ import { maskDate, maskPass, maskTime } from '../../utils/masks';
 import { RoundButton } from '../../components/design/RoundButton';
 import { AppRoutesListParams } from '../../routes/app.route';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const Detail: React.FC = () => {
   const route = useRoute();
   const { colors, schemeColor } = useCustomTheme();
+  const [visiblePassword, setVisiblePassword] = useState(false);
   const navigation =
     useNavigation<NativeStackNavigationProp<AppRoutesListParams>>();
 
@@ -28,6 +30,15 @@ export const Detail: React.FC = () => {
     categorie,
     force,
   } = route.params as StorageSchemaType;
+
+  const handleCopyPassword = (pass: string) => {
+    console.log('Senha copiada para a área de transferência', pass);
+  };
+
+  const handleCopyLogin = (lo: string) => {
+    console.log('Login copiado para a área de transferência', lo);
+  };
+
   return (
     <View
       style={[
@@ -56,7 +67,6 @@ export const Detail: React.FC = () => {
               <MaterialIcons
                 name="description"
                 color={colors.outline}
-                // style={styles.icon}
                 size={16}
               />
               <Text style={[styles.itemTitle, { color: colors.outline }]}>
@@ -145,7 +155,8 @@ export const Detail: React.FC = () => {
               </Text>
             </View>
           </View>
-          <View
+          <TouchableOpacity
+            onLongPress={() => handleCopyLogin(login)}
             style={[
               styles.contentItem,
               { borderBottomColor: colors.secondaryContainer },
@@ -166,8 +177,9 @@ export const Detail: React.FC = () => {
                 {login || 'Nenhum login foi encontrado'}
               </Text>
             </View>
-          </View>
-          <View
+          </TouchableOpacity>
+          <TouchableOpacity
+            onLongPress={() => handleCopyPassword(password)}
             style={[
               styles.contentItem,
               { borderBottomColor: colors.secondaryContainer },
@@ -185,10 +197,21 @@ export const Detail: React.FC = () => {
             </View>
             <View style={styles.contentBottom}>
               <Text style={[styles.itemText, { color: colors.onSurface }]}>
-                {maskPass(password) || 'Nenhum login foi encontrado'}
+                {visiblePassword ? password : maskPass(password)}
               </Text>
+              <View style={styles.contentBottomRight}>
+                <TouchableOpacity
+                  style={styles.btnCopy}
+                  onPress={() => setVisiblePassword(!visiblePassword)}>
+                  <MaterialIcons
+                    name={visiblePassword ? 'visibility-off' : 'visibility'}
+                    size={24}
+                    color={colors.outline}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
       <View style={styles.footer}>

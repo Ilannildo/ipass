@@ -26,7 +26,7 @@ export const StorageContext = createContext<Props>({} as Props);
 
 export const StorageProvider: React.FC = ({ children }) => {
   const [storage, setStorage] = useState<Results<StorageSchemaType>>([] as any);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const getStorage = async () => {
     setLoading(true);
@@ -45,7 +45,9 @@ export const StorageProvider: React.FC = ({ children }) => {
     } catch (error) {
       console.log('Erro ao buscar storage');
     }
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
     return () => {
       data.removeAllListeners();
       realm.close();
@@ -54,7 +56,10 @@ export const StorageProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     getStorage();
+    // clearStoragePassword();
   }, []);
+
+  console.log('Tamanho do storage =>', storage.length);
 
   const savePassword = (data: StorageSchemaType): Promise<boolean> => {
     return new Promise(async (resolve, reject) => {
@@ -68,11 +73,28 @@ export const StorageProvider: React.FC = ({ children }) => {
         realm.write(() => {
           realm.create<StorageSchemaType>('StorageSchema', data);
         });
+        console.log('Tamanho do storage =>', storage.length);
+        if (!lastStorage) {
+          console.log('Primeira senha a ser salva');
+          await getStorage();
+        }
         resolve(true);
       } catch (error) {
         reject(error);
       }
     });
+  };
+
+  const clearStoragePassword = async () => {
+    const realm = await getRealm();
+    try {
+      realm.write(() => {
+        realm.delete(realm.objects('StorageSchema'));
+        // realm.objects("Cat")
+      });
+    } catch (error) {
+      console.log('Error ao deletar storage password', error);
+    }
   };
 
   const updatePassword = (data: StorageSchemaType): Promise<boolean> => {

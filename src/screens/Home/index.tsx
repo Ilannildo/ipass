@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useNavigation, useFocusEffect } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 import { AppRoutesListParams } from '../../routes/app.route';
 import { StorageSchemaType } from '../../utils/storage';
 import { maskDate, maskTime } from '../../utils/masks';
@@ -34,7 +34,7 @@ export const Home: React.FC = () => {
   const { loading, storage } = useStorage();
   const [categories, setCategories] = useState<CategoriesProps[]>([]);
   const [categoriesSelected, setCategoriesSelected] = useState<string>('all');
-  // const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(true);
 
   // const [storage, setStorage] = useState<Results<StorageSchemaType>>([] as any);
   const [storageFiltered, setStorageFiltered] = useState<
@@ -78,38 +78,15 @@ export const Home: React.FC = () => {
       ]);
     }
     fetchCategories();
+    setTimeout(() => {
+      setMounted(false);
+    }, 500);
   }, []);
 
   useEffect(() => {
-    // const getStorage = async () => {
-    //   setLoading(true);
-    //   const realm = await getRealm();
-    //   const data = realm
-    //     .objects<StorageSchemaType>('StorageSchema')
-    //     .sorted('date', true);
-    //   setStorageFiltered(data);
-    //   setStorage(data);
-    //   try {
-    //     console.log('Buscou novamente');
-    //     data.addListener(() => {
-    //       setStorageFiltered(data);
-    //       setStorage(data);
-    //     });
-    //   } catch (error) {
-    //     console.log('Erro ao buscar storage');
-    //   }
-    //   setLoading(false);
-    //   return () => {
-    //     data.removeAllListeners();
-    //     realm.close();
-    //   };
-    // };
-    // getStorage();
     setStorageFiltered(storage);
     setCategoriesSelected('all');
   }, [storage]);
-
-  useFocusEffect(() => {});
 
   return (
     <View
@@ -149,7 +126,7 @@ export const Home: React.FC = () => {
           />
         </View>
 
-        {loading ? (
+        {loading || mounted ? (
           <View style={styles.listEmpty}>
             <LottieView
               source={require('../../lottie/loader.json')}

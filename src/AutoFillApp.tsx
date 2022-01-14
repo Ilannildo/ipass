@@ -8,6 +8,7 @@ interface AutoFillAppProps {
 
 export const AutoFillApp: React.FC<AutoFillAppProps> = ({ urls }) => {
   console.log('URL =>', urls);
+  // }, []);
   return (
     <View>
       <Text>Auto Fill App</Text>
@@ -17,8 +18,8 @@ export const AutoFillApp: React.FC<AutoFillAppProps> = ({ urls }) => {
       />
       <Button
         title="Escolher"
-        onPress={() =>
-          AutoFillBridge.completeAutoFill('Ilannildo', '123', 'Magalu')
+        onPress={async () =>
+          await AutoFillBridge.completeAutoFill('Ilannildo', '123', 'Magalu')
         }
       />
     </View>

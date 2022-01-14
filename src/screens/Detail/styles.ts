@@ -38,6 +38,7 @@ export const styles = StyleSheet.create({
   contentBottom: {
     marginTop: 10,
     justifyContent: 'space-between',
+    alignItems: 'center',
     flexDirection: 'row',
   },
   itemTitle: {
@@ -48,7 +49,7 @@ export const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 16,
-    lineHeight: 20,
+    // lineHeight: 20,
     letterSpacing: 0.1,
   },
   itemRight: {
@@ -66,5 +67,14 @@ export const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-evenly',
     flexDirection: 'row',
+  },
+  contentBottomRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  btnCopy: {
+    // backgroundColor: '#000',
+    padding: 4,
+    marginLeft: 16,
   },
 });
