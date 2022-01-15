@@ -1,11 +1,16 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from 'react-native';
+// import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useCustomTheme } from '../../../contexts/theme';
 import { styles } from './styles';
 
-type Props = RectButtonProps & {
+type Props = TouchableOpacityProps & {
   label: string;
   categorie: string;
   color: number;
@@ -30,7 +35,7 @@ export const Card: React.FC<Props> = ({
   // const rgba = hexToRgbA(color.toString());
   return (
     <>
-      <RectButton
+      <TouchableOpacity
         {...rest}
         onPress={onDetail}
         style={[
@@ -81,7 +86,7 @@ export const Card: React.FC<Props> = ({
           </View>
         </View>
         {/* Aqui vai o botão de favoritar */}
-      </RectButton>
+      </TouchableOpacity>
       <View style={{ marginBottom: 16 }} />
     </>
   );

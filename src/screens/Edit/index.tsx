@@ -65,7 +65,7 @@ export const Edit: React.FC = () => {
   const [categoriesName, setCategoriesName] = useState<string>('');
 
   const [selectionColors, setSelectionColors] = useState<ColorsProps[]>([]);
-  const [colorSelect, setColorSelect] = useState<number>(1);
+  const [colorSelect, setColorSelect] = useState<number>(color);
 
   const [passwordVisble, setPasswordVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -282,7 +282,7 @@ export const Edit: React.FC = () => {
                 underlineColor={colors.outline}
                 activeUnderlineColor={colors.primary}
                 selectTextOnFocus
-                selectionColor={colors.primary}
+                selectionColor={colors.primaryContainer}
                 children={undefined}
                 autoComplete={false}
               />
@@ -313,7 +313,7 @@ export const Edit: React.FC = () => {
                 underlineColor={colors.outline}
                 activeUnderlineColor={colors.primary}
                 selectTextOnFocus
-                selectionColor={colors.primary}
+                selectionColor={colors.primaryContainer}
                 children={undefined}
                 autoComplete={false}
               />
@@ -345,7 +345,7 @@ export const Edit: React.FC = () => {
                 underlineColor={colors.outline}
                 activeUnderlineColor={colors.primary}
                 selectTextOnFocus
-                selectionColor={colors.primary}
+                selectionColor={colors.primaryContainer}
                 children={undefined}
                 autoComplete={false}
               />
@@ -376,7 +376,7 @@ export const Edit: React.FC = () => {
                 underlineColor={colors.outline}
                 activeUnderlineColor={colors.primary}
                 selectTextOnFocus
-                selectionColor={colors.primary}
+                selectionColor={colors.primaryContainer}
                 right={
                   <TextInput.Icon
                     name={passwordVisble ? 'eye-off' : 'eye'}

@@ -139,6 +139,7 @@ export const Settings: React.FC = () => {
             title="Senha master"
             iconName="md-key-outline"
             onPress={() => console.log('Teste')}
+            disabled
           />
           <MenuItem
             title="Sincronizar/Backup"
@@ -150,11 +151,13 @@ export const Settings: React.FC = () => {
             title="Meus dados"
             iconName="user"
             onPress={() => console.log('Teste')}
+            disabled
           />
           <MenuItem
             title="Sobre"
             iconName="file-text"
             onPress={() => console.log('Teste')}
+            disabled
           />
         </View>
         <View style={styles.footer}>

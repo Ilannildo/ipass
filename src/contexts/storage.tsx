@@ -37,7 +37,6 @@ export const StorageProvider: React.FC = ({ children }) => {
     // setStorageFiltered(data);
     setStorage(data);
     try {
-      console.log('Buscou novamente');
       data.addListener(() => {
         // setStorageFiltered(data);
         setStorage(data);
@@ -59,8 +58,6 @@ export const StorageProvider: React.FC = ({ children }) => {
     // clearStoragePassword();
   }, []);
 
-  console.log('Tamanho do storage =>', storage.length);
-
   const savePassword = (data: StorageSchemaType): Promise<boolean> => {
     return new Promise(async (resolve, reject) => {
       const realm = await getRealm();
@@ -73,11 +70,10 @@ export const StorageProvider: React.FC = ({ children }) => {
         realm.write(() => {
           realm.create<StorageSchemaType>('StorageSchema', data);
         });
-        console.log('Tamanho do storage =>', storage.length);
-        if (!lastStorage) {
-          console.log('Primeira senha a ser salva');
-          await getStorage();
-        }
+        // if (!lastStorage) {
+        //   await getStorage();
+        // }
+        await getStorage();
         resolve(true);
       } catch (error) {
         reject(error);
@@ -108,7 +104,7 @@ export const StorageProvider: React.FC = ({ children }) => {
             Realm.UpdateMode.Modified,
           );
         });
-        // await getStorage();
+        await getStorage();
         resolve(true);
       } catch (error) {
         reject(error);

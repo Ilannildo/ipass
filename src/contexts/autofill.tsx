@@ -44,8 +44,7 @@ export function AutofillProvider(props: AutofillProviderProps) {
   };
   const handleDisabled = async () => {
     try {
-      const result = await AutoFillBridge.forceAutofill();
-      console.log('Teste =>', result);
+      await AutoFillBridge.forceAutofill();
       await getStatus();
     } catch (error) {
       console.log('Falha ao ativar auto fill service');
@@ -55,7 +54,6 @@ export function AutofillProvider(props: AutofillProviderProps) {
   const getStatus = async () => {
     try {
       const result = await AutoFillBridge.getAutoFillSystemStatus();
-      console.log('Auto fill =>', result);
       setEnabled(result);
     } catch (error) {
       console.log('Error', error);
@@ -65,7 +63,6 @@ export function AutofillProvider(props: AutofillProviderProps) {
   const getAvaliable = async () => {
     try {
       setIsAvaliableAutofill(AutoFillBridge.DEVICE_SUPPORTS_AUTOFILL);
-      // console.log('Auto fill =>', result);
     } catch (error) {
       console.log('Error', error);
     }

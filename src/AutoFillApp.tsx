@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native';
-import { AutoFillBridge } from './services/autofillbridge';
+import { Loader } from './components/design/Loader';
+import { useAuth } from './contexts/auth';
+import { AuthRoutes } from './routes/auth.route';
+import { Autofill } from './screens/Autofill';
 
 interface AutoFillAppProps {
   urls?: Array<string>;
@@ -8,20 +10,11 @@ interface AutoFillAppProps {
 
 export const AutoFillApp: React.FC<AutoFillAppProps> = ({ urls }) => {
   console.log('URL =>', urls);
-  // }, []);
-  return (
-    <View>
-      <Text>Auto Fill App</Text>
-      <Button
-        title="Cancelar"
-        onPress={() => AutoFillBridge.cancelAutoFill()}
-      />
-      <Button
-        title="Escolher"
-        onPress={async () =>
-          await AutoFillBridge.completeAutoFill('Ilannildo', '123', 'Magalu')
-        }
-      />
-    </View>
-  );
+  const { loading, logged } = useAuth();
+
+  if (loading) {
+    return <Loader />;
+  } else {
+    return logged ? <Autofill /> : <AuthRoutes />;
+  }
 };

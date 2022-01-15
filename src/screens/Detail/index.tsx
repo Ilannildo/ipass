@@ -33,13 +33,11 @@ export const Detail: React.FC = () => {
   } = route.params as StorageSchemaType;
 
   const handleCopyPassword = (pass: string) => {
-    console.log('Senha copiada para a área de transferência', pass);
     Clipboard.setString(pass);
     ToastAndroid.show('Senha copiada para a área de transferência', 500);
   };
 
   const handleCopyLogin = (lo: string) => {
-    console.log('Login copiado para a área de transferência', lo);
     Clipboard.setString(lo);
     ToastAndroid.show('Login copiado para a área de transferência', 500);
   };
