@@ -5,7 +5,7 @@ import { useAuth } from '../../contexts/auth';
 
 import Image1 from '../../assets/image-1.png';
 import { useCustomTheme } from '../../contexts/theme';
-import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { Loader } from '../../components/design/Loader';
 
 export const SignIn: React.FC = () => {
   const { handleSignIn, loadingSignIn } = useAuth();
@@ -21,7 +21,7 @@ export const SignIn: React.FC = () => {
         barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
         backgroundColor={colors.background}
       />
-      {loadingSignIn && <LoadingIndicator transparent />}
+      {loadingSignIn && <Loader />}
       <View style={styles.header}>
         <Text
           style={[

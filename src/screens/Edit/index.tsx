@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { TextInput, Title } from 'react-native-paper';
-import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { Loader } from '../../components/design/Loader';
 import { useCustomTheme } from '../../contexts/theme';
 import { Button } from '../../components/design/Button';
 import { ColorButton } from '../../components/ColorButton';
@@ -229,7 +229,7 @@ export const Edit: React.FC = () => {
   if (loading) {
     return (
       <View style={[styles.container, { backgroundColor: colors.background }]}>
-        <LoadingIndicator />
+        <Loader />
       </View>
     );
   }

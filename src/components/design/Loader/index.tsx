@@ -1,26 +1,24 @@
 import React from 'react';
-import { View, StatusBar } from 'react-native';
+import { View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { styles } from './styles';
 import { useCustomTheme } from '../../../contexts/theme';
 
-const Loader: React.FC = () => {
-  const { colors, schemeColor } = useCustomTheme();
+export const Loader: React.FC = () => {
+  const { colors } = useCustomTheme();
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <StatusBar
+      {/* <StatusBar
         backgroundColor={colors.background}
         barStyle={schemeColor === 'dark' ? 'light-content' : 'dark-content'}
         translucent
-      />
+      /> */}
       <LottieView
         source={require('../../../lottie/loader.json')}
         autoPlay
-        duration={1000}
+        duration={500}
         style={styles.anim}
       />
     </View>
   );
 };
-
-export default Loader;

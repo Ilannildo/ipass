@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 
-import { LoadingIndicator } from '../components/LoadingIndicator';
+import { Loader } from '../components/design/Loader';
 import { useAuth } from '../contexts/auth';
 import { useCustomTheme } from '../contexts/theme';
 import { AppRoutes } from './app.route';
@@ -18,7 +18,7 @@ export const Routes = () => {
   }, [loading, loadingTheme]);
 
   if (loading) {
-    return <LoadingIndicator />;
+    return <Loader />;
   } else {
     return logged ? <AppRoutes /> : <AuthRoutes />;
   }

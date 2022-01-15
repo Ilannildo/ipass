@@ -11,13 +11,11 @@ import { AppRoutesListParams } from '../../routes/app.route';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { Banner } from 'react-native-paper';
 
 export const Detail: React.FC = () => {
   const route = useRoute();
   const { colors, schemeColor } = useCustomTheme();
   const [visiblePassword, setVisiblePassword] = useState(false);
-  const [visibleBanner, setVisibleBanner] = useState(true);
   const navigation =
     useNavigation<NativeStackNavigationProp<AppRoutesListParams>>();
 
@@ -59,24 +57,6 @@ export const Detail: React.FC = () => {
         barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
       />
       <ScrollView>
-        <Banner
-          visible={visibleBanner}
-          theme={{
-            colors: {
-              primary: colors.primary,
-              background: colors.background,
-              surface: colors.background,
-              text: colors.onSurface,
-            },
-          }}
-          actions={[
-            {
-              label: 'Entendi',
-              onPress: () => setVisibleBanner(false),
-            },
-          ]}>
-          Clique e mantenha pressionado para copiar seu login ou senha
-        </Banner>
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.onSurface }]}>
             {name || 'Title'}
