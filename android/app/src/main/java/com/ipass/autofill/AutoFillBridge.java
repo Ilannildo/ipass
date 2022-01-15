@@ -282,7 +282,7 @@ public class AutoFillBridge extends ReactContextBaseJavaModule {
 
             // Fill out the remote views with the selected credential
             RemoteViews remoteView = new RemoteViews(getCurrentActivity().getPackageName(), R.layout.autofill_list_item);
-            remoteView.setTextViewText(R.id.autofill_username, "Login with " + username);
+            remoteView.setTextViewText(R.id.autofill_username, "Login com " + username);
             remoteView.setTextViewText(R.id.autofill_domain, entryPath);
             Dataset.Builder builder = new Dataset.Builder(remoteView);
 

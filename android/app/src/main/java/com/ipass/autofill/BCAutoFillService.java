@@ -81,7 +81,7 @@ public class BCAutoFillService extends AutofillService {
             // Add the Login With Buttercup option
             RemoteViews remoteView = new RemoteViews(getPackageName(), R.layout.autofill_list_item);
             remoteView.setTextViewText(R.id.autofill_username, getString(R.string.autofill_continue_title));
-            remoteView.setViewVisibility(R.id.autofill_domain, GONE);
+            remoteView.setViewVisibility(R.id.autofill_domain, GONE); 
 
             // Create the sender intent so that we can start the Buttercup app and let the user choose a credential
             Intent authIntent = new Intent(this, AutoFillActivity.class);
