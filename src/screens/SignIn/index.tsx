@@ -15,6 +15,10 @@ export const SignIn: React.FC = () => {
     await handleSignIn();
   };
 
+  if (loadingSignIn) {
+    return <Loader />;
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar

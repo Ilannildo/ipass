@@ -16,7 +16,7 @@ export const Loader: React.FC = () => {
       <LottieView
         source={require('../../../lottie/loader.json')}
         autoPlay
-        duration={500}
+        duration={1000}
         style={styles.anim}
       />
     </View>

@@ -172,6 +172,9 @@ export const AuthProvider: React.FC = ({ children }) => {
         ToastAndroid.show('O Login com o Google está em progresso', 2000);
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         ToastAndroid.show('O Play Services não está disponível', 2000);
+      } else if (error.response) {
+        console.log('Error =>', error.response);
+        ToastAndroid.show(error.response.data.message, 3000);
       } else {
         ToastAndroid.show('Verifique sua conexão com a internet', 2000);
       }
