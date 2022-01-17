@@ -13,10 +13,11 @@ import { Loader } from '../../components/design/Loader';
 import { useCustomTheme } from '../../contexts/theme';
 import { Button } from '../../components/design/Button';
 import { ColorButton } from '../../components/ColorButton';
-import { savePassword } from '../../utils/storage';
+// import { savePassword } from '../../utils/storage';
 import { useNavigation } from '@react-navigation/core';
 import { passwordForce } from '../../utils/roles';
 import { Ship } from '../../components/design/Ship';
+import { useStorage } from '../../contexts/storage';
 
 type FormProps = {
   categorie: string;
@@ -53,6 +54,7 @@ export const Add: React.FC = () => {
 
   const [formData, setFormData] = useState<FormProps>({} as FormProps);
   const navigation = useNavigation();
+  const { savePassword } = useStorage();
 
   const handleSave = async () => {
     if (

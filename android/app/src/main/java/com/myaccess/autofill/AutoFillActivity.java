@@ -67,7 +67,7 @@ public class AutoFillActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "ipass";
+        return "myaccess";
     }
 
     @Override

@@ -165,6 +165,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       };
       setSigned(true);
     } catch (error: any) {
+      console.log('Error 1 => ', error.message);
       console.log('Error => ', error.message);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         ToastAndroid.show('O login com o Google foi cancelado', 2000);
@@ -173,7 +174,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         ToastAndroid.show('O Play Services não está disponível', 2000);
       } else if (error.response) {
-        console.log('Error =>', error.response);
+        console.log('Error 2 =>', error.response);
         ToastAndroid.show(error.response.data.message, 3000);
       } else {
         ToastAndroid.show('Verifique sua conexão com a internet', 2000);

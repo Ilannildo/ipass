@@ -11,7 +11,7 @@ import { useAuth } from '../../contexts/auth';
 import { useCustomTheme } from '../../contexts/theme';
 import { useBiometry } from '../../contexts/biometry';
 import { Button } from '../../components/design/Button';
-import { Dialog, TextInput, Button as Bt } from 'react-native-paper';
+import { Dialog, TextInput, Button as Bt, Paragraph } from 'react-native-paper';
 import { verifyPasswordForce } from '../../utils/roles';
 import { AlertDialog } from '../../components/design/Dialog';
 
@@ -109,7 +109,9 @@ export const PasswordMaster: React.FC = () => {
           Usar impressão digital?
         </Dialog.Title>
         <Dialog.Content>
-          Deseja habilitar sua Digital para realizar ações dentro do app?
+          <Paragraph>
+            Deseja habilitar sua Digital para realizar ações dentro do app?
+          </Paragraph>
         </Dialog.Content>
         <Dialog.Actions>
           <Bt
@@ -128,92 +130,91 @@ export const PasswordMaster: React.FC = () => {
           </Bt>
         </Dialog.Actions>
       </AlertDialog>
-      <KeyboardAvoidingView style={styles.header} behavior="padding">
-        <ScrollView showsHorizontalScrollIndicator={false}>
-          {/* <View style={styles.header}> */}
-          <Text style={[styles.title, { color: colors.onSurface }]}>
-            Senha Master
-          </Text>
-          <Text style={[styles.subtitle, { color: colors.secondary }]}>
-            A senha master é a única senha que você precisa lembrar.Lembre-se
-            dela, pois não será possível recuperar e todas as senhas serão
-            perdidas
-          </Text>
-          <View style={styles.inputArea}>
-            <TextInput
-              label={'Senha master'}
-              value={password}
-              mode="flat"
-              placeholder={'Digite sua senha master'}
-              onChangeText={handleTextPass}
-              returnKeyType="next"
-              style={{
-                backgroundColor:
-                  schemeColor === 'dark'
-                    ? 'rgba(158, 163, 255, 0.03)'
-                    : 'rgba(77, 81, 189, 0.03)',
-              }}
-              theme={{
-                colors: {
-                  text: colors.onSurface,
-                  placeholder: colors.outline,
-                  primary: colors.primary,
-                },
-              }}
-              underlineColor={colors.outline}
-              activeUnderlineColor={colors.primary}
-              selectTextOnFocus
-              selectionColor={colors.primary}
-              children={undefined}
-              autoComplete={false}
-            />
-          </View>
-          <View style={styles.inputArea}>
-            <TextInput
-              label={'Repita sua senha master'}
-              value={repeatPassword}
-              mode="flat"
-              placeholder={'Confirme sua senha master'}
-              onChangeText={handleTextRepeatPass}
-              returnKeyType="next"
-              style={{
-                backgroundColor:
-                  schemeColor === 'dark'
-                    ? 'rgba(158, 163, 255, 0.03)'
-                    : 'rgba(77, 81, 189, 0.03)',
-              }}
-              theme={{
-                colors: {
-                  text: colors.onSurface,
-                  placeholder: colors.outline,
-                  primary: colors.primary,
-                },
-              }}
-              underlineColor={colors.outline}
-              activeUnderlineColor={colors.primary}
-              selectTextOnFocus
-              selectionColor={colors.primary}
-              error={error}
-              children={undefined}
-              autoComplete={false}
-            />
-          </View>
-
-          <View style={styles.footer}>
+      <ScrollView showsHorizontalScrollIndicator={false}>
+        <KeyboardAvoidingView behavior="padding">
+          <View style={styles.header}>
             <Text style={[styles.title, { color: colors.onSurface }]}>
-              {forcePassword}
+              Senha Master
             </Text>
-            <Button
-              label="Continuar"
-              onPress={handleSubmitPassword}
-              enabled={!disableButton}
-              loading={loading}
-            />
-          </View>
+            <Text style={[styles.subtitle, { color: colors.secondary }]}>
+              A senha master é a única senha que você precisa lembrar.Lembre-se
+              dela, pois não será possível recuperar e todas as senhas serão
+              perdidas
+            </Text>
+            <View style={styles.inputArea}>
+              <TextInput
+                label={'Senha master'}
+                value={password}
+                mode="flat"
+                placeholder={'Digite sua senha master'}
+                onChangeText={handleTextPass}
+                returnKeyType="next"
+                style={{
+                  backgroundColor:
+                    schemeColor === 'dark'
+                      ? 'rgba(158, 163, 255, 0.03)'
+                      : 'rgba(77, 81, 189, 0.03)',
+                }}
+                theme={{
+                  colors: {
+                    text: colors.onSurface,
+                    placeholder: colors.outline,
+                    primary: colors.primary,
+                  },
+                }}
+                underlineColor={colors.outline}
+                activeUnderlineColor={colors.primary}
+                selectTextOnFocus
+                selectionColor={colors.primary}
+                children={undefined}
+                autoComplete={false}
+              />
+            </View>
+            <View style={styles.inputArea}>
+              <TextInput
+                label={'Repita sua senha master'}
+                value={repeatPassword}
+                mode="flat"
+                placeholder={'Confirme sua senha master'}
+                onChangeText={handleTextRepeatPass}
+                returnKeyType="next"
+                style={{
+                  backgroundColor:
+                    schemeColor === 'dark'
+                      ? 'rgba(158, 163, 255, 0.03)'
+                      : 'rgba(77, 81, 189, 0.03)',
+                }}
+                theme={{
+                  colors: {
+                    text: colors.onSurface,
+                    placeholder: colors.outline,
+                    primary: colors.primary,
+                  },
+                }}
+                underlineColor={colors.outline}
+                activeUnderlineColor={colors.primary}
+                selectTextOnFocus
+                selectionColor={colors.primary}
+                error={error}
+                children={undefined}
+                autoComplete={false}
+              />
+            </View>
 
-          {/* </View> */}
-        </ScrollView>
-      </KeyboardAvoidingView>
+            <View style={styles.footer}>
+              <Text style={[styles.title, { color: colors.onSurface }]}>
+                {forcePassword}
+              </Text>
+              <Button
+                label="Continuar"
+                onPress={handleSubmitPassword}
+                enabled={!disableButton}
+                loading={loading}
+              />
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </ScrollView>
     </View>
   );
 };
@@ -224,7 +225,7 @@ const styles = StyleSheet.create({
     paddingTop: 25,
     paddingBottom: 40,
     justifyContent: 'space-between',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   header: {
     width: '100%',
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     width: '100%',
-    paddingHorizontal: 24,
+    // paddingHorizontal: 24,
     marginTop: 44,
     marginBottom: 20,
   },

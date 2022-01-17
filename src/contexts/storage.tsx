@@ -29,6 +29,7 @@ export const StorageProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const getStorage = async () => {
+    console.log('Buscando as senhas');
     setLoading(true);
     const realm = await getRealm();
     const data = realm
@@ -55,6 +56,9 @@ export const StorageProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     getStorage();
+    // storage.addListener(() => {
+    //   setStorage(storage);
+    // });
     // clearStoragePassword();
   }, []);
 
@@ -70,10 +74,10 @@ export const StorageProvider: React.FC = ({ children }) => {
         realm.write(() => {
           realm.create<StorageSchemaType>('StorageSchema', data);
         });
-        // if (!lastStorage) {
-        //   await getStorage();
-        // }
-        await getStorage();
+        if (!lastStorage) {
+          await getStorage();
+        }
+        // await getStorage();
         resolve(true);
       } catch (error) {
         reject(error);
