@@ -1,11 +1,10 @@
-package com.ipass.autofill;
+package com.myaccess.autofill;
 
 import android.app.assist.AssistStructure;
 import android.os.Build;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.view.autofill.AutofillId;
 

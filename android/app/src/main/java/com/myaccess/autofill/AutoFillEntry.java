@@ -1,4 +1,4 @@
-package com.ipass.autofill;
+package com.myaccess.autofill;
 
 /**
  * Helper Class for passing Buttercup Entry credentials around

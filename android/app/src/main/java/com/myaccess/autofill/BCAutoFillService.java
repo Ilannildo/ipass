@@ -1,4 +1,4 @@
-package com.ipass.autofill;
+package com.myaccess.autofill;
 
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
@@ -17,19 +17,15 @@ import android.service.autofill.SaveCallback;
 import android.service.autofill.SaveRequest;
 import androidx.annotation.NonNull;
 import android.util.Log;
-import android.view.autofill.AutofillId;
 import android.view.autofill.AutofillValue;
 import android.widget.RemoteViews;
 
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.WritableMap;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ipass.MainActivity;
-import com.ipass.MainApplication;
-import com.ipass.R;
+import com.myaccess.R;
 
 import static android.view.View.GONE;
 

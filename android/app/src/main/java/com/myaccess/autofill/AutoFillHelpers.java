@@ -1,4 +1,4 @@
-package com.ipass.autofill;
+package com.myaccess.autofill;
 
 /**
  * Helper class for saving and retrieving AutoFill entries from Secure Storage

@@ -1,4 +1,4 @@
-package com.ipass;
+package com.myaccess;
 import android.os.Bundle; // <- add this necessary import
 
 import com.facebook.react.ReactActivity;
@@ -7,8 +7,6 @@ import com.zoontek.rnbootsplash.RNBootSplash;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
-
-import com.ipass.R;
 
 public class MainActivity extends ReactActivity {
 

@@ -1,4 +1,4 @@
-package com.ipass.autofill;
+package com.myaccess.autofill;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;

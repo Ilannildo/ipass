@@ -1,4 +1,4 @@
-package com.ipass.autofill;
+package com.myaccess.autofill;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import org.spongycastle.jce.provider.BouncyCastleProvider;
 import java.security.Security;
 import java.util.List;
 
-import com.ipass.BuildConfig;
+import com.myaccess.BuildConfig;
 
 public class AutoFillActivity extends ReactActivity {
     private static final String TAG = "AutoFillActivity";

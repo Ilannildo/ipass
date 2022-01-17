@@ -1,4 +1,4 @@
-package com.ipass.autofill;
+package com.myaccess.autofill;
 
 import static android.view.autofill.AutofillManager.EXTRA_ASSIST_STRUCTURE;
 
@@ -29,7 +29,7 @@ import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.ipass.R;
+import com.myaccess.R;
 
 import java.util.HashMap;
 import java.util.Map;
