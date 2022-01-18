@@ -99,8 +99,8 @@ export const PasswordMaster: React.FC = () => {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar
-        backgroundColor={colors.background}
-        barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
+        backgroundColor={colors.primary}
+        barStyle={schemeColor === 'dark' ? 'dark-content' : 'light-content'}
       />
       <AlertDialog
         visible={enableAlert}
@@ -118,7 +118,7 @@ export const PasswordMaster: React.FC = () => {
             style={{ marginRight: 20 }}
             color={colors.primary}
             onPress={() => handleNotBiometrics()}>
-            Cancelar
+            Agora não
           </Bt>
           <Bt
             color={colors.primary}
@@ -126,7 +126,7 @@ export const PasswordMaster: React.FC = () => {
             onPress={() => {
               handleBiometrics();
             }}>
-            Ok
+            Sim
           </Bt>
         </Dialog.Actions>
       </AlertDialog>
@@ -189,6 +189,7 @@ export const PasswordMaster: React.FC = () => {
                     text: colors.onSurface,
                     placeholder: colors.outline,
                     primary: colors.primary,
+                    error: colors.error,
                   },
                 }}
                 underlineColor={colors.outline}
@@ -199,6 +200,11 @@ export const PasswordMaster: React.FC = () => {
                 children={undefined}
                 autoComplete={false}
               />
+              {error && (
+                <Text style={[styles.error, { color: colors.error }]}>
+                  As senhas não são iguais
+                </Text>
+              )}
             </View>
 
             <View style={styles.footer}>
@@ -257,5 +263,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     // marginLeft: 30,
     // paddingRight: 30,
+  },
+  error: {
+    fontSize: 14,
+    marginTop: 10,
   },
 });

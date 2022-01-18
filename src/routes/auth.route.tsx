@@ -4,11 +4,13 @@ import { useAuth } from '../contexts/auth';
 import { PasswordMaster } from '../screens/PasswordMaster';
 import { SignIn } from '../screens/SignIn';
 import { Auth } from '../screens/Auth';
+import { useCustomTheme } from '../contexts/theme';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
 export const AuthRoutes: React.FC = () => {
-  const { signed, authenticated } = useAuth();
+  const { signed, authenticated, user } = useAuth();
+  const { colors } = useCustomTheme();
   return (
     <Navigator>
       {authenticated ? (
@@ -32,7 +34,12 @@ export const AuthRoutes: React.FC = () => {
           name="PasswordMaster"
           component={PasswordMaster}
           options={{
-            headerShown: false,
+            headerStyle: {
+              backgroundColor: colors.primary,
+            },
+            headerTintColor: colors.onSecondary,
+            headerTitleAlign: 'center',
+            title: `Olá, ${user?.givenName}`,
           }}
         />
       )}
