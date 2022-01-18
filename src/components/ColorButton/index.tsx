@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, ColorValue } from 'react-native';
 import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useCustomTheme } from '../../contexts/theme';
 
 type Props = RectButtonProps & {
   color: ColorValue;
@@ -13,6 +14,7 @@ export const ColorButton: React.FC<Props> = ({
   selected = false,
   ...rest
 }) => {
+  const { colors } = useCustomTheme();
   return (
     <RectButton
       style={[
@@ -22,7 +24,13 @@ export const ColorButton: React.FC<Props> = ({
         },
       ]}
       {...rest}>
-      {selected && <MaterialIcons name="check" color="#FFFFFF" size={24} />}
+      {selected && (
+        <MaterialIcons
+          name="check"
+          color={colors.onSecondaryContainer}
+          size={24}
+        />
+      )}
     </RectButton>
   );
 };

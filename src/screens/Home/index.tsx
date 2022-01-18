@@ -11,36 +11,45 @@ import {
 import { useCustomTheme } from '../../contexts/theme';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/core';
-import { FAB } from 'react-native-paper';
-import { Results } from 'realm';
-import { PasswordCardLoading } from '../../components/ComponentsLoading/PasswordCardLoading';
-import { CategoriesButton } from '../../components/CategoriesButton';
-import { PasswordCard } from '../../components/PasswordCard';
-import { RootStackParamList } from '../../routes/app.route';
+import { AppRoutesListParams } from '../../routes/app.route';
 import { StorageSchemaType } from '../../utils/storage';
-import { Header } from '../../components/Header';
-import { getRealm } from '../../services/realm';
 import { maskDate, maskTime } from '../../utils/masks';
+import { Ship } from '../../components/design/Ship';
+import { Card } from '../../components/design/Card';
+import { useStorage } from '../../contexts/storage';
+import { Fab } from '../../components/design/Fab';
+import { Header } from '../../components/Header';
+import LottieView from 'lottie-react-native';
+import { Results } from 'realm';
 
 interface CategoriesProps {
   key: string;
   title: string;
 }
 
-type newPassScreenProp = NativeStackNavigationProp<RootStackParamList>;
+type navigationProps = NativeStackNavigationProp<AppRoutesListParams>;
 
 export const Home: React.FC = () => {
   const { colors, schemeColor } = useCustomTheme();
+  const { loading, storage } = useStorage();
   const [categories, setCategories] = useState<CategoriesProps[]>([]);
   const [categoriesSelected, setCategoriesSelected] = useState<string>('all');
-  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(true);
 
-  const [storage, setStorage] = useState<Results<StorageSchemaType>>([] as any);
+  // const [storage, setStorage] = useState<Results<StorageSchemaType>>([] as any);
+  const [storageFiltered, setStorageFiltered] = useState<
+    Results<StorageSchemaType>
+  >([] as any);
 
-  const navigation = useNavigation<newPassScreenProp>();
+  const navigation = useNavigation<navigationProps>();
 
   function handleCategoriesSelected(categorie: string) {
     setCategoriesSelected(categorie);
+    if (categorie === 'all') {
+      return setStorageFiltered(storage);
+    }
+    const filtered = storage.filtered('categorie == $0', categorie);
+    setStorageFiltered(filtered);
   }
 
   useEffect(() => {
@@ -58,35 +67,26 @@ export const Home: React.FC = () => {
           key: 'site',
           title: 'Sites',
         },
+        {
+          key: 'label',
+          title: 'Label',
+        },
+        {
+          key: 'teste',
+          title: 'Teste',
+        },
       ]);
     }
     fetchCategories();
+    setTimeout(() => {
+      setMounted(false);
+    }, 500);
   }, []);
 
   useEffect(() => {
-    async function loadStorage() {
-      setLoading(true);
-      const realm = await getRealm();
-      const data =
-        categoriesSelected === 'all'
-          ? realm.objects<StorageSchemaType>('StorageSchema')
-          : realm
-              .objects<StorageSchemaType>('StorageSchema')
-              .filtered('categorie == $0', categoriesSelected);
-      setStorage(data);
-      data.addListener(() => {
-        setStorage(data);
-        setLoading(false);
-      });
-
-      return () => {
-        data.removeAllListeners();
-        realm.close();
-      };
-    }
-
-    loadStorage();
-  }, [categoriesSelected]);
+    setStorageFiltered(storage);
+    setCategoriesSelected('all');
+  }, [storage]);
 
   return (
     <View
@@ -98,11 +98,10 @@ export const Home: React.FC = () => {
       ]}>
       <ScrollView>
         <StatusBar
-          backgroundColor={colors.inverseOnSurface}
+          backgroundColor={colors.background}
           barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
         />
         <Header />
-        <View style={styles.area} />
         <View style={styles.areaList}>
           <Text style={[styles.title, { color: colors.onPrimaryContainer }]}>
             Categorias
@@ -112,10 +111,12 @@ export const Home: React.FC = () => {
             keyExtractor={item => String(item.key)}
             horizontal
             showsHorizontalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View style={{ width: 16 }} />}
             renderItem={({ item }) => (
-              <CategoriesButton
-                title={item.title}
+              <Ship
+                label={item.title}
                 selected={item.key === categoriesSelected}
+                icon
                 onPress={() => {
                   handleCategoriesSelected(item.key);
                 }}
@@ -125,32 +126,47 @@ export const Home: React.FC = () => {
           />
         </View>
 
-        <View style={styles.areaListPass}>
-          {loading ? (
-            <>
-              <PasswordCardLoading />
-              <PasswordCardLoading />
-              <PasswordCardLoading />
-              <PasswordCardLoading />
-              <PasswordCardLoading />
-            </>
-          ) : (
-            storage.map(item => (
-              <PasswordCard
+        {loading || mounted ? (
+          <View style={styles.listEmpty}>
+            <LottieView
+              source={require('../../lottie/loader.json')}
+              autoPlay
+              duration={1000}
+              style={styles.anim}
+            />
+          </View>
+        ) : (
+          <View style={styles.areaListPass}>
+            {storageFiltered.map(item => (
+              <Card
                 key={item._id}
                 categorie={item.categorie}
                 color={item.color}
                 date={maskDate(item.date)}
                 label={item.name}
+                description={item.description}
                 onEdit={() => Alert.alert(`Editar item => ${item.name}`)}
-                onView={() => console.log(`Visualizar ${item.name}`)}
+                onDetail={() => {
+                  navigation.navigate('Detail', {
+                    _id: item._id,
+                    categorie: item.categorie,
+                    color: item.color,
+                    date: item.date,
+                    description: item.description,
+                    force: item.force,
+                    login: item.login,
+                    name: item.name,
+                    password: item.password,
+                    time: item.time,
+                  });
+                }}
                 passwordForce={item.force}
                 time={maskTime(item.time)}
               />
-            ))
-          )}
-        </View>
-        {storage.length === 0 && (
+            ))}
+          </View>
+        )}
+        {storageFiltered.length === 0 && (
           <View style={styles.listEmpty}>
             <Text
               style={[styles.emptyText, { color: colors.onPrimaryContainer }]}>
@@ -159,12 +175,7 @@ export const Home: React.FC = () => {
           </View>
         )}
       </ScrollView>
-      <FAB
-        style={[styles.fab, { backgroundColor: colors.primary }]}
-        icon="plus"
-        color={colors.onPrimary}
-        onPress={() => navigation.navigate('NewPass')}
-      />
+      <Fab onPress={() => navigation.navigate('Add')} />
     </View>
   );
 };
@@ -183,24 +194,25 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   areaListPass: {
-    width: '100%',
+    // width: '100%',
     marginTop: 10,
-    alignItems: 'center',
     marginBottom: 100,
+    paddingHorizontal: 24,
   },
   title: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500',
-    marginBottom: 10,
-    marginLeft: 25,
+    lineHeight: 20,
+    marginBottom: 16,
+    marginLeft: 24,
   },
   categoriesList: {
-    height: 60,
+    // height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 5,
-    marginLeft: 25,
-    paddingRight: 32,
+    paddingBottom: 24,
+    marginLeft: 24,
+    paddingRight: 36,
   },
   listEmpty: {
     height: 500,
@@ -215,5 +227,15 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
+  },
+  animView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  anim: {
+    // marginBottom: 10,
+    width: 100,
+    height: 100,
   },
 });

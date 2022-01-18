@@ -10,10 +10,11 @@ export const StorageSchema: ObjectSchema = {
     categorie: 'string',
     name: 'string',
     login: 'string',
+    description: 'string',
     password: 'string',
     date: 'string',
     time: 'string',
-    color: 'string',
+    color: 'int',
     force: 'string',
   },
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAuth } from '../contexts/auth';
-import { CreatePasswordMaster } from '../screens/CreatePasswordMaster';
-import { WelcomeSignIn } from '../screens/WelcomeSignIn';
-import { Authenticate } from '../screens/Authenticate';
+import { PasswordMaster } from '../screens/PasswordMaster';
+import { SignIn } from '../screens/SignIn';
+import { Auth } from '../screens/Auth';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -14,23 +14,23 @@ export const AuthRoutes: React.FC = () => {
       {authenticated ? (
         <Screen
           name="Auth"
-          component={Authenticate}
+          component={Auth}
           options={{
             headerShown: false,
           }}
         />
       ) : !signed ? (
         <Screen
-          name="Welcome"
-          component={WelcomeSignIn}
+          name="SignIn"
+          component={SignIn}
           options={{
             headerShown: false,
           }}
         />
       ) : (
         <Screen
-          name="CreatePasswordMaster"
-          component={CreatePasswordMaster}
+          name="PasswordMaster"
+          component={PasswordMaster}
           options={{
             headerShown: false,
           }}

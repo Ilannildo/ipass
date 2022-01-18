@@ -1,22 +1,24 @@
 import React, { useEffect } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 
-import { LoadingIndicator } from '../components/LoadingIndicator';
+import { Loader } from '../components/design/Loader';
 import { useAuth } from '../contexts/auth';
+import { useCustomTheme } from '../contexts/theme';
 import { AppRoutes } from './app.route';
 import { AuthRoutes } from './auth.route';
 
 export const Routes = () => {
   const { loading, logged } = useAuth();
+  const { loadingTheme } = useCustomTheme();
 
   useEffect(() => {
-    if (!loading) {
-      RNBootSplash.hide({ fade: true });
+    if (!loading && !loadingTheme) {
+      RNBootSplash.hide();
     }
-  }, [loading]);
+  }, [loading, loadingTheme]);
 
   if (loading) {
-    return <LoadingIndicator />;
+    return <Loader />;
   } else {
     return logged ? <AppRoutes /> : <AuthRoutes />;
   }

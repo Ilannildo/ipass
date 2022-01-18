@@ -11,12 +11,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type ContextData = {
   isBiometrics: boolean;
-  deleteKeysBiometrics: () => Promise<void>;
   handleSimpleBiometrics: (
     message?: string,
     cancelText?: string,
   ) => Promise<boolean>;
-  handleCreateKeysFingerprint: () => Promise<void>;
   disableBiometrics: () => Promise<void>;
   enableBiometrics: () => Promise<void>;
   isAvaliableBiometrics: boolean;
@@ -44,16 +42,6 @@ export const BiometryProvider: React.FC = ({ children }) => {
     getData();
   }, []);
 
-  const handleCreateKeysFingerprint = useCallback(async () => {
-    try {
-      const resultObject = await ReactNativeBiometrics.createKeys();
-      setIsBiometrics(true);
-      console.log('Public Key => ', resultObject.publicKey);
-    } catch (error) {
-      console.log('Error => ', error);
-    }
-  }, []);
-
   const handleSimpleBiometrics = useCallback(
     async (message?: string, cancelText?: string) => {
       try {
@@ -74,16 +62,6 @@ export const BiometryProvider: React.FC = ({ children }) => {
     },
     [],
   );
-
-  const deleteKeysBiometrics = useCallback(async () => {
-    const resultObject = await ReactNativeBiometrics.deleteKeys();
-    if (resultObject.keysDeleted) {
-      console.log('Successful deletion');
-      setIsBiometrics(false);
-    } else {
-      console.log('Unsuccessful deletion because there were no keys to delete');
-    }
-  }, []);
 
   const disableBiometrics = async () => {
     try {
@@ -115,10 +93,8 @@ export const BiometryProvider: React.FC = ({ children }) => {
     <BiometryContext.Provider
       value={{
         isBiometrics,
-        deleteKeysBiometrics,
         disableBiometrics,
         enableBiometrics,
-        handleCreateKeysFingerprint,
         handleSimpleBiometrics,
         isAvaliableBiometrics,
       }}>

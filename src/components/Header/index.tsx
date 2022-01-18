@@ -16,13 +16,13 @@ export const Header: React.FC = () => {
           style={[
             styles.username,
             {
-              color: colors.onPrimaryContainer,
+              color: colors.onSurface,
             },
           ]}>
           Olá, {user?.givenName}
         </Text>
-        <Text style={[styles.textWelcome, { color: colors.secondary }]}>
-          25 de out. de 2021
+        <Text style={[styles.textWelcome, { color: colors.onSurfaceVariant }]}>
+          Bem vindo de volta
         </Text>
       </View>
       <TouchableOpacity
@@ -40,24 +40,28 @@ export const Header: React.FC = () => {
 const styles = StyleSheet.create({
   header: {
     width: '100%',
-    paddingHorizontal: 25,
+    paddingHorizontal: 24,
     marginTop: 30,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   username: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '500',
+    lineHeight: 20,
+    letterSpacing: 0.5,
   },
   textWelcome: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: 'normal',
+    lineHeight: 20,
+    letterSpacing: 0.25,
   },
   userPhoto: {
-    width: 45,
-    height: 45,
-    borderRadius: 23,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     borderWidth: 1.5,
   },
 });
