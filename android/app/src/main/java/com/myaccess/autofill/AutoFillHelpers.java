@@ -33,9 +33,9 @@ import li.yunqi.rnsecurestorage.cipherstorage.CipherStorageKeystoreAESCBC;
 
 public class AutoFillHelpers {
     private static final String TAG = "AutoFillHelpers";
-    private static final String autoFillKey = "com.ipass.autofillstore";
-    private static final String domainMapKey = "com.ipass.domainmapstore";
-    private static final String service = "com.ipass.autofillstore";
+    private static final String autoFillKey = "com.myaccess.autofillstore";
+    private static final String domainMapKey = "com.myaccess.domainmapstore";
+    private static final String service = "com.myaccess.autofillstore";
 
     private PrefsStorage prefsStorage;
     private CipherStorage cipherStorage;

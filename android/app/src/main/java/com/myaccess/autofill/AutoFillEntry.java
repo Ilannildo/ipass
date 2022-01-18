@@ -1,11 +1,5 @@
 package com.myaccess.autofill;
 
-/**
- * Helper Class for passing Buttercup Entry credentials around
- *
- * se1exin - 9/2/19
- */
-
 public class AutoFillEntry {
     private String username;
     private String password;

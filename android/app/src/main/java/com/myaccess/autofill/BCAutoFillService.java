@@ -1,5 +1,7 @@
 package com.myaccess.autofill;
 
+import static android.view.View.GONE;
+
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.app.assist.AssistStructure;
@@ -15,19 +17,17 @@ import android.service.autofill.FillRequest;
 import android.service.autofill.FillResponse;
 import android.service.autofill.SaveCallback;
 import android.service.autofill.SaveRequest;
-import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.autofill.AutofillValue;
 import android.widget.RemoteViews;
 
+import androidx.annotation.NonNull;
+
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.myaccess.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.myaccess.R;
-
-import static android.view.View.GONE;
 
 @TargetApi(Build.VERSION_CODES.O)
 public class BCAutoFillService extends AutofillService {
@@ -113,7 +113,7 @@ public class BCAutoFillService extends AutofillService {
     @Override
     public void onSaveRequest(@NonNull SaveRequest request, @NonNull SaveCallback callback) {
         Log.d(TAG, "onSaveRequest");
-        callback.onFailure("Unfortunately Buttercup does not support saving credentials yet.");
+        callback.onFailure("Unfortunately My Access does not support saving credentials yet.");
     }
 
     @Override

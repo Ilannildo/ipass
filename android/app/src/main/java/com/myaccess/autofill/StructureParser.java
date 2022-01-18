@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Parse AssistStructure and guess username and password fields.
- */
 @RequiresApi(api = Build.VERSION_CODES.O)
 class StructureParser {
     static private final String TAG = StructureParser.class.getName();
