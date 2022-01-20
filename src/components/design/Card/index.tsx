@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   TouchableOpacityProps,
+  Image,
 } from 'react-native';
 // import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -32,7 +33,7 @@ export const Card: React.FC<Props> = ({
   ...rest
 }) => {
   const { colors } = useCustomTheme();
-  // const rgba = hexToRgbA(color.toString());
+
   return (
     <>
       <TouchableOpacity
@@ -85,6 +86,14 @@ export const Card: React.FC<Props> = ({
             </View>
           </View>
         </View>
+        <Image
+          source={{
+            uri: `https://${description
+              .replace(/\s/g, '')
+              .toLowerCase()}/favicon.ico`,
+          }}
+          style={{ width: 24, height: 24 }}
+        />
         {/* Aqui vai o botão de favoritar */}
       </TouchableOpacity>
       <View style={{ marginBottom: 16 }} />

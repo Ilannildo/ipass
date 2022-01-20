@@ -1,6 +1,13 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { ScrollView, StatusBar, Text, ToastAndroid, View } from 'react-native';
+import {
+  Linking,
+  ScrollView,
+  StatusBar,
+  Text,
+  ToastAndroid,
+  View,
+} from 'react-native';
 import { useCustomTheme } from '../../contexts/theme';
 import { StorageSchemaType } from '../../utils/storage';
 import { styles } from './styles';
@@ -42,6 +49,11 @@ export const Detail: React.FC = () => {
     ToastAndroid.show('Login copiado para a área de transferência', 500);
   };
 
+  const handleOpenSite = async () => {
+    ToastAndroid.show('Redirecionando para o navegador', 500);
+    await Linking.openURL(`http://${description}`);
+  };
+
   return (
     <View
       style={[
@@ -61,27 +73,24 @@ export const Detail: React.FC = () => {
           </Text>
         </View>
         <View style={styles.content}>
-          <View
+          <TouchableOpacity
+            onPress={() => handleOpenSite()}
             style={[
               styles.contentItem,
               { borderBottomColor: colors.secondaryContainer },
             ]}>
             <View style={styles.contentTop}>
-              <MaterialIcons
-                name="description"
-                color={colors.outline}
-                size={16}
-              />
+              <MaterialIcons name="web" color={colors.outline} size={16} />
               <Text style={[styles.itemTitle, { color: colors.outline }]}>
-                Descrição
+                Endereço na internet (URL)
               </Text>
             </View>
             <View style={styles.contentBottom}>
               <Text style={[styles.itemText, { color: colors.onSurface }]}>
-                {description || 'Nenhum descrição foi informada'}
+                {`https://www.${description}` || 'Nenhuma url foi informada :('}
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
           <View
             style={[
               styles.contentMiddle,

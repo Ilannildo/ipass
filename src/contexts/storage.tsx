@@ -34,32 +34,27 @@ export const StorageProvider: React.FC = ({ children }) => {
     const realm = await getRealm();
     const data = realm
       .objects<StorageSchemaType>('StorageSchema')
-      .sorted('date', true);
+      .sorted('name');
     // setStorageFiltered(data);
     setStorage(data);
-    try {
-      data.addListener(() => {
-        // setStorageFiltered(data);
-        setStorage(data);
-      });
-    } catch (error) {
-      console.log('Erro ao buscar storage');
-    }
     setTimeout(() => {
       setLoading(false);
     }, 500);
+    // try {
+    //   data.addListener(() => {
+    //     setStorage(data);
+    //   });
+    // } catch (error) {
+    //   console.log('Erro ao buscar storage');
+    // }
     return () => {
-      data.removeAllListeners();
+      // data.removeAllListeners();
       realm.close();
     };
   };
 
   useEffect(() => {
     getStorage();
-    // storage.addListener(() => {
-    //   setStorage(storage);
-    // });
-    // clearStoragePassword();
   }, []);
 
   const savePassword = (data: StorageSchemaType): Promise<boolean> => {
@@ -74,10 +69,10 @@ export const StorageProvider: React.FC = ({ children }) => {
         realm.write(() => {
           realm.create<StorageSchemaType>('StorageSchema', data);
         });
-        if (!lastStorage) {
-          await getStorage();
-        }
-        // await getStorage();
+        // if (!lastStorage) {
+        //   await getStorage();
+        // }
+        await getStorage();
         resolve(true);
       } catch (error) {
         reject(error);

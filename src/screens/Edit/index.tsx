@@ -14,12 +14,13 @@ import { Loader } from '../../components/design/Loader';
 import { useCustomTheme } from '../../contexts/theme';
 import { Button } from '../../components/design/Button';
 import { ColorButton } from '../../components/ColorButton';
-import { updatePassword } from '../../utils/storage';
+// import { updatePassword } from '../../utils/storage';
 import { useNavigation } from '@react-navigation/core';
 import { passwordForce } from '../../utils/roles';
 import { Ship } from '../../components/design/Ship';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppRoutesListParams } from '../../routes/app.route';
+import { useStorage } from '../../contexts/storage';
 
 type FormProps = {
   _id: number;
@@ -70,6 +71,7 @@ export const Edit: React.FC = () => {
   const [passwordVisble, setPasswordVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [formData, setFormData] = useState<FormProps>({} as FormProps);
+  const { updatePassword } = useStorage();
 
   const navigation =
     useNavigation<NativeStackNavigationProp<AppRoutesListParams>>();
@@ -289,14 +291,16 @@ export const Edit: React.FC = () => {
             </View>
             <View style={styles.inputArea}>
               <TextInput
-                label="Descrição"
+                label="Endereço na internet (URL)"
                 mode="flat"
-                value={formData.description}
-                placeholder="Faça uma breve descrição... ✍️"
+                value={`${formData.description}`}
+                placeholder="Digite uma url se tiver...✍️"
                 onChangeText={handleChangeDescription}
                 placeholderTextColor={colors.outline}
                 autoCorrect={false}
+                autoCapitalize="none"
                 returnKeyType="next"
+                keyboardType="url"
                 style={{
                   backgroundColor:
                     schemeColor === 'dark'
@@ -316,6 +320,7 @@ export const Edit: React.FC = () => {
                 selectionColor={colors.primaryContainer}
                 children={undefined}
                 autoComplete={false}
+                left={<TextInput.Affix text="https://www." />}
               />
             </View>
             <View style={styles.inputArea}>

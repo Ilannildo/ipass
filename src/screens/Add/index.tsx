@@ -255,13 +255,16 @@ export const Add: React.FC = () => {
             </View>
             <View style={styles.inputArea}>
               <TextInput
-                label="Descrição"
+                label="Endereço (URL)"
                 mode="flat"
                 value={formData.description}
-                placeholder="Faça uma breve descrição... ✍️"
+                // placeholder=" Digite uma url se tiver... ✍️"
                 onChangeText={handleChangeDescription}
                 placeholderTextColor={colors.outline}
                 autoCorrect={false}
+                autoCapitalize="none"
+                keyboardAppearance={schemeColor || undefined}
+                keyboardType="url"
                 returnKeyType="next"
                 style={{
                   backgroundColor:
@@ -282,6 +285,7 @@ export const Add: React.FC = () => {
                 selectionColor={colors.primary}
                 children={undefined}
                 autoComplete={false}
+                left={<TextInput.Affix text="https://www." />}
               />
             </View>
             <View style={styles.inputArea}>

@@ -36,7 +36,6 @@ export const Home: React.FC = () => {
   const [categoriesSelected, setCategoriesSelected] = useState<string>('all');
   const [mounted, setMounted] = useState(true);
 
-  // const [storage, setStorage] = useState<Results<StorageSchemaType>>([] as any);
   const [storageFiltered, setStorageFiltered] = useState<
     Results<StorageSchemaType>
   >([] as any);
@@ -194,7 +193,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   areaListPass: {
-    // width: '100%',
     marginTop: 10,
     marginBottom: 100,
     paddingHorizontal: 24,
@@ -207,7 +205,6 @@ const styles = StyleSheet.create({
     marginLeft: 24,
   },
   categoriesList: {
-    // height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 24,
@@ -234,7 +231,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   anim: {
-    // marginBottom: 10,
     width: 100,
     height: 100,
   },

@@ -34,7 +34,7 @@ export const Autofill: React.FC = () => {
           backgroundColor={colors.background}
           barStyle={schemeColor === 'light' ? 'dark-content' : 'light-content'}
         />
-        <Header />
+        <Header disable={true} />
 
         {loading || mounted ? (
           <View style={styles.listEmpty}>

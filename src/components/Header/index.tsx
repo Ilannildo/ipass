@@ -4,7 +4,11 @@ import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useAuth } from '../../contexts/auth';
 import { useCustomTheme } from '../../contexts/theme';
 
-export const Header: React.FC = () => {
+type Props = {
+  disable?: boolean;
+};
+
+export const Header: React.FC<Props> = ({ disable = false }) => {
   const { user } = useAuth();
   const { colors } = useCustomTheme();
   const navigation = useNavigation();
@@ -26,6 +30,7 @@ export const Header: React.FC = () => {
         </Text>
       </View>
       <TouchableOpacity
+        disabled={disable}
         onPress={() => navigation.navigate('ConfigurationRoutes')}
         activeOpacity={0.7}>
         <Image
