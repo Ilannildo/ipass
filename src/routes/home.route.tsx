@@ -1,11 +1,11 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Home } from '../screens/Home';
 import { ConfigurationRoutes } from './configuration.routes';
 import { Add } from '../screens/Add';
 import { useCustomTheme } from '../contexts/theme';
 import Detail from '../screens/Detail';
 import { Edit } from '../screens/Edit';
+import { AppTabsRoutes } from './app.tabs.routes';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -39,13 +39,14 @@ export type AppRoutesListParams = {
   };
 };
 
-export const AppRoutes: React.FC = () => {
+export const HomeRoutes: React.FC = () => {
   const { colors } = useCustomTheme();
+
   return (
     <Navigator>
       <Screen
-        name="Home"
-        component={Home}
+        name="Tab"
+        component={AppTabsRoutes}
         options={{
           headerShown: false,
         }}
@@ -54,7 +55,7 @@ export const AppRoutes: React.FC = () => {
         name="ConfigurationRoutes"
         component={ConfigurationRoutes}
         options={{
-          animation: 'slide_from_right',
+          animation: 'fade_from_bottom',
           headerShown: false,
         }}
       />
@@ -79,7 +80,7 @@ export const AppRoutes: React.FC = () => {
           title: 'Detalhes',
           headerTitleAlign: 'center',
           headerShadowVisible: false,
-          animation: 'slide_from_left',
+          animation: 'fade_from_bottom',
           headerStyle: {
             backgroundColor: colors.background,
           },

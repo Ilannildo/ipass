@@ -11,7 +11,7 @@ import {
 import { useCustomTheme } from '../../contexts/theme';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/core';
-import { AppRoutesListParams } from '../../routes/app.route';
+import { AppRoutesListParams } from '../../routes/home.route';
 import { StorageSchemaType } from '../../utils/storage';
 import { maskDate, maskTime } from '../../utils/masks';
 import { Ship } from '../../components/design/Ship';

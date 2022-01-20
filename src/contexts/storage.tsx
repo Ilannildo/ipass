@@ -29,7 +29,6 @@ export const StorageProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const getStorage = async () => {
-    console.log('Buscando as senhas');
     setLoading(true);
     const realm = await getRealm();
     const data = realm

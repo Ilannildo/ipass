@@ -24,8 +24,8 @@ export const App: React.FC<AppProps> = ({
     [isContextAutoFill],
   );
 
-  console.log('Auto Fill Context =>', isContextAutoFill);
-  console.log('Auto Fill Service Identifiers =>', serviceIdentifiers);
+  // console.log('Auto Fill Context =>', isContextAutoFill);
+  // console.log('Auto Fill Service Identifiers =>', serviceIdentifiers);
   // TO DO: Criar método nativo para retornar os dados para o js e salvar no storage
 
   return (

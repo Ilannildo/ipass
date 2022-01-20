@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { ColorSchemeName, useColorScheme } from 'react-native';
-// import { dark, light } from '../styles/colorSchemas';
 import { dark, light } from '../styles/schemaColors';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,38 +12,6 @@ type Props = {
   toggleThemeDark: () => void;
   toggleTheme: (value: ThemeType) => Promise<void>;
   theme: ThemeType;
-  // colors: {
-  //   primary: string;
-  //   onPrimary: string;
-  //   primaryContainer: string;
-  //   onPrimaryContainer: string;
-  //   secondary: string;
-  //   onSecondary: string;
-  //   secondaryContainer: string;
-  //   onSecondaryContainer: string;
-  //   tertiary: string;
-  //   onTertiary: string;
-  //   tertiaryContainer: string;
-  //   onTertiaryContainer: string;
-  //   error: string;
-  //   errorContainer: string;
-  //   onError: string;
-  //   onErrorContainer: string;
-  //   background: string;
-  //   onBackground: string;
-  //   surface: string;
-  //   onSurface: string;
-  //   surfaceVariant: string;
-  //   onSurfaceVariant: string;
-  //   outline: string;
-  //   onOutline: string;
-  //   inverseOnSurface: string;
-  //   inverseSurface: string;
-  //   primaryInverse: string;
-  //   success: string;
-  //   warning: string;
-  //   backdrop: string;
-  // };
   colors: {
     primary: string;
     onPrimary: string;
@@ -65,6 +32,7 @@ type Props = {
     background: string;
     onBackground: string;
     surface: string;
+    surface2: string;
     onSurface: string;
     surfaceVariant: string;
     onSurfaceVariant: string;

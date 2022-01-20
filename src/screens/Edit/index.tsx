@@ -19,7 +19,7 @@ import { useNavigation } from '@react-navigation/core';
 import { passwordForce } from '../../utils/roles';
 import { Ship } from '../../components/design/Ship';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AppRoutesListParams } from '../../routes/app.route';
+import { AppRoutesListParams } from '../../routes/home.route';
 import { useStorage } from '../../contexts/storage';
 
 type FormProps = {
