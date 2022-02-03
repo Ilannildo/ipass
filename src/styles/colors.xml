@@ -1,8 +1,4 @@
 <resources>
-  <color name="background">#FFFBFF</color>
-  <color name="background_dark">#1C1B1F</color>
-  <color name="bootsplash_background">#FFFBFF</color>
-
   <color name="md_theme_light_primary">#564EBF</color>
   <color name="md_theme_light_onPrimary">#FFFFFF</color>
   <color name="md_theme_light_primaryContainer">#E4DFFF</color>
@@ -57,4 +53,4 @@
   <color name="md_theme_dark_primaryInverse">#564EBF</color>
   <color name="seed">#544CBD</color>
   <color name="error">#BA1B1B</color>
-</resources> 
+</resources>

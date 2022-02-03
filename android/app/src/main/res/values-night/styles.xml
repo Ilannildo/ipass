@@ -10,29 +10,8 @@
         <item name="android:textColor">@color/md_theme_dark_onPrimaryContainer</item>
         <item name="android:navigationBarColor">@color/md_theme_dark_background</item>
 
-        <!-- Customizando alert -->
-        <item name="android:alertDialogTheme">@style/AlertDialogStyle</item>
     </style>
  
-    <style name="AlertDialogStyle" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="android:background">@color/md_theme_dark_surface</item>
-        <item name="android:colorPrimary">@color/md_theme_dark_onPrimaryContainer</item>
-        <item name="android:colorAccent">@color/md_theme_dark_onSurface</item>
-        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-    </style>
-
-    <!-- Negative button alert-->
-    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/md_theme_dark_primary</item>
-    </style>
-    
-    <!-- Positive button alert -->
-    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">@color/md_theme_dark_primary</item>
-    </style>
-
-    <!-- Add the following lines (BootTheme should inherit from AppTheme) -->
     <!-- BootTheme should inherit from AppTheme -->
     <style name="BootTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:background">@drawable/bootsplash_dark</item>
