@@ -1,7 +1,7 @@
 import React from 'react';
 import { Loader } from './components/design/Loader';
 import { useAuth } from './contexts/auth';
-import { AuthRoutes } from './routes/auth.route';
+import { AuthRoutes } from './routes/auth.routes';
 import { Autofill } from './screens/Autofill';
 
 interface AutoFillAppProps {

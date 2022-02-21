@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Favorites } from '../screens/Favorites';
+// import { Favorites } from '../screens/Favorites';
 import { useCustomTheme } from '../contexts/theme';
 import { StyleSheet, View } from 'react-native';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
@@ -77,13 +77,13 @@ export const AppTabsRoutes: React.FC = () => {
           title: 'Gerar senha',
         }}
       />
-      <Screen
+      {/* <Screen
         name="Favorites"
         component={Favorites}
         options={{
           title: 'Favoritos',
         }}
-      />
+      /> */}
     </Navigator>
   );
 };

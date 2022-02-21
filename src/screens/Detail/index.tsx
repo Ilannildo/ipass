@@ -14,7 +14,7 @@ import { styles } from './styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { maskDate, maskPass, maskTime } from '../../utils/masks';
 import { RoundButton } from '../../components/design/RoundButton';
-import { AppRoutesListParams } from '../../routes/home.route';
+import { AppRoutesListParams } from '../../routes/home.routes';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Clipboard from '@react-native-clipboard/clipboard';

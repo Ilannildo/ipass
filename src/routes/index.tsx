@@ -5,8 +5,8 @@ import { Loader } from '../components/design/Loader';
 import { useAuth } from '../contexts/auth';
 import { useCustomTheme } from '../contexts/theme';
 // import { HomeRoutes } from './home.route';
-import { AuthRoutes } from './auth.route';
-import { HomeRoutes } from './home.route';
+import { AuthRoutes } from './auth.routes';
+import { HomeRoutes } from './home.routes';
 
 export const Routes = () => {
   const { loading, logged } = useAuth();
